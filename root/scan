@@ -1,0 +1,3 @@
+Scan can output a table of a tree:
+
+tree->Scan("eventNumber:eventweight:syst_BJETUP:syst_BJETDOWN:SR","SR==399")

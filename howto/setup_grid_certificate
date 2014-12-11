@@ -1,0 +1,31 @@
+From: https://twiki.cern.ch/twiki/bin/viewauth/Atlas/FullGangaAtlasTutorial
+
+To run on the grid, you must have a valid grid certificate. Hopefully, you will have this already! However, it may currently be still loaded in your browser and so you need to go through a few steps to export it to your userarea:
+
+1) Set up the grid environment:
+source /afs/cern.ch/project/gd/LCG-share/current/etc/profile.d/grid_env.sh
+
+2) Create a .globus directory:
+cd $HOME
+mkdir ~/.globus
+cd ~/.globus
+
+3) First, export the grid certificate. This is browser dependent, but in Firefox do:
+Edit -> Preferences -> Advanced -> View Certificates
+Select you certificate and click on 'Backup'. You should then be requested to download your certificate. Download it to your .globus directory you created above as 'grid.p12'.
+
+4) Now the certificate must be converted to the correct form by doing the following:
+openssl pkcs12 -in grid.p12 -clcerts -nokeys -out usercert.pem
+openssl pkcs12 -in grid.p12 -nocerts -out userkey.pem
+chmod 400 userkey.pem
+chmod 600 usercert.pem
+
+5) Hopefully, everything should now be ready so to check it's all OK, do the following:
+voms-proxy-init --voms atlas
+which should give something like this:
+Cannot find file or dir: /home/slater/.glite/vomses
+Enter GRID pass phrase:
+Your identity: /C=UK/O=eScience/OU=Birmingham/L=ParticlePhysics/CN=mark slater
+Creating proxy ........................................................................................................ Done
+Your proxy is valid until Sun Dec 14 03:34:50 2008
+

@@ -1,0 +1,9 @@
+Make entry e.g.
+
+.local/share/applications/systray.desktop
+
+[Desktop Entry]
+Version=1.0
+Name=Trayer system tray
+Exec=systray
+Type=Application

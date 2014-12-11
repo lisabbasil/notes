@@ -1,0 +1,17 @@
+To install vim, download the source,
+$ ./configure
+$ make
+$ sudo make install.
+
+If you want to install it locally, do
+$ ./configure --prefix=$HOME/pkg
+$ make
+$ make install
+
+If you need additional packages (try `vim --version` to see what packages you already have), use e.g.
+$ ./configure --prefix=$HOME/pkg --with-x --enable-pythoninterp
+$ make
+$ make install
+this would add the python interpretor and xterm_clipboard
+
+Try ./configure --help

@@ -1,0 +1,30 @@
+Get VMware player (not workstation or anything else)
+
+https://my.vmware.com/web/vmware/free#desktop_end_user_computing/vmware_player/5_0
+
+sudo bash VMware-Player-4.0.2-591240.x86_64.bundle
+
+install dependencies:
+sudo aptitude install build-essential linux-headers-`uname -r`
+
+Load your VMware virtual disk (download it somewhere)
+
+It is not allowed to run Mac OS X Guest on vmware. However, we don't care about that, obviously. To run it you have to patch vmware.
+http://www.insanelymac.com/forum/topic/267296-esxi-5-mac-os-x-unlocker/
+
+Usually the patch is also in the torrents of the virtual disks
+
+Check www.souldevteam.net for latest virtual disks.
+
+Install vmware tools to change resolution or move files from host to guest per drag and drop. Probably vmware tools cannot be installed directly from the menu,
+        so look at www.souldevteam.net for a downloadable file and install by hand.
+        Check also here for the correct version of vmware tools: http://softwareupdate.vmware.com/cds/vmw-desktop/fusion/
+
+If you get an error about VT-x issues, enable "Intel Virtualization Technology" in the BIOS (usually under config/CPU) (not sure if VT-d is needed too, check
+https://communities.vmware.com/docs/DOC-8978)
+
+
+Beware: there might be hardware incompatibilites, e.g. I did not manage to run Mac OS X 10.8 on Lenovo ThinkPad T400, but it worked on Lenovo ThinkPad T410.
+
+
+

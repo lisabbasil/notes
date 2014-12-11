@@ -1,0 +1,10 @@
+Lists all defined variables:
+
+for name in dir():
+    myvalue = eval(name)
+    print name, "is", type(name), "and is equal to ", myvalue
+
+
+
+
+

@@ -1,0 +1,9 @@
+Although Bash is not a typed language, it does have a few different types of variables. These types define the kind of content
+they are allowed to have. Type information is stored internally by Bash.
+
+• Array: declare -a variable: The variable is an array of strings.
+• Associative array: declare -A variable: The variable is an associative array of strings (bash 4.0 or higher).
+• Integer: declare -i variable: The variable holds an integer. Assigning values to this variable automatically triggers Arithmetic Evaluation.
+• Read Only: declare -r variable: The variable can no longer be modified or unset.
+• Export: declare -x variable: The variable is marked for export which means it will be inherited by any child process.
+

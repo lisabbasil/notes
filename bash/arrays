@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+Examples of indexed and associative arrays:
+
+$ indexedArray=( "one" "two" )
+$ declare -A associativeArray=( ["foo"]="bar" ["alpha"]="omega" )
+$ index=0 key="foo"
+$ echo "${indexedArray[$index]}"
+one
+$ echo "${indexedArray[index]}"
+one
+$ echo "${indexedArray[index + 1]}"
+two
+$ echo "${associativeArray[$key]}"
+bar
+$ echo "${associativeArray[key]}"
+$ echo "${associativeArray[key + 1]}"
+
+
+
+$ declare -A fullNames
+$ fullNames=( ["lhunath"]="Maarten Billemont" ["greycat"]="Greg Wooledge" )
+$ echo "Current user is: $USER. Full name: ${fullNames[$USER]}."
+Current user is: lhunath. Full name: Maarten Billemont.
+
+$ for user in "${!fullNames[@]}"
+> do echo "User: $user, full name: ${fullNames[$user]}."; done
+User: lhunath, full name: Maarten Billemont.
+User: greycat, full name: Greg Wooledge.
+
+
+
+$ declare -A aa
+$ aa["Vorname"]="Basil"
+$ aa["Name"]="Schneider"
+
+$ for element in "${aa[@]}"; do echo "$element"; done
+> Schneider
+> Basil
+
+$ for element in "${!aa[@]}"; do echo "$element"; done
+> Name
+> Vorname
+
+$ for key in "${!aa[@]}"; do echo "${key}: ${aa[$key]}"; done
+> Name: Schneider
+> Vorname: Basil
+
+

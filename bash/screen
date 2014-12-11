@@ -1,0 +1,27 @@
+In bash:
+screen -ls
+to list all sessions
+
+screen -r to reattach a session
+
+In screen:
+Ctrl-a "
+to list all windows
+
+Ctrl-a d
+to dettach
+
+Ctrl-a c
+to create a new window
+
+Ctrl-a n / Ctrl-a p
+to switch to next/previous window
+
+Ctrl-a A
+to change the name of the window
+
+Ctrl-a k
+to kill a session (not recommended)
+
+
+

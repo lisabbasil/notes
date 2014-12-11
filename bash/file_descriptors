@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+By default, every new process starts with three open file descriptors:
+- Standard Input (stdin): File Descriptor 0
+- Standard Output (stdout): File Descriptor 1
+- Standard Error (stderr): File Descriptor 2
+
+Redirection operators can be used to redirect the file descriptors:
+$ echo "This is stdout"         # Write to stdout
+$ echo "This is stderr" 1>&2    # Write to stderr
+$ command > file                # Redirects stdout to file (overwrite)
+$ command 1> file               # Same as before
+$ command 2> file               # Redirects stderr to file
+$ command < file                # Use contents of file when command reads from stdin
+$ command 0< file               # Same as before
+$ command >> file               # Redirects stdout to file (append)
+$ command > fout 2> ferr        # Redirects stdout to fout, stderr to ferr
+$ command > file 2>&1           # Redirects stdout and stderr to file
+$ command 2>&1 > file           # Redirects stderr to where stdout points and then redirects stdout to file, i.e. same as command > file (2>&1 does not unite stdout and stderr!)
+$ command &> file               # Same as before but non-portable
+$ command > file 2> file        # Undefined behaviour
+
+You can also redirect the output of a loop:
+for file in *; do
+    echo $file
+done > file 2>&1

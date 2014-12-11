@@ -1,0 +1,87 @@
+GDB
+
+### You have to set a debug flag in your makefile, e.g.
+PACKAGE_CXXFLAGS = -g3
+
+### Start GDB
+gdb --args ./prog arg1 arg2
+
+### Get some info about the stack and try to find out where it crashed
+stack
+
+### Inspect the file which causes the crash and set a breakpoint just befor the crash
+### Note that <source-file> is only the name of the file, no path needed
+list <source-file>:<line-number>
+break <source-file>:<line-number>
+
+### Run the program up to the breakpoint
+run
+
+### Set watchpoint to see when a variable is changed
+watch var
+### or watch hardware address
+print &var
+watch *0xabcdef
+
+### to continue the run
+continue
+
+### After the crash, get a backtrace
+backtrace
+### read from the bottom, the last source (!) file is where the bug is
+### Use
+up [n]
+### to move inside the stackframe (enter repeats the last command)
+list
+### to get the code around the crashing instruction, use
+l [+/-]
+### to get more code
+
+### Get information about the variables
+print variable 
+ptype variable 
+
+### Run also
+valgrind ./prog
+
+set print pretty on 
+
+
+
+
+
+
+
+
+
+
+========
+
+VALGRIND
+
+running valgrind 
+valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./prog
+
+==16428==
+==16428== LEAK SUMMARY:
+==16428==    definitely lost: 2,044 bytes in 5 blocks
+==16428==    indirectly lost: 5,179 bytes in 43 blocks
+==16428==      possibly lost: 2,738,298 bytes in 69,643 blocks
+==16428==    still reachable: 13,342,502 bytes in 218,417 blocks
+==16428==         suppressed: 0 bytes in 0 blocks
+==16428==
+==16428== For counts of detected and suppressed errors, rerun with: -v
+
+
+searching for pointers 
+valgrind --leak-check=no --track-origins=yes -v --db-attach=yes ./prog
+
+some ROOT suppression
+valgrind --suppressions=$ROOTSYS/etc/valgrind-root.supp --leak-check=yes ./prog
+
+Memory printout in ROOT 
+ProcInfo_t pi;
+[9/12/12 10:24:21 AM] Geraldine Conti:    gSystem->GetProcInfo(&pi);
+    if (entry % 10000==0)
+      std::cout << " (MemRes="<<(1.*pi.fMemResident/1000.)   <<  " MemVirt=" <<(1.*pi.fMemVirtual /1000.)<<")\n";
+

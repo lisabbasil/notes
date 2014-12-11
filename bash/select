@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+### Example:
+
+Select choice in Apples Pears Crisps Lemons Kiwis; do
+    if [[ $choice = Crisps ]]; then
+        echo "Correct! Crisps are not fruit."
+        break
+    fi
+    echo "Errr... no. Try again."
+done
+

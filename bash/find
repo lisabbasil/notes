@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+Find files matching a pattern
+find *file
+
+Find files matching a pattern and execute a command on them {} is replaced with the name of the files that are found. The exec command needs to end with a ;, since ; is also a special character in bash, we need to protect it with a backslash
+find *file -exec mv {} {}New \;
+
+Find files in . with string *abc* in their names (not case sensitive due to -i):
+find . -iname "*abc*"
+
+Find files changed within the last 10 minutes:
+find -mmin -10
+
+
+

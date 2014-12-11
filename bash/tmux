@@ -1,0 +1,19 @@
+All commands start with ctrl+b
+
+Attach old session
+tmux attach
+
+? - help
+d - detach
+% - split
+[space] - toggle layouts
+q - show buffer numbers
+[arrows] - move around panes
+n - next window
+p - previous window
+s - list sessions
+
+
+
+
+

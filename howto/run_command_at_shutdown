@@ -1,0 +1,59 @@
+This is how you should do it.
+
+Code:
+su [Enter your root password]
+cd /etc/init.d
+nano savevolumestate.sh
+Inside of savevolumestate.sh place this.
+
+Code:
+#!/bin/bash
+#LindyLex example to save the audio state.
+
+echo "Saving Audio State."
+alsactl store
+Code:
+chmod a+x /etc/init.d/savevolumestate.sh
+Now we tell it to execute when the computer is shutdown or rebooted. Yes that is a period at the end of the command don't forget it.
+
+Code:
+update-rc.d savevolumestate.sh start 20 0 6 .
+These are the meaning behind the numbers.
+
+- 0 = halt
+- 1 = single user
+- 2 = CLI, multi-user, no net
+- 3 = CLI, multi-user, networked
+- 4 = open
+- 5 = GUI, multi-user, networked
+- 6 = reboot
+
+The "20" you could use this for your script. You can learn more about the meaning of the number after you read about update-rc.d below.
+
+You can learn more by reading the following, execute this in the terminal.
+
+Code:
+man update-rc.d
+
+That is it.
+
++++++++++++++++++++++++++++++++++++++++++++
+
+In a perfect world the above runlevels would apply, but ofcourse Debian has to be different here too 
+Last I looked it was:
+- 0 = halt
+- 1 = single user
+- 2-5 = GUI, multi-user, networked (with runlevel 2 as default in /etc/inittab)
+- 6 = reboot
+
++++++++++++++++++++++++++++++++++++++++++++
+
+i would also change the 20 to a higher value.. maybe something right before or right after gdm or kdm.
+the 20 defines in which order the S (start) or (K) kill scripts are started.
+
+when a init enters a specific runlevel, then it will start with the K script with the lowest number, and after it ran all the K scripts, it will start with the S scripts with the lowest number.
+
+To me saving the audio config state doesn't seem that important, and i'd prefer everything else to start first.
+
+other than that, this is the way to go indeed.
+

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+Process substitution, which comes in two forms: <() and >() is a convenient way to use named pipes without having to create temporary files. Whenever you think you need a temporary file to do something, process substitution might be a better way to handle things.
+
+What it does, is basically run the command inside the parentheses. With the <() operator, the command’s output is put in a named pipe (or something similar) that’s created by bash. The operator itself in your command is replaced by the filename of that file. After your whole command finishes, the file is cleaned up.
+
+Here’s how we can put that into action: Imagine a situation where you want to see the difference between the output of two commands. Ordinarily, you’d have to put the two outputs in two files and diff those:
+
+$ head -n 1 .dictionary > file1
+$ tail -n 1 .dictionary > file2
+$ diff file1 file2
+Aachen
+$ rm file1 file2
+
+Using the Process Substitution operator, we can do all that with a one-liner and no need for manual cleanup:
+
+$ diff -y <(head -n 1 .dictionary) <(tail -n 1 .dictionary)
+Aachen
+
+The <(..) part is replaced by the temporary FIFO created by bash, so diff actually sees something like this:
+
+$ diff -y /dev/fd/63 /dev/fd/62
+
+Here we see how bash runs diff when we use process substitution. It runs our head and tail commands, redirecting their respective outputs to the "files" /dev/fd/63 and /dev/fd/62. Then it runs the diff command, passing those filenames where originally we had put the process substitution operators.
+
+The actual implementation of the temporary files differs from system to system. In fact, you can see what the above would actually look like to diff on your box by putting an echo in front of our command:
+
+$ echo diff -y <(head -n 1 .dictionary) <(tail -n 1 .dictionary)
+diff -y /dev/fd/63 /dev/fd/62
+
+The >(..) operator is much like the <(..) operator, but instead of redirecting the command’s output to a file, we redirect the file to the command’s input. It’s used for cases where you’re running a command that writes to a file, but you want it to write to another command instead:
+
+$ tar -cf >(ssh host tar xf -) .
+

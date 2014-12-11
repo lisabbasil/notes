@@ -1,0 +1,1 @@
+nmcli d w con 1984d password "secret pass"

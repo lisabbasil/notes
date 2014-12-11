@@ -1,0 +1,36 @@
+Shebang can only start at the very first character, it looks like
+
+#!/usr/bin/env bash
+
+where "bash" can be replaced by any interpretor (e.g. python). The script can then be invoked just by
+
+./script
+
+as opposed to 
+
+bash script
+
+or 
+
+python script
+
+Shebang can also look like
+
+#!/bin/bash
+
+but bash is not necessarily always in /bin.
+
+Shebang can have one argument at most, in the example above it is the interpretor itself, 
+
+#!/usr/bin/env bash -xv
+
+does not work, but 
+
+#!/bin/bash -xv
+
+would. Instead use
+
+#!/usr/bin/env bash
+set -xv
+
+

@@ -1,0 +1,33 @@
+From: http://www.fergytech.com/2011/05/adding-user-account-to-sudoer-file/
+
+
+
+Adding User Account to Sudoer File
+
+
+Ever wanted to run a command normally executed by the root user account, but didnât want to log in as root? Hell ya! I know I have. The easiest solution to this problem is to add your user account to a file located at /etc/sudoers and youâre good to go. In this example Iâm running Fedora 14 x86_64 (Gnome desktop) in a non corporate environment. The catch is you need to already have root access.
+
+
+Open gnome-terminal and type the following:
+
+$ su -
+Password [type in the root password here]
+
+Your bash line will change from $ to # indicating that you are now using the root account. At this point youâre going to use a text editor to modify the file /etc/sudoers. My preferred graphical editor is gedit.
+
+# gedit /etc/sudoers
+
+Once the document is open you will scroll down until you see:
+
+## Allow root to run any commands anywhere
+root            ALL=(ALL)     ALL
+
+Simply append that section with your user account and save the file. You will need to log out so that the sudoers parameters propagates the system. Letâs pretend that your user account is epicman.
+
+## Allow root to run any commands anywhere
+root            ALL=(ALL)     ALL
+epicman     ALL=(ALL)     NOPASSWD: ALL
+
+That âNOPASSWDâ at the end is a pretty convenient setting. Itâs self explanatory, but it pretty much allows you to execute â$ sudo <whatever command>â without having to type in a password. Pretty sweet.
+
+

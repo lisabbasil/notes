@@ -1,0 +1,185 @@
+Some useful commands
+
+Navigation
+- "b" goes to previous word, "w" goes to the end of the word
+- "cw" change word
+
+Some general stuff
+- ":qa:" or "<leader>q" to quit, ":qa!" to quit even when there are unsaved changes
+- ":w" or "<leader>w" to write changes in buffer
+- "jj" or "<ESC>" to exit insert mode and return to normal mode
+- "u" to undo, "Ctrl+r" to redo
+- "<leader><cr>" or ":@" to redo last command
+- Use "v" (normal), "Shift+v" (lines), "Ctrl+v" (vertical) for highlighting
+- ":noh" to remove highlighting
+- "<leader>f" or ":MRU" opens the MRU browser
+- ":scriptnames" to list all loaded plugins
+- Fancy! "<leader>ch" to open cheatsheet
+
+Copy/Paste:
+- "d" cuts, "y" yanks (copies) and "p" pastes
+- Use "<Ctrl>-p" and "<Ctrl>-n" to move back and forth in the yankring
+- To copy text to the clipboard, use ""+y"
+- To paste from the clipboard, use ""+p", "Ctrl+v" might work, too but usually some characters get lost, so don't use it. If the indenting looks strange after pasting, try ":set paste", deactivate this mode again with ":set nopaste"
+
+Search:
+- "/[regexp]" to search forward and "?[regexp]" to search backwards for a regular expression
+- ":s/x/y/gc" to replace every x with a y. g stands for global, otherwise it looks only for the first appearance in every line; c stands for confirm. The forwardslash can be replaced by any other symbol
+- ":s/^x/y/g" searches only for x as a first character per line.
+- ":%s/x/y/g" to replace every x with a y in the entire document, ":1,10 s/x/y/g to replace every x with a y in the lines 1 to 10 in the document.
+- ":s/\(abc\)def/\1/g" replaces abcdef with abc (this gets powerful when using .*!)
+- "*" to search the word under the cursor
+- To grep, use "<leader>gr"
+- To vimgrep, use "<leader>vg"
+
+When working with tabs
+- "3gt" or "tabn3" switches to the 3rd tab
+
+When working with buffers
+- ":Bclose" or "<leader>bd" closes a buffer
+- ":b n" to switch to buffer n, one can also use ":b <TAB>"
+- "<leader>bu" to open ~/Downloads/vim-buffer
+
+Programming
+- "<leader>tl" or ":TlistToggle" to open taglist
+- "<leader>al" or ":A" to alternate
+- "Ctrl-]" to jump to the definition of a function, "Ctrl-t" to jump back
+
+===============================================================================================
+
+Yank/paste from http://www.catswhocode.com/blog/100-vim-commands-every-programmer-should-know
+
+Basics
+:e filename	Open filename for edition
+:w	Save file
+:q	Exit Vim
+:w!	Exit Vim without saving
+
+Search
+/word	Search word from top to bottom
+?word	Search word from bottom to top
+/jo[ha]n	Search john or joan
+/\< the	Search the, theatre or then
+/the\>	Search the or breathe
+/\< the\>	Search the
+/\< Â¦.\>	Search all words of 4 letters
+/\/	Search fred but not alfred or frederick
+/fred\|joe	Search fred or joe
+/\<\d\d\d\d\>	Search exactly 4 digits
+/^\n\{3}	Find 3 empty lines
+:bufdo /searchstr/	Search in all open files
+
+Replace
+:%s/old/new/g	Replace all occurences of old by new in file
+:%s/old/new/gw	Replace all occurences with confirmation
+:2,35s/old/new/g	Replace all occurences between lines 2 and 35
+:5,$s/old/new/g	Replace all occurences from line 5 to EOF
+:%s/^/hello/g	Replace the begining of each line by hello
+:%s/$/Harry/g	Replace the end of each line by Harry
+:%s/onward/forward/gi	Replace onward by forward, case unsensitive
+:%s/ *$//g	Delete all white spaces
+:g/string/d	Delete all lines containing string
+:v/string/d	Delete all lines containing which didnât contain string
+:s/Bill/Steve/	Replace the first occurence of Bill by Steve in current line
+:s/Bill/Steve/g	Replace Bill by Steve in current line
+:%s/Bill/Steve/g	Replace Bill by Steve in all the file
+:%s/\r//g	Delete DOS carriage returns (^M)
+:%s/\r/\r/g	Transform DOS carriage returns in returns
+:%s#<[^>]\+>##g	Delete HTML tags but keeps text
+:%s/^\(.*\)\n\1$/\1/	Delete lines which appears twice
+Ctrl+a	Increment number under the cursor
+Ctrl+x	Decrement number under cursor
+ggVGg?	Change text to Rot13
+
+Case
+Vu	Lowercase line
+VU	Uppercase line
+g~~	Invert case
+vEU	Switch word to uppercase
+vE~	Modify word case
+ggguG	Set all text to lowercase
+:set ignorecase	Ignore case in searches
+:set smartcase	Ignore case in searches excepted if an uppercase letter is used
+:%s/\<./\u&/g	Sets first letter of each word to uppercase
+:%s/\<./\l&/g	Sets first letter of each word to lowercase
+:%s/.*/\u&	Sets first letter of each line to uppercase
+:%s/.*/\l&	Sets first letter of each line to lowercase
+
+Read/Write files
+:1,10 w outfile	Saves lines 1 to 10 in outfile
+:1,10 w >> outfile	Appends lines 1 to 10 to outfile
+:r infile	Insert the content of infile
+:23r infile	Insert the content of infile under line 23
+
+File explorer
+:e .	Open integrated file explorer
+:Sex	Split window and open integrated file explorer
+:browse e	Graphical file explorer
+:ls	List buffers
+:cd ..	Move to parent directory
+:args	List files
+:args *.php	Open file list
+:grep expression *.php	Returns a list of .php files contening expression
+gf	Open file name under cursor
+
+Interact with Unix
+:!pwd	Execute the pwd unix command, then returns to Vi
+!!pwd	Execute the pwd unix command and insert output in file
+:sh	Temporary returns to Unix
+$exit	Retourns to Vi
+Alignment
+:%!fmt	Align all lines
+!}fmt	Align all lines at the current position
+5!!fmt	Align the next 5 lines
+
+Tabs
+:tabnew	Creates a new tab
+:tabclose Closes tab
+gt	Show next tab
+ngt Show tab n
+:tabfirst	Show first tab
+:tablast	Show last tab
+:tabm n(position)	Rearrange tabs
+:tabdo %s/foo/bar/g	Execute a command in all tabs
+:tab ball	Puts all open files in tabs
+
+Window spliting
+:e filename	Edit filename in current window
+:split filename	Split the window and open filename
+ctrl-w up arrow	Puts cursor in top window
+ctrl-w ctrl-w	Puts cursor in next window
+ctrl-w_	Maximise current window
+ctrl-w=	Gives the same size to all windows
+10 ctrl-w+	Add 10 lines to current window
+:vsplit file	Split window vertically
+:sview file	Same as :split in readonly mode
+:hide	Close current window
+:Â­nly	Close all windows, excepted current
+:b 2	Open #2 in this window
+
+Auto-completion
+Ctrl+n Ctrl+p (in insert mode)	Complete word
+Ctrl+x Ctrl+l	Complete line
+:set dictionary=dict	Define dict as a dictionnary
+Ctrl+x Ctrl+k	Complete with dictionnary
+Marks
+mk	Marks current position as k
+Ëk	Moves cursor to mark k
+dâ¢k	Delete all until mark k
+Abbreviations
+:ab mail mail@provider.org	Define mail as abbreviation of mail@provider.org
+
+Text indent
+:set autoindent	Turn on auto-indent
+:set smartindent	Turn on intelligent auto-indent
+:set shiftwidth=4	Defines 4 spaces as indent size
+ctrl-t, ctrl-d	Indent/un-indent in insert mode
+>>	Indent
+<<	Un-indent
+Syntax highlighting
+:syntax on	Turn on syntax highlighting
+:syntax off	Turn off syntax highlighting
+:set syntax=perl	Force syntax highlighting
+
+
+

@@ -1,0 +1,45 @@
+http://ubuntuforums.org/showthread.php?t=1066964
+
+
+
+HOW TO: Display more than 5 bookmarks in gnome-panel "Places" menu
+Derived from:
+http://brainstorm.ubuntu.com/idea/14381/
+http://ubuntuforums.org/showthread.php?t=733808
+
+1) Open Terminal
+
+2a) Install apt-build
+Code:
+sudo apt-get update
+sudo apt-get install apt-build
+2b) Configure apt-build:
+Optimization level: Medium
+Add apt-build repository to sources.list: Yes
+Architecture: <SELECT YOUR ARCHITECTURE>
+
+3) Install files required to build gnome-panel from source and download the source
+Code:
+sudo apt-get build-dep gnome-panel
+sudo apt-build source gnome-panel
+4) Navigate to the downloaded gnome-panel source folder and open the menu items file
+Code:
+cd /var/cache/apt-build/build/gnome-panel-*
+sudo gedit gnome-panel/panel-menu-items.c
+5) Set the the maximum number of bookmarks to display before placing them in the Bookmarks submenu 
+
+Find the line:
+PHP Code:
+if (g_slist_length (add_bookmarks) <= MAX_ITEMS_OR_SUBMENU) {  
+and replace it with:
+PHP Code:
+if (g_slist_length (add_bookmarks) <= 20) {  
+Save the file.
+
+6) Install the modified gnome-panel and restart it
+Code:
+sudo ./configure
+sudo make
+sudo make install
+killall gnome-panel
+

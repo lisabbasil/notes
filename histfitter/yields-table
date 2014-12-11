@@ -1,0 +1,15 @@
+To get the yields table with the number of events before and after the fit, do
+
+HistFitter.py -t -w -f -m ALL -u "--signalGridName SMAnoslep8TeV --signalYield 1 --signalRegions
+BIN01_BIN02_BIN03_BIN04_BIN05_BIN06_BIN07_BIN08_BIN09_BIN10_BIN11_BIN12_BIN13_BIN14_BIN15_BIN16_BIN17_BIN18_BIN19_BIN20_SR0b_SR1SS_SR2a --finalState L3 --vxOrp0 0 --runPoint SMAnoslep8TeV_150.0_62.5" tools/3L_config.py
+
+and then
+
+python scripts/YieldsTable.py -o out.txt -c
+BIN01,BIN02,BIN03,BIN04,BIN05,BIN06,BIN07,BIN08,BIN09,BIN10,BIN11,BIN12,BIN13,BIN14,BIN15,BIN16,BIN17,BIN18,BIN19,BIN20,SR0b,SR1SS,SR2a -w
+results/3L/TopLvlXML_combined_NormalMeasurement_model_afterFit.root -s WZ,ZZ,ttbarV,triboson,Higgs,fake,SMAnoslep8TeV_150.0_62.5 -b
+
+Also try:
+
+python scripts/SysTable.py -c
+BIN01,BIN02,BIN03,BIN04,BIN05,BIN06,BIN07,BIN08,BIN09,BIN10,BIN11,BIN12,BIN13,BIN14,BIN15,BIN16,BIN17,BIN18,BIN19,BIN20,SR0b,SR1SS,SR2a -w results/3L/TopLvlXML_combined_NormalMeasurement_model_afterFit.root -o out1.txt -s WZ,ZZ,ttbarV,triboson,Higgs,fake

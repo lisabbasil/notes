@@ -1,0 +1,15 @@
+Grep:
+
+String *abc* in . (recursive (-r) and case insensitive (-i):
+grep -ir abc .
+
+egrep (==grep -E) looks for multiple occurences (in this case e or $; $ is the end of a line) and highlights them.
+echo "abc
+def
+123
+4e6" | egrep --color "e|$"
+
+grep -c counts the number of hits
+
+
+

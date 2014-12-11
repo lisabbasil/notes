@@ -1,0 +1,22 @@
+Printer:
+
+Get .deb package from
+http://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=dcp7030_all&os=128&dlid=dlf005511_000&flang=4&type3=559
+and it should be working. Alternatively search here:
+http://welcome.solutions.brother.com/bsc/public_s/id/linux/en/download_prn.html
+
+Scanner:
+
+Get .deb package from
+http://support.brother.com/g/b/downloadend.aspx?c=us&lang=en&prod=dcp7030_all&os=128&dlid=dlf006642_000&flang=4&type3=566
+Alternatively search here:
+http://welcome.solutions.brother.com/bsc/public_s/id/linux/en/download_prn.html
+Install xsane.
+If you get a "failed to open device" error in xsane, change the permissions. First find out where the Scanner resides with
+lsusb
+and then
+chmod a+w /dev/bus/usb/$BUS/$DEVICE
+You may have to redo the last step with setting the permission, every time you open xsane
+
+
+

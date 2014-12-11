@@ -1,0 +1,40 @@
+Yank paste from http://alien.slackbook.org/blog/adding-an-alsa-software-pre-amp-to-fix-low-sound-levels/
+
+Low sound volume in Linux?
+Apparently a lot of laptop users are confronted with the issue of very low sound levels – not just in Slackware. Note that this is different from the “sound can not be un-muted” issue I experienced and which I wrote about in a previous article.
+
+If you are among the affected users for whom the sound levels remain too low even when cranking the volume all the way up, there is away around this.
+
+It works by enhancing the ALSA sound system with a sound pre-amplifier and adding that to the available controls. ALSA uses dmix to create the new software volume control. You can then play around with varying percentages of sound amplification. You will have to find an optimum between acceptible sound levels and the possible sound distortion which will be introduced by this pre-amp.
+
+To add the software pre-amp system-wide you need to open the ALSA configuration file “/etc/asound.conf” in an editor (Slackware does not create that file by default, so you may have to edit a new file) and add the following definition to it (note that if you have multiple sound cards and the default is not “card 0” you may have to alter the definition a bit):
+
+pcm.!default {
+        type hw
+        card 0
+}
+ctl.!default {
+        type hw
+        card 0
+}
+pcm.!default {
+        type plug
+        slave.pcm “softvol”
+}
+pcm.softvol {
+        type softvol
+        slave {
+                pcm “dmix”
+        }
+        control {
+                name “Pre-Amp”
+                card 0
+        }
+        min_dB -5.0
+        max_dB 20.0
+        resolution 6
+}
+
+Then, save the file and reboot your computer (you could also try running “/etc/rc.d/rc.alsa restart” but I can not guarantee that that will re-initialize ALSA correctly).
+
+After reboot, you will find an additional control in your mixer (alsamixer or kmix) called “Pre-Amp”. Note that KDE’s mixer does not show all controls by default and you may have to add “Pre-Amp” to the visible controls.

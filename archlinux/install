@@ -1,0 +1,61 @@
+Follow https://wiki.archlinux.org/index.php/installation_guide
+
+1) fdisk /dev/sda
+Delete all partitions, create new empty GPT partition table, now create the
+following partitions:
+- EFI partition (512 MB)
+- boot partition (512 MB)
+- root partition (30 GB)
+- home partition (~200 GB)
+
+change EFI partition type to 1 (EFI System)
+
+write to disk
+
+
+2) create filesystems
+
+boot/root/home: mkfs.ext4 <partition>
+
+EFI: mkfs.fat -s1 -F32 <partition>
+
+
+3) mount the partitions
+
+root to /mnt
+boot to /mnt/boot
+efi  to /mnt/boot/efi
+home to /mnt/home
+
+mount <dev> <dir>
+
+
+4) connect to the internet
+
+wifi-menu
+
+
+5) select a mirror
+
+vi /etc/pacman.d/mirrorlist
+
+move your mirror to the top
+
+
+6) configure the system
+
+pacstrap /mnt base
+
+genfstab -p /mnt >> /mnt/etc/fstab
+
+arch-chroot /mnt
+
+... then follow instructions on website
+
+
+7) boot loader
+
+pacman -S grub
+
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck --debug
+

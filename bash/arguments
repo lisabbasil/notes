@@ -1,0 +1,280 @@
+#!/usr/bin/env bash
+
+
+How can I handle command-line arguments (options) to my script easily?
+
+Well, that depends a great deal on what you want to do with them. There are several approaches, each with its strengths and weaknesses.
+
+Manual loop
+
+This approach handles any arbitrary set of options, because you are writing the parser yourself. For 90% of programs, this is the simplest approach (because you rarely need fancy stuff).
+
+This example will handle a combination of short and long options. Notice how both "--file" and "--file=FILE" are handled.
+
+
+   1 #!/bin/sh
+   2 # (POSIX shell syntax)
+   3 
+   4 # Reset all variables that might be set
+   5 file=""
+   6 verbose=0
+   7 
+   8 while :
+   9 do
+  10     case $1 in
+  11         -h | --help | -\?)
+  12             #  Call your Help() or usage() function here.
+  13             exit 0      # This is not an error, User asked help. Don't do "exit 1"
+  14             ;;
+  15         -f | --file)
+  16             file=$2     # You might want to check if you really got FILE
+  17             shift 2
+  18             ;;
+  19         --file=*)
+  20             file=${1#*=}        # Delete everything up till "="
+  21             shift
+  22             ;;
+  23         -v | --verbose)
+  24             # Each instance of -v adds 1 to verbosity
+  25             verbose=$((verbose+1))
+  26             shift
+  27             ;;
+  28         --) # End of all options
+  29             shift
+  30             break
+  31             ;;
+  32         -*)
+  33             echo "WARN: Unknown option (ignored): $1" >&2
+  34             shift
+  35             ;;
+  36         *)  # no more options. Stop while loop
+  37             break
+  38             ;;
+  39     esac
+  40 done
+  41 
+  42 # Suppose some options are required. Check that we got them.
+  43 
+  44 if [ ! "$file" ]; then
+  45     echo "ERROR: option '--file FILE' not given. See --help" >&2
+  46     exit 1
+  47 fi
+  48 
+  49 # Rest of the program here.
+  50 # If there are input files (for example) that follow the options, they
+  51 # will remain in the "$@" positional parameters.
+  52 
+This parser does not handle separate options concatenated together (like -xvf being understood as -x -v -f). This could be added with effort, but this is left as an exercise for the reader.
+
+Some Bash programmers like to write this at the beginning of their scripts to guard against unused variables:
+
+
+    set -u     # or, set -o nounset
+The use of this breaks the loop above, as "$1" may not be set upon entering the loop. There are four solutions to this issue:
+
+Stop using -u.
+Replace case $1 in with case ${1+$1} in (as well as bandaging all the other code that set -u breaks).
+Replace case $1 in with case ${1-} in (every potentially undeclared variable could be written as ${variable-} to prevent set -u tripping).
+Stop using -u.
+getopts
+
+Never use getopt(1). getopt cannot handle empty arguments strings, or arguments with embedded whitespace. Please forget that it ever existed.
+
+The POSIX shell (and others) offer getopts which is safe to use instead. Here is a simplistic getopts example:
+
+
+   1 #!/bin/sh
+   2 
+   3 # Initialize our own variables:
+   4 output_file=""
+   5 verbose=0
+   6 
+   7 OPTIND=1 # Reset is necessary if getopts was used previously in the script.  It is a good idea to make this local in a function.
+   8 while getopts "h?vf:" opt; do
+   9     case "$opt" in
+  10         h|\?)
+  11             show_help
+  12             exit 0
+  13             ;;
+  14         v)  verbose=1
+  15             ;;
+  16         f)  output_file=$OPTARG
+  17             ;;
+  18     esac
+  19 done
+  20 shift $((OPTIND-1)) # Shift off the options and optional --.
+  21 
+  22 echo "verbose=$verbose, output_file='$output_file', Leftovers: $@"
+  23 
+  24 # End of file
+  25 
+The advantages of getopts are:
+
+It's portable, and will work in e.g. dash.
+It can handle things like -vf filename in the expected Unix way, automatically.
+The disadvantage of getopts is that it can only handle short options (-h, not --help) without trickery.
+
+There is a getopts tutorial which explains what all of the syntax and variables mean. In bash, there is also help getopts, which might be informative.
+
+There is also still the disadvantage that options are coded in at least 2, probably 3 places - in the call to getopts, in the case statement that processes them and presumably in the help message that you are going to get around to writing one of these days. This is a classic opportunity for errors to creep in as the code is written and maintained - often not discovered till much, much later. This can be avoided by using callback functions, but this approach kind of defeats the purpose of using getopts at all.
+
+1. getopts long option trickery
+
+Here is an example which claims to parse long options with getopts. The basic idea is quite simple: just put "-:" into the optstring. This trick requires a shell which permits the option-argument (i.e. the filename in "-f filename") to be concatenated to the option (as in "-ffilename"). The POSIX standard says there must be a space between them; bash and dash permit the "-ffilename" variant, but one should not rely on this leniency if attempting to write a portable script.
+
+
+   1 #!/bin/bash
+   2 # Uses bash extensions.  Not portable as written.
+   3 
+   4 optspec=":h-:"
+   5 
+   6 while getopts "$optspec" optchar
+   7 do
+   8     case "${optchar}" in
+   9         -)
+  10             case "${OPTARG}" in
+  11               loglevel)
+  12                   eval val="\$${OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+  13                   echo "Parsing option: '--${OPTARG}', value: '${val}'" >&2
+  14                   ;;
+  15               loglevel=*)
+  16                   val=${OPTARG#*=}
+  17                   opt=${OPTARG%=$val}
+  18                   echo "Parsing option: '--${opt}', value: '${val}'" >&2
+  19                   ;;
+  20             esac
+  21             ;;
+  22         h)
+  23             echo "usage: $0 [--loglevel[=]<value>]" >&2
+  24             exit 2
+  25             ;;
+  26     esac
+  27 done
+  28 
+  29 # End of file
+  30 
+In practice, this example is so obfuscated that it may be preferable to add concatenated option support (like -vf filename) to a manual parsing loop instead, if that was the only reason for using getopts.
+
+Here's an improved and more generalized version of above attempt to add support for long options when using getopts:
+
+
+   1 #!/bin/bash
+   2 # Uses bash extensions.  Not portable as written.
+   3 
+   4 declare -A longoptspec
+   5 longoptspec=( [loglevel]=1 ) #use associative array to declare how many arguments a long option expects, in this case we declare that loglevel expects/has one argument, long options that aren't listed in this way will have zero arguments by default
+   6 optspec=":h-:"
+   7 while getopts "$optspec" opt; do
+   8 while true; do
+   9     case "${opt}" in
+  10         -) #OPTARG is name-of-long-option or name-of-long-option=value
+  11             if [[ "${OPTARG}" =~ .*=.* ]] #with this --key=value format only one argument is possible
+  12             then
+  13                 opt=${OPTARG/=*/}
+  14                 OPTARG=${OPTARG#*=}
+  15                 ((OPTIND--))
+  16             else #with this --key value1 value2 format multiple arguments are possible
+  17                 opt="$OPTARG"
+  18                 OPTARG=(${@:OPTIND:$((longoptspec[$opt]))})
+  19             fi
+  20             ((OPTIND+=longoptspec[$opt]))
+  21             continue #now that opt/OPTARG are set we can process them as if getopts would've given us long options
+  22             ;;
+  23         loglevel)
+  24           loglevel=$OPTARG
+  25             ;;
+  26         h|help)
+  27             echo "usage: $0 [--loglevel[=]<value>]" >&2
+  28             exit 2
+  29             ;;
+  30     esac
+  31 break; done
+  32 done
+  33 
+  34 # End of file
+  35 
+With this version you can have long and short options side by side and you shouldn't need to modify the code from line 10 to 22. This solution can also handle multiple arguments for long options, just use ${OPTARG} or ${OPTARG[0]} for the first argument, ${OPTARG[1]} for the second argument, ${OPTARG[2]} for the third argument and so on. It has the same disadvantage of its predecessor in not being portable and specific to bash. Additionally, it breaks arguments with whitespace (line 18) for long options, when given using the syntax that does not include equal sign (=).
+
+Silly repeated brute-force scanning
+
+Another approach is to check options with if statements "on demand". A function like this one may be useful:
+
+
+   1 #!/bin/bash
+   2 
+   3 HaveOpt ()
+   4 {
+   5     local needle=$1
+   6     shift
+   7 
+   8     while [[ $1 == -* ]]
+   9     do
+  10         # By convention, "--" means end of options.
+  11         case "$1" in
+  12             --)      return 1 ;;
+  13             $needle) return 0 ;;
+  14         esac
+  15 
+  16         shift
+  17     done
+  18 
+  19     return 1
+  20 }
+  21 
+  22 HaveOpt --quick "$@" && echo "Option quick is set"
+  23 
+  24 # End of file
+  25 
+and it will work if script is run as:
+
+YES: ./script --quick
+YES: ./script -other --quick
+but will stop on first argument with no "-" in front (or on --):
+
+NO: ./script -bar foo --quick
+NO: ./script -bar -- --quick
+Of course, this approach (iterating over the argument list every time you want to check for one) is far less efficient than just iterating once and setting flag variables.
+
+It also spreads the options throughout the program. The literal option --quick may appear a hundred lines down inside the main body of the program, nowhere near any other option name. This is a nightmare for maintenance.
+
+Complex nonstandard add-on utilities
+
+bhepple suggests the use of process-getopt (GPL licensed) and offers this example code:
+
+
+PROG=$(basename $0)
+VERSION='1.2'
+USAGE="A tiny example using process-getopt(1)"
+
+# call process-getopt functions to define some options:
+source process-getopt
+
+SLOT=""
+SLOT_func()   { [ "${1:-""}" ] && SLOT="yes"; }      # callback for SLOT option
+add_opt SLOT "boolean option" s "" slot
+
+TOKEN=""
+TOKEN_func()  { [ "${1:-""}" ] && TOKEN="$2"; }      # callback for TOKEN option
+add_opt TOKEN "this option takes a value" t n token number
+
+add_std_opts     # define the standard options --help etc:
+
+TEMP=$(call_getopt "$@") || exit 1
+eval set -- "$TEMP" # just as with getopt(1)
+
+# remove the options from the command line
+process_opts "$@" || shift "$?"
+
+echo "SLOT=$SLOT"
+echo "TOKEN=$TOKEN"
+echo "args=$@"
+Here, all information about each option is defined in one place making for much easier authoring and maintenance. A lot of the dirty work is handled automatically and standards are obeyed as in getopt(1) - because it calls getopt for you.
+
+Actually, what the author forgot to say was that it's actually using getopts semantics, rather than getopt. I ran this test:
+ ~/process-getopt-1.6$ set -- one 'rm -rf /' 'foo;bar' "'"
+ ~/process-getopt-1.6$ call_getopt "$@"
+  -- 'rm -rf /' 'foo;bar' ''\'''
+It appears to be intelligent enough to handle null options, whitespace-containing options, and single-quote-containing options in a manner that makes the eval not blow up in your face. But this is not an endorsement of the process-getopt software overall; I don't know it well enough. -GreyCat
+It's written and tested on Linux where getopt(1) supports long options. For portability, it tests the local getopt(1) at runtime and if it finds an non-GNU one (ie one that does not return 4 for getopt --test) it only processes short options. It does not use the bash builtin getopts(1) command. -bhepple
+
+

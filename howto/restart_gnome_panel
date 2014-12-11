@@ -1,0 +1,58 @@
+http://mylinuxnotebook.blogspot.ch/2008/09/restart-gnome-panel.html
+
+
+
+Howto Restart Gnome Panel
+Labels: Desktop, Gnome
+It doesn't happen a lot but it does sometimes when the Gnome Panel freeze. If you are a former windows user you might be used to restart the computer when something in you desktop stuck. This is not the way with Linux. We can fix the problem by restarting the desktop session (restarting the X server) pressing the Ctrl+Alt+BackSpace but this will destroy everything we worked on so far. A more elegant way will be to restart only the Gnome Panel.
+
+Getting access to the Linux command line shell
+
+In order to restart the Gnome Panel we will need to execute the Linux kill command. Once the Gnome Panel process is killed Gnome will restart it automatically so the only thing left for us is to kill the Gnome Panel process. In order to execute the Linux kill command we will need to get access to the Linux shell. This can be done by one of the following:
+Pressing Alt+F2
+Using an opened console window using the Alt+Tab buttons to navigate to it.
+Using a console session by pressing Ctrl+Alt+F1
+
+
+Killing the Gnome Panel
+
+In each of these options we will need to execute the Linux kill command in order to kill the Gnome Panel process. There are two ways to use the kill command:
+Using the application name will kill all the applications with the same name
+Using the process id (pid) will kill only the process with the specified id.
+Back to our case with the Gnome Panel, we can use both of the options.
+
+Getting the Gnome Panel Process Id
+
+First we will need to find the process id of the Gnome Panel. We can do it by listing the running processes on the system and filtering the ones with the word panel.
+
+$ ps -ef | grep panel
+shimik 19301 6584 0 09:13 ? 00:00:04 gnome-panel
+shimik 20367 19254 0 09:35 pts/7 00:00:00 grep panel
+
+We can see that there are two processes which were started by the user shimik, the first one is the gnome-panel process with the 19301 process id and the second is the grep command which we used to filter out the processes.
+
+Restarting the Gnome Panel using the kill command
+
+Now that we know the process id of the Gnome Panel we can kill it by using the following command
+
+$ kill -9 19301
+
+
+Restarting the Gnome Panel using the killall command
+
+In order to use the killall command, we need to know the Gnome Panel process name. Looking back at the process list
+
+$ ps -ef | grep gnome-panel
+shimik 19301 6584 0 09:13 ? 00:00:04 gnome-panel
+shimik 20367 19254 0 09:35 pts/7 00:00:00 grep panel
+
+We can see that the Gnome Panel process name is gnome-panel.
+Now we can use the killall command to kill the Gnome Panel process.
+
+$ killall gnome-panel
+
+
+After killing the gnome panel process gnome will restart the panels and we can continue our work without loosing the things we have done so far.
+
+Although this explanation is about Gnome Panel restart in fact it describes the ways to restart, any Linux process so you can use it whenever you need to close/terminate a process.
+

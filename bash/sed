@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+### sed is a stream editor. Line by line it streams the input file and outputs it on stdout. It does no changes to the input file and
+### outputs all lines by default. Some examples:
+
+$ cat list
+> First line
+> Second
+> line line line
+> Fourth and last line
+
+$ sed 's/line/fine/' list
+> First fine
+> Second
+> fine line line
+> Fourth and last fine
+
+$ sed 's/line/fine/g' list
+> First fine
+> Second
+> fine fine fine
+> Fourth and last fine
+
+### The apostrophe are not needed in this examples, only when there are characters that otherwise would be interpreted by bash (like spaces, $, ...)
+### but it's good practice to always use them.
+
+### For multiple commands at once, do
+
+$ sed 's/line/fine/; s/line/wine/' list   ### equivalent: sed -e 's/line/fine/' -e 's/line/wine/' list
+> First fine
+> Second
+> fine wine line
+> Fourth and last fine
+
+### This does not change the file itself, only the output ond stdout. If you want to change the file itself
+
+$ sed -i 's/line/fine/g' list   ### sed -i.bak would make a backup uf the input file first
+$ cat list
+> First fine
+> Second
+> fine fine fine
+> Fourth and last fine
+
+### If you want to run a script with sed commands in it
+
+$ sed -f sedCommands list
+
+### If you want no output
+
+$ sed 's/line/fine/' list
+>
+
+### or only print the lines where changes occured (using print is similar to grep, but more powerful, because we can define a range of lines to be printed)
+
+$ sed 's/line/fine/p' list
+> First fine
+> fine line line
+> Fourth and last fine
+
+### Sed is implicitly global (unlike vim), i.e. it goes through the whole file, line by line. If only certain lines should be addressed, the following command
+### can be used:
+
+$ sed '/Fourth/s/line/fine/' list   ### same as: sed '4s/line/fine/' list
+> First line
+> Second
+> line line line
+> Fourth and last fine
+
+### or specify a range
+
+$ sed '/Second/,/Fourth/s/line/fine/' list   ### same as: sed '2,4s/line/fine/' list (address and keywords can also be mixed)
+> First line
+> Second
+> fine line line
+> Fourth and last fine
+
+### or use a ! to revert the range (or selection)
+
+$ sed '/Second/,/Fourth/!s/line/fine/' list   ### same as: sed '2,4!s/line/fine/' list (address and keywords can also be mixed)
+> First fine
+> Second
+> line line line
+> Fourth and last line
+
+### The last line is addressed by $ (not to be confused with $ in regex).
+
+### To replace all occurrences of "abc def" (also "abc\ndef") with "abc xyz", do:
+
+$ sed 's/abc def/abc xyz/g; /abc$/{N; s/\ndef/\nxyz/; P; D;}'
+
+### To replace all occurences of "the xyz statement" with "the XYZ statement", where xyz can be any word, do:
+
+$ /the .* statement/{                                       ### How the line "find the Match statement" is transformed in pattern and hold space:
+$ h                                                         ### Pattern space: "find the Match statement"        | Hold space: "find the Match statement"
+$ s/.*the \(.*\) statement.*/\1/                            ### Pattern space: "Match"                           | Hold space: "find the Match statement"
+$ y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/  ### Pattern space: "MATCH"                           | Hold space: "find the Match statement"
+$ G                                                         ### Pattern space: "MATCH\nfind the Match statement" | Hold space: "find the Match statement"
+$ s/\(.*\)\n\(.*the \).*\( statement.*\)/\2\1\3/            ### Pattern space: "find the MATCH statement"        | Hold space: "find the Match statement"
+$ }

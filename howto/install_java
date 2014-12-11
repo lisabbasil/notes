@@ -1,0 +1,221 @@
+From: https://sites.google.com/site/easylinuxtipsproject/java
+
+
+
+HOW-TO FOR 64 BIT UBUNTU
+
+
+Remove the browser plug-in of the old version
+
+First you'll want to remove the browser plug-in of the old JRE or openJDK (if you have it). Only the browser plug-in needs to be removed! Otherwise unwanted side effects may occur. 
+
+When the old JRE has been installed manually in /opt/java, see the instruction at the bottom of this column (under the header Removal).
+
+When you don't have an old JRE, you probably have openJDK and the IcedTea browser plug-in. The IcedTea browser plug-in (icedtea-6-jre-cacao) should be removed; openJDK itself can remain on your hard disk. 
+
+Like this:
+
+Click on Ubuntu Software Center (the shopping bag) in the side panel.
+Query: icedtea.
+
+Remove only the IcedTea Java-plug-in. Leave OpenJDK itself on your hard disk.
+
+Press the Remove button.
+
+Get JRE
+
+Get the right file from the Java website: http://www.java.com
+
+For 64-bit you want Linux x64. The name of this file ends on .tar.gz. Do not pick Linux x64 RPM (file name ends on x64.rpm), because RPM is not built for Ubuntu, but for other Linux distro's.
+
+Note: Store the file in the folder Downloads. So in:
+/home/your-user-name/Downloads. 
+
+Firefox puts downloaded files there by default, but not all web browsers do it like that.  
+
+For example, user John should place the file in:
+/home/john/Downloads. 
+When in doubt, check it. 
+
+This is important for the terminal commands that you'll execute later on; otherwise they won't be correct.
+
+Install JRE (64-bit)
+
+Note: the terminal commands in this how-to possibly refer to an older version of JRE. When there's a newer version, you can simply adapt the file names in the terminal commands.
+
+This how-to has been written for JRE 7 update 11 (64 bit version).
+
+
+1. Create a new subfolder in the folder opt, by means of a command.
+
+Click on the grey Ubuntu logo (Dash home). Query: terminal. 
+Click on Terminal.
+
+Type (use copy/paste: rapidly click three times on the blue line, in order to select the entire line).
+sudo mkdir -p -v /opt/java/64
+
+Press Enter.
+
+Type your password. You won't see anything, not even dots, this is normal.
+Press Enter.
+
+
+2. Now go to the Downloads folder and unpack the compressed JRE file that you just downloaded, with the following combined command.
+
+Type (copy/paste):
+cd Downloads && tar xvzf ~/Downloads/jre-7u11-linux-x64.tar.gz
+
+Press Enter.
+
+
+3. Move the unpacked contents of the JRE file into the system folder that you created in step 1, with the following command.
+
+Type (copy/paste):
+sudo mv -v ~/Downloads/jre1.7.0_11 /opt/java/64
+
+Press Enter.
+
+Inform the system and make the new JRE the default
+
+4. Now you'll want to tell the system, that there's a new Java version available.
+
+Type (copy/paste):
+sudo update-alternatives --install "/usr/bin/java" "java" "/opt/java/64/jre1.7.0_11/bin/java" 1
+
+Press Enter.
+
+Note: are you updating from a previous Java version, which you have removed manually? Then you'll need to execute the above command twice, because you'll get an error message the first time.
+
+
+5. Tell the system, that the new Java must be the default.
+
+Type (copy/paste):
+sudo update-alternatives --set java /opt/java/64/jre1.7.0_11/bin/java
+
+Press Enter.
+
+Install the Firefox plugin
+
+6. Installing the Firefox plugin is simple. First execute the following command, in order to create a certain folder (if it doesn't exist already).
+
+Type in the terminal (copy/paste):
+mkdir -v ~/.mozilla/plugins
+
+Press Enter.
+
+If it exists already, you'll see a notification of that.
+
+
+7. Now remove the IcedTea plugin, if it has been installed.
+
+Type (copy/paste):
+sudo apt-get remove icedtea-6-plugin && sudo apt-get remove icedtea-7-plugin
+
+Press Enter.
+
+If it's not there to begin with, you'll get a notification of that.
+
+8. Remove an older version of the Java plugin.
+
+Type (copy/paste):
+rm -v ~/.mozilla/plugins/libnpjp2.so
+
+Press Enter.
+
+If it's not there to begin with, you'll get a notification of that.
+
+9. Now you can install the plugin, by creating a symbolic link (you tell Firefox, where the plugin is located).
+
+Type (copy/paste):
+ln -s /opt/java/64/jre1.7.0_11/lib/amd64/libnpjp2.so ~/.mozilla/plugins/
+
+Press Enter.
+
+Final check
+
+10. Now close and restart Firefox. Check whether everything has succeeded. Type in the URL bar of Firefox (not in the terminal!):
+
+about:plugins
+
+Press Enter.
+
+And scroll down, until you see something approximately similar to this:
+Java(TM) Plug-in 1.7.0_11
+
+You can also use this website:
+http://java.com/en/download/installed.jsp
+
+Only enable the plugin when needed
+
+11. Java is frequently under attack from malicious software on websites. Java is platform independent, so Linux is vulnerable, too. Therefore it's better to disable the plugin and only enable it for a short while, whenever you need it. You can do that as follows.
+
+Note: this only applies to Java. There's also Javascript, which is quite safe. So there's no need to disable Javascript as well.
+
+Tame disk usage with Sun Java 7 Plugin Control Panel
+
+12. By default, Java allows itself to use a crazy maximum amount of disk space for the cache (what were the developers smoking?). You can limit that as follows:
+
+Call up the Control Panel as follows (in each user account):
+
+Type in the terminal (copy/paste):
+/opt/java/64/jre1.7.0_11/bin/ControlPanel
+
+Press Enter.
+
+Temporary Internet Files - Settings... Disk Space: limit it to 50 MB.
+Click Delete Files... OK - OK - Apply - OK.
+
+Repeat this in each user account.
+
+Do you have a Solid State Drive (SSD)? Then disable this cache entirely, as you'll want to limit write actions as much as possible for an SSD.
+
+Note: this command is only for JRE 7 update 11. You'll need to adapt it when you use another version.
+
+Other user accounts: repeat three commands and limit disk usage
+
+13. Are there any other user accounts on the computer? Then repeat the following three commands in each user account:
+
+rm -v ~/.mozilla/plugins/libnpjp2.so
+
+and then (in case the plugins folder doesn't exist yet):
+
+mkdir -v ~/.mozilla/plugins
+
+and then:
+
+ln -s /opt/java/64/jre1.7.0_11/lib/amd64/libnpjp2.so ~/.mozilla/plugins/
+
+Finally, use the control panel in those other user accounts, to limit the maximum disk usage of the cache (see step 12).
+
+Removal
+
+Do you wish to remove JRE again? It's very easy, to remove a manually installed JRE. As follows:
+
+a. Remove the folder /opt/java and what's in it, by means of the following terminal command.
+
+Click on the grey Ubuntu logo (Dash home). Query: terminal. 
+Click on Terminal.
+
+Type (copy/paste):
+sudo rm -r -v /opt/java
+
+Press Enter.
+
+Type your password. You won't see anything, not even dots, this is normal.
+Press Enter.
+
+b. Then in the terminal, in order to remove the Java plugin:
+
+Type (copy/paste):
+rm -v ~/.mozilla/plugins/libnpjp2.so
+
+Press Enter.
+
+c. Finally, restart your web browser.
+
+Note: are there multiple user accounts? Then repeat step b in those other accounts.
+
+Updating an older version
+
+It's easy to update an older version. Proceed as described above, under the header "Removal". Then install the new version.
+

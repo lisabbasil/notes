@@ -1,0 +1,15 @@
+with the usual cvmfs-based setup, can use the following:
+
+
+
+-bash-4.1$ localSetupXRootD
+
+Setting up XRootD version 3.3.6-x86_64-slc6
+
+-bash-4.1$ localSetupEmi
+
+-bash-4.1$ voms-proxy-init --voms atlas/ch
+
+-bash-4.1$ xrdcp root://dpm.lhep.unibe.ch//dpm/lhep.unibe.ch/home/atlas/atlaslocalgroupdisk/rucio/user/lmarti/e3/07/user.lmarti.016146._00001.susyNt.root /tmp
+
+[xrootd] Total 5.38 MB|====================| 100.00 % [40.9 MB/s]

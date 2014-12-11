@@ -1,0 +1,229 @@
+#!/bin/bash
+
+
+Here is a summary of most of the parameter expansion tricks that are available:
+
+${parameter:-word}
+Use Default Value. If 'parameter' is unset or null, 'word' (which may be an expansion) is substituted. Otherwise, the value of 'parameter' is substituted.
+
+${parameter:=word}
+Assign Default Value. If 'parameter' is unset or null, 'word' (which may be an expansion) is assigned to 'parameter'. The value of 'parameter' is then substituted.
+
+${parameter:+word}
+Use Alternate Value. If 'parameter' is null or unset, nothing is substituted, otherwise 'word' (which may be an expansion) is substituted.
+
+${parameter:offset:length}
+Substring Expansion. Expands to up to 'length' characters of 'parameter' starting at the character specified by 'offset' (0-indexed). If ':length' is omitted, go all the way to the end. If 'offset' is negative (use parentheses!), count backward from the end of 'parameter' instead of forward from the beginning.
+
+${#parameter}
+The length in characters of the value of 'parameter' is substituted.
+
+${parameter#pattern}
+The 'pattern' is matched against the beginning of 'parameter'. The result is the expanded value of 'parameter' with the shortest match deleted.
+
+${parameter##pattern}
+As above, but the longest match is deleted.
+
+${parameter%pattern}
+The 'pattern' is matched against the end of 'parameter'. The result is the expanded value of 'parameter' with the shortest match deleted.
+
+${parameter%%pattern}
+As above, but the longest match is deleted.
+
+${parameter/pat/string}
+Results in the expanded value of 'parameter' with the first (unanchored) match of 'pat' replaced by 'string'.
+
+${parameter//pat/string}
+As above, but every match of 'pat' is replaced.
+
+
+
+
+
+##### Parameter expansion
+
+### VAR is set and not null, VAR2 is set but null, VAR3 is unset
+VAR="Hallo Welt!"
+VAR2=""
+
+### If the variable is unset or null, print the default value
+printf "VAR : %s\n" "${VAR:-unset or null}"
+printf "VAR2: %s\n" "${VAR2:-unset or null}"
+printf "VAR3: %s\n" "${VAR3:-unset or null}"
+
+printf "VAR : %s\n" "${VAR-unset}"
+printf "VAR2: %s\n" "${VAR2-unset}"
+printf "VAR3: %s\n" "${VAR3-unset}"
+
+### if $list is not empty, print default value
+for item in a b c d e f g h i j k
+do
+    list=${list:+$list,}$item
+done
+printf "%s\n" "$list"
+
+### Print only substring of $VAR
+printf "%s\n" "${VAR:3}"
+printf "%s\n" "${VAR:4:4}"
+printf "%s\n" "${VAR:$(( ${#VAR} - 1 ))}"
+
+
+
+##### Shell arithmetic
+
+### Use $(( expression )) to do basic calculations in your shell
+printf "%d + %d = %d" 3 4 $(( 3 + 4 ))
+
+ 
+
+
+##### Bash string manipulation
+
+### From: http://www.thegeekstuff.com/2010/07/bash-string-manipulation/
+
+Bash String Manipulation Examples – Length, Substring, Find and Replace
+by SASIKALA on JULY 23, 2010
+ 
+
+In bash shell, when you use a dollar sign followed by a variable name, shell expands the variable with its value. This feature of shell is called parameter expansion.
+
+But parameter expansion has numerous other forms which allow you to expand a parameter and modify the value or substitute other values in the expansion process. In this article, let us review how to use the parameter expansion concept for string manipulation operations.
+
+This article is part of the on-going bash tutorial series. Refer to our earlier article on bash { } expansion.
+
+1. Identify String Length inside Bash Shell Script
+
+${#string}
+The above format is used to get the length of the given bash variable.
+
+$ cat len.sh
+#! /bin/bash
+
+var="Welcome to the geekstuff"
+
+echo ${#var}
+
+$ ./len.sh
+24
+To understand more about bash variables, read 6 Practical Bash Global and Local Variable Examples.
+
+2. Extract a Substring from a Variable inside Bash Shell Script
+
+Bash provides a way to extract a substring from a string. The following example expains how to parse n characters starting from a particular position.
+
+${string:position}
+Extract substring from $string at $position
+
+${string:position:length}
+Extract $length of characters substring from $string starting from $position. In the below example, first echo statement returns the substring starting from 15th position. Second echo statement returns the 4 characters starting from 15th position. Length must be the number greater than or equal to zero.
+
+$ cat substr.sh
+#! /bin/bash
+
+var="Welcome to the geekstuff"
+
+echo ${var:15}
+echo ${var:15:4}
+
+$ ./substr.sh
+geekstuff
+geek
+Also, refer to our earlier article to understand more about $*, $@, $#, $$, $!, $?, $-, $_ bash special parameters.
+
+3. Shortest Substring Match
+
+Following syntax deletes the shortest match of $substring from front of $string
+
+${string#substring}
+Following syntax deletes the shortest match of $substring from back of $string
+
+${string%substring}
+Following sample shell script explains the above two shortest substring match concepts.
+
+$ cat shortest.sh
+#! /bin/bash
+
+filename="bash.string.txt"
+
+echo ${filename#*.}
+echo ${filename%.*}
+
+$ ./shortest.sh
+After deletion of shortest match from front: string.txt
+After deletion of shortest match from back: bash.string
+In the first echo statement substring ‘*.’ matches the characters and a dot, and # strips from the front of the string, so it strips the substring “bash.” from the variable called filename. In second echo statement substring ‘.*’ matches the substring starts with dot, and % strips from back of the string, so it deletes the substring ‘.txt’
+
+4. Longest Substring Match
+
+Following syntax deletes the longest match of $substring from front of $string
+
+${string##substring}
+Following syntax deletes the longest match of $substring from back of $string
+
+${string%%substring}
+Following sample shell script explains the above two longest substring match concepts.
+
+$ cat longest.sh
+#! /bin/bash
+
+filename="bash.string.txt"
+
+echo "After deletion of longest match from front:" ${filename##*.}
+echo "After deletion of longest match from back:" ${filename%%.*}
+
+$ ./longest.sh
+After deletion of longest match from front: txt
+After deletion of longest match from back: bash
+In the above example, ##*. strips longest match for ‘*.’ which matches “bash.string.” so after striping this, it prints the remaining txt. And %%.* strips the longest match for .* from back which matches “.string.txt”, after striping  it returns “bash”.
+
+5. Find and Replace String Values inside Bash Shell Script
+
+Replace only first match
+${string/pattern/replacement}
+It matches the pattern in the variable $string, and replace only the first match of the pattern with the replacement.
+
+$ cat firstmatch.sh
+#! /bin/bash
+
+filename="bash.string.txt"
+
+echo "After Replacement:" ${filename/str*./operations.}
+
+$ ./firstmatch.sh
+After Replacement: bash.operations.txt
+Replace all the matches
+${string//pattern/replacement}
+It replaces all the matches of pattern with replacement.
+
+$ cat allmatch.sh
+#! /bin/bash
+
+filename="Path of the bash is /bin/bash"
+
+echo "After Replacement:" ${filename//bash/sh}
+
+$ ./allmatch.sh
+After Replacement: Path of the sh is /bin/sh
+Taking about find and replace, refer to our earlier articles – sed substitute examples and Vim find and replace.
+
+Replace beginning and end
+${string/#pattern/replacement
+Following syntax replaces with the replacement string, only when the pattern matches beginning of the $string.
+
+${string/%pattern/replacement
+Following syntax replaces with the replacement string, only when the pattern matches at the end of the given $string.
+
+$ cat posmatch.sh
+#! /bin/bash
+
+filename="/root/admin/monitoring/process.sh"
+
+echo "Replaced at the beginning:" ${filename/#\/root/\/tmp}
+echo "Replaced at the end": ${filename/%.*/.ksh}
+
+$ ./posmatch.sh
+Replaced at the beginning: /tmp/admin/monitoring/process.sh
+Replaced at the end: /root/admin/monitoring/process.ksh
+
+
+

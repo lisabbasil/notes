@@ -1,0 +1,151 @@
+#!/bin/bash
+
+
+
+### Usage:
+### get_key [VAR]
+### If a variable is specified, the key will be read into that variable. If not, it will be in $_KEY.
+### From: Shell Scripting Recipes, p19f.
+
+get_key(){
+
+    ### Check whether input is coming from a terminal &&
+    ### if $_STTY is empty &&
+    ### set [VAR] to $_STTY
+    [ -t 0 ] && {
+        [ -z "$_STTY" ] && _STTY=$(stty -g)
+
+        ### By default, the minimum number of keys that needs to be entered is 1
+        ### This can be changed by setting the dd_min variable
+        ### If the TMOUT variable is set greater than 0, the time-out is set to
+        ### $TMOUT seconds
+        if [ ${TMOUT:--1} -ge 0 ]; then
+            _TMOUT=$TMOUT
+            stty -echo -icanon time $(( $_TMOUT * 10 )) min ${dd_min:-1}
+        else
+            stty -echo -icanon min ${dd_min:-1}
+        fi
+    }
+
+    ### Read a key from the keyboard, using dd with a blocksize (bs) of 1.
+    ### A period is appended, or command substitution will swallow a newline
+    _KEY=$(dd bs=1 count=1 2>/dev/null; echo .)
+    _KEY=${_KEY%?} ### Remove the period again
+
+    ### If a variable has been given on the command line, assign the result to it
+    [ -n "$1" ] &&
+        ### Due to quoting, either ' or " needs special treatment; I choose '
+        case $_KEY in
+            "'") eval "$1=\"'\"" ;;
+            *) eval "$1='$_KEY'" ;;
+        esac
+
+    ### Reset terminal
+    [ -t 0 ] && stty "$_STTY"
+    ### Succeed if a key has been entered
+    [ -n "$_KEY" ]
+}
+
+
+
+### Usage:
+### getline "PROMPT" [VAR]
+### If no VAR is given, the line is read into the _GETLINE variable. If the variable name used is password,
+### the keystrokes will not be echoed to the terminal.
+### From: Shell Scripting Recipes, p20f.
+
+_getline(){
+
+    ### Check that the parameter given is a valid variable name
+    case $2 in
+        [!a-zA-Z_]* | *[!a-zA-Z0-9_]* ) die 2 "Invalid variable name: $2" ;;
+        *) var=${2:-_GETLINE} ;;
+    esac
+
+    ### If the variable name is "password" turn off echoing
+    [ -t 0 ] && [ "$2" == "password" ] && stty -echo
+    case ${BASH_VERSION%%.*} in
+        [2-9]|[1-9][0-9])
+            read -ep "$1: " -- $var
+            ;;
+        *) printf "%s: " "$1" >&2
+            IFS= read -r $var
+            ;;
+    esac
+    [ -t 0 ] && stty echo ### Turn echoing back on
+}
+
+
+
+### Usage:
+### press_any_key
+### "To start press any key." - "Where's the any key?"
+### From: Shell Scripting Recipes, p21f.
+
+press_any_key(){
+    ### Display the message
+    printf "\r <PRESS ANY KEY TO CONTINUE> "
+    ### Get the keystroke
+    get_key
+    ### Erase the message
+    printf "\r                             \r"
+}
+
+
+
+### Usage:
+### menu="MENU" menu CMD1 CMD2
+### Two optional variables control the behavior of the function. If $_MENU is not null,
+### the function will exit after a single successful loop. If $pause_after is not null,
+### the script will pause, and the user will be prompted to press_any_key
+### From: Shell Scripting Recipes, p22f.
+
+menu(){
+    m_items=$#   ### Number of commands (i.e. arguments)
+    while :
+    do
+        ### Display menu
+        printf "%s " "$menu"
+        ### Get user's choice
+        get_key Q
+        case $Q in
+            0|q|""|"$NL")
+                printf "\n"; break ;;
+            [1-$m_items])
+                printf "\n"
+                ### Execute command
+                ( eval "\$$Q" )
+                ### Pause if set
+                case $pause_after in
+                    *) press_any_key;;
+                esac;;
+            *) printf "\n\t\a%sInvalid entry: %s\n" "${progname:+$progname: }" "$Q"
+                continue;;
+        esac
+
+        [ -n "$_MENU" ] && break   ### If set, exit after one successful selection
+    done
+}
+
+
+
+### Usage:
+### die NUM [MESSAGE]
+### The die function takes an error number and a message as arguments. The first
+### argument is stored in $result, and the rest are printed to the standard error.
+### From: Shell Scripting Recipes, p24f.
+
+die(){
+    result=$1
+    shift
+    printf "%s\n" "$*" >&2
+    exit $result
+}
+
+
+
+
+
+
+
+

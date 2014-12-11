@@ -1,0 +1,22 @@
+From: http://www.thinkwiki.org/wiki/How_to_control_fan_speed#For_Linux
+
+
+
+To enable fan control, the module parameter fan_control=1 must be given to thinkpad-acpi.
+For example, in Ubuntu 8.04 (Hardy Heron), add the following to /etc/modprobe.d/options: options thinkpad_acpi fan_control=1
+For Debian Squeeze (testing) create /etc/modprobe.d/thinkpad_acpi.conf with: options thinkpad_acpi fan_control=1 and install the package thinkfan
+Having done so, reboot and you can use the following commands to control fan speed:
+# echo level 0 > /proc/acpi/ibm/fan (fan off)
+# echo level 2 > /proc/acpi/ibm/fan (low speed)
+# echo level 4 > /proc/acpi/ibm/fan (medium speed)
+# echo level 7 > /proc/acpi/ibm/fan (maximum speed)
+# echo level auto > /proc/acpi/ibm/fan (automatic - default)
+# echo level disengaged > /proc/acpi/ibm/fan (disengaged)
+If you receive a PERMISSION DENIED error you can use the following command syntax instead as a work-around:
+# echo level 0 | sudo tee /proc/acpi/ibm/fan (fan off)
+# echo level 2 | sudo tee /proc/acpi/ibm/fan (low speed)
+# echo level 4 | sudo tee /proc/acpi/ibm/fan (medium speed)
+# echo level 7 | sudo tee /proc/acpi/ibm/fan (maximum speed)
+# echo level auto | sudo tee /proc/acpi/ibm/fan (automatic - default)
+# echo level disengaged | sudo tee /proc/acpi/ibm/fan (disengaged)
+

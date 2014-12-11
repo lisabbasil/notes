@@ -1,0 +1,32 @@
+Types of Commands
+
+Bash understands several different types of commands: aliases, functions, builtins, keywords, and executables.
+
+Aliases: Aliases are a way of shortening commands. They are only used in interactive shells, not in scripts. (This is one of the very few differences between a script and an interactive shell.) An alias is a name that is mapped to a certain string. Whenever that name is used as a command name, it is replaced by the string before executing the command. So, instead of executing:
+ $ nmap -Pn -A --osscan-limit 192.168.0.1
+You could use an alias like this:
+ $ alias nmapp='nmap -Pn -A --osscan-limit'
+ $ nmapp 192.168.0.1
+Aliases are limited in power; the replacement only happens in the first word. If you want more flexibility, use a function. Aliases are only useful as simple textual shortcuts.
+
+Functions: Functions in Bash are somewhat like aliases, but more powerful. Unlike aliases, they can be used in scripts. A function contains shell commands, very much like a small script; they can even take arguments and create local variables. When a function is called, the commands in it are executed. Functions will be covered in depth later in the guide.
+
+Builtins: Bash has some basic commands built into it, such as cd (change directory), echo (write output), and so on. You can think of them as functions that are provided already.
+
+Keywords: Keywords are quite like builtins, but the main difference is that special parsing rules apply to them. For example, [ is a bash builtin, while [[ is a bash keyword. They are both used for testing stuff, but since [[ is a keyword rather than a builtin, it benefits from a few special parsing rules which make it a lot easier to use:
+ $ [ a < b ]
+ -bash: b: No such file or directory
+ $ [[ a < b ]]
+The first example returns an error because bash tries to redirect the file b to the command [ a ] (See File Redirection). The second example actually does what you expect it to. The character < no longer has its special meaning of File Redirection operator when it's used in a [[ command.
+
+Executables: The last kind of command that can be executed by bash is an executable, also called an external command or application. Executables are invoked by using a pathname. If the executable is in the current directory, use ./myprogram. If it's in the /usr/local/bin directory, use /usr/local/bin/myprogram. To make life a little easier for you, though, Bash uses a variable that tells it where to find applications in case you just know the name of the application but not its full pathname. This variable is called PATH, and it is a set of directory names separated by colons -- for example, /bin:/usr/bin. When a command is specified in Bash without a pathname (e.g. myprogram, or ls), and it isn't an alias, function, builtin or keyword, Bash searches through the directories in PATH, in order from left to right, to see whether they contain an executable of the name you typed.
+
+Tip: 
+You can use the type command to figure out the type of a command.
+For example:
+ $ type rm
+ rm is hashed (/bin/rm)
+ $ type cd
+ cd is a shell builtin
+
+

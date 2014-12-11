@@ -1,0 +1,20 @@
+Some SVN links:
+
+svn co svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/HistFitter/tags/HistFitter-00-00-22-01
+
+svn co http://svn.lhep.unibe.ch/subv/atlas/
+
+svn co svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/MultiLep/trunk MultiLep
+https://svnweb.cern.ch/trac/atlasphys/browser/Physics/SUSY/Analyses/WeakProduction
+
+svn co svn+ssh://svn.cern.ch/reps/atlasinst/Institutes/UCIrvine/SUSYAnalysis/SusyCommon
+svn co svn+ssh://svn.cern.ch/reps/atlasinst/Institutes/UCIrvine/SUSYAnalysis/SusyNtuple
+
+svn co svn+ssh://svn.cern.ch/reps/atlasgroups/Detectors/Pixel/IBLdev/BOCcode/trunk BOCcode
+
+svn co svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Papers/Fall2012/DirectGauginos/INT/threeLep/trunk ThreeLeptonFall2012
+
+svn+ssh://svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/WeakProduction/Limits
+
+
+

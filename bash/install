@@ -1,0 +1,28 @@
+To compile (example from tmux installation):
+./configure --help
+./configure --prefix=$HOME/pkg
+make
+make install
+
+or
+
+./configure
+make
+make DESTDIR=$HOME/pkg install
+
+If a dependency is installed in a home folder, make
+./configure --help
+to find out how to tell the configure where the package is, for example
+PKG_CONFIG_PATH=$HOME/pkg/lib/pkgconfig ./configure --prefix=$HOME/pkg
+
+If a library is not found, do
+file ~/pkg/bin/tmux
+ldd ~/pkg/bin/tmux
+export LD_LIBRARY_PATH=~/pkg/lib
+
+The folder structure in ~/pkg is like /
+
+If an older version of e.g. tmux is installed, you might want to run
+hash -r tmux
+to delete the binding. Find the binding with
+type tmux

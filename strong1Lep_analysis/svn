@@ -1,0 +1,5 @@
+Some SVN links:
+
+svn co svn+ssh://bschneid@svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/HistFitter/tags/HistFitter-00-00-22-01
+
+svn co svn+ssh://bschneid@svn.cern.ch/reps/atlasphys/Physics/SUSY/Analyses/InclOneTwoLep/xAODNtupleMaker/trunk xAODNtupleMaker

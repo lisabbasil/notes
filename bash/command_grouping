@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+### () and {} group commands but while () starts a subshell, {} does not:
+
+$ basil@lhepla23:~$ (cd /usr/ && echo $PWD)
+$ /usr
+$ basil@lhepla23:~$
+
+$ basil@lhepla23:~$ { cd /usr/ && echo $PWD; }
+$ /usr
+$ basil@lhepla23:/usr$ 
+
+### Note that {} need spaces and a semicolon (or a new line) at the end
+
+### Command grouping can be used to open a file only once, instead of several times:
+
+$ { echo "Starting at $(date)"; rsync -av . /backup; echo "Finishing at $(date)"; } >backup.log 2>&1
+
+### This is not only faster, but also very useful sometimes, consider the following example, where the command grouping is implicit (in the for loop):
+
+$ echo "cat
+> mouse
+> dog" > inputfile
+
+$ for var in {a..c}; do read -r "$var"; done < inputfile
+$ echo "$b"
+mouse
+
+$ read -r a < inputfile
+$ read -r b < inputfile
+$ read -r c < inputfile
+$ echo "$b"
+cat
+
+### In the for loop the inputfile is read line by line, as it is opened only once, while in the second part of the script it is opened again and again and only line number 1 is read
+
+

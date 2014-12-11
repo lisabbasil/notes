@@ -1,0 +1,35 @@
+High Level Steps to Record and Play inside Vim
+
+Start recording by pressing q, followed by a lower case character to name the macro
+Perform any typical editing, actions inside Vim editor, which will be recorded
+Stop recording by pressing q
+Play the recorded macro by pressing @ followed by the macro name
+To repeat macros multiple times, press : NN @ macro name. NN is a number
+Example 1: Sequence number generation inside a file using Vim Macro
+
+1. Start a sequence-test.txt file to generate the sequence.
+
+$ vim sequence-test.txt
+2. Go to insert mode and type “1 .” as shown below
+
+Type: Esc i followed by 1.
+
+$ vim sequence-test.txt
+1.
+3. Start the Recording and store it in register a.
+
+Type: Esc q followed by a
+
+q indicates to start the recording
+a indicates to store the recordings in register a
+When you do q a, it will display “recording” at the bottom of the vi.
+4. Copy the 1st line to 2nd line to have two lines with 1 . as shown below
+
+Type: Esc yy followed by p
+
+yy will copy the current line
+p will paste the line that was just copied
+$ vim sequence-test.txt
+1.
+1.
+

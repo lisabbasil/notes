@@ -1,0 +1,27 @@
+On Debian:
+1) Download rpm package at
+   http://ftp.riken.jp/Linux/cern/slc6X/updates/SRPMS/repoview/lpadmincern.html
+   deprecated: http://linuxsoft.cern.ch/cern/slc41/i386/yum/updates/repodata/repoview/lpadmincern-0-1.2-2.slc4.html
+2) Change the rpm package to a deb one by
+   $ sudo alien *.rpm
+3) Install the deb package
+   $ sudo dpkg -i *.deb
+4) Get the name of your favourite printer here
+   https://printservice.web.cern.ch/printservice/UserTools/PrinterList.aspx
+5) Try to run
+   $ sudo /usr/sbin/lpadmincern --add $nameOfPrinter
+6) If you get an error like
+   Can't locate Net/LDAP.pm in @INC
+   install Net/LDAP.pm with
+   $ sudo cpan
+   and then
+   $ install Net::LDAP
+   You might be asked if you want to configure as much as possible automatically. Say yes.
+7) If you get an error like
+   > Can't exec "/sbin/service": No such file or directory
+   in /usr/sbin/lpadmincern change
+   my $cupsc='/sbin/service cups reload';
+   to
+   my $cupsc='sudo service cups restart'; (RedHat specific)
+   my $cupsc='/etc/init.d/cups restart';  (Debian specific)
+   and try again

@@ -1,0 +1,31 @@
+pacman/yaourt:
+
+Use pacman for the official repository, use yaourt for AUR (Arch User Repository)
+
+System update:
+pacman -Syu
+yaourt -Syua (can be slow, needs to build packages)
+
+Search:
+pacman -Ss
+yaourt -Ss
+
+Install:
+pacman -S
+yaourt -S
+
+Remove:
+pacman -R
+yaourt -R
+
+List:
+pacman -Ql
+
+List orphans:
+pacman -Qtdq
+
+Remove orphans:
+pacman -Rs $(pacman -Qtdq)
+
+Clean:
+rm /var/cache/pacman/pkg/*

@@ -1,0 +1,11 @@
+How to rip a DVD:
+
+First convert all *.VOB to *.avi:
+$ ffmpeg -i VTS_01_1.VOB p1.avi
+
+By default, quality is very poor, you can get better quality with
+$ ffmpeg -i VTS_01_1.VOB -ab 128k -qscale 4 p1.avi
+where -ab defines the audio quality and -qscale the video quality (from 31 (worst) to 1 (best))
+
+Then concatenate them:
+$ ffmpeg -i "concat:p1.avi|p2.avi|p3.avi" output.avi

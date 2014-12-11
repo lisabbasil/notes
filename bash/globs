@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+Globs are composed of normal characters and metacharacters. Metacharacters are characters that have a special meaning.
+These are the metacharacters that can be used in globs:
+
+• *: Matches any string, including the null string.
+• ?: Matches any single character.
+• [...]: Matches any one of the enclosed characters.
+
+Bash also supports a feature called Extended Globs. These globs are more powerful in nature; technically, they are equivalent
+to regular expressions, although the syntax looks different than most people are used to. This feature is turned off by default,
+but can be turned on with the shopt command, which is used to toggle shell options:
+
+$ shopt -s extglob
+
+• ?(list): Matches zero or one occurrence of the given patterns.
+• *(list): Matches zero or more occurrences of the given patterns.
+• +(list): Matches one or more occurrences of the given patterns.
+• @(list): Matches one of the given patterns.
+• !(list): Matches anything except one of the given patterns.
+
+The list inside the parentheses is a list of globs or extended globs separated by the | character. Here’s an example:
+
+$ ls
+names.txt tokyo.jpg
+$ echo !(*jpg|*bmp)
+names.txt
+
+Then, there is Brace Expansion. Brace Expansion technically does not fit in the category of patterns, but it is similar. Globs
+only expand to actual filenames, but brace expansions will expand to any possible permutation of their contents. Here\u2019s how
+they work:
+
+$ echo th{e,a}n
+then than
+$ echo {/home/*,/root}/.*profile
+/home/axxo/.bash_profile /home/lhunath/.profile /root/.bash_profile /root/.profile
+$ echo {1..9}
+1 2 3 4 5 6 7 8 9
+$ echo {0,1}{0..9}
+00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19
+
+The brace expansion is replaced by a list of words, just like a glob is. However, these words aren’t necessarily filenames, and
+they are not sorted (than would have come before then if they were).
+
+Brace expansion happens before filename expansion. In the second echo command above, we used a combination of
+brace expansion and globs. The brace expansion goes first, and we get:
+
+$ echo /home/*/.*profile /root/.*profile
+
+After the brace expansion, the globs are expanded, and we get the filenames as the final result.
+Brace expansions can only be used to generate lists of words. They cannot be used for pattern matching.
+

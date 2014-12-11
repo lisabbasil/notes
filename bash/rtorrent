@@ -1,0 +1,7 @@
+Check ~/.rtorrent.rc for settings.
+
+Load a torrent:
+Download it, hit enter in rtorrent and type in the path; use arrow keys to mark it and then Ctrl-s to start it
+
+
+

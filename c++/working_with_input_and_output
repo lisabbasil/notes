@@ -1,0 +1,67 @@
+#include <stdlib.h>
+#include <ctime>
+#include <fstream>
+#include <vector>
+#include <iostream>
+#include <iterator>
+
+int get_data(){
+    // Do whatever it takes to calculate the data.
+    // Here we're just calculating random integers.
+    return rand();
+}
+
+void write_data_into_file(){
+    // open file for writing
+    std::ofstream ofs("output.txt");
+
+    // get half a million values and write them to output.txt
+    for(int i = 0; i < 500000; ++i){
+        // get pseudo data
+        int data = get_data();
+
+        // write data into file as string, terminated by a newline
+        ofs << data << std::endl;
+    }
+}
+
+void read_file_into_vector_of_integer(std::vector<int>& v){
+    // open file for reading
+    std::ifstream ifs("output.txt");
+
+    // create iterator over ifs that returns integers
+    std::istream_iterator<int> begin(ifs), end;
+
+    // read whole file into vector
+    copy(begin, end, back_inserter(v));
+}
+
+void print_all_integer_in_vector(const std::vector<int>& v){
+    // create iterator that writes integers to standard output
+    std::ostream_iterator<int> out(std::cout, "\n");
+
+    // write all integers in vector to output
+    copy(v.begin(), v.end(), out);
+}
+
+int main(int argc, char *argv[]){
+    // seed the random number generator
+    srand(time(NULL));
+
+    // create file
+    write_data_into_file();
+
+    // create empty integer
+    std::vector<int> result;
+
+    // reserve space for half a million ints (for performance)
+    result.reserve(500000);
+
+    // read data from file into integer
+    read_file_into_vector_of_integer(result);
+
+    // show what we read from file
+    print_all_integer_in_vector(result);
+
+    return 0;
+}
