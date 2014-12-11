@@ -1,0 +1,28 @@
+1) Create repository on GitHub
+
+2) Create local git repository
+$ git init
+$ echo '*' > .gitignore
+$ git add -f .gitignore $files   # -f is needed to add files although they are in .gitignore
+$ git commit -m "First commit"
+
+3) Connect remote repository
+$ git remote add origin $urlGitHub   # Get SSH URL from GitHub
+$ git push
+
+4) On secondary machine
+$ ssh-keygen
+$ cat .ssh/id_rsa.pub   # Copy public key and add it to GitHub
+$ git clone $urlGitHub   # The project is copied to a subfolder
+
+5) Overwrite dotfiles
+$ tar c -C dotfiles . | tar x   # Use option v for a dry run
+$ rm -rf dotfiles
+
+6) If you make changes
+$ git add $file
+$ git commit -m "I changed everything"
+$ git push
+and on remote server
+$ git pull
+Use tig to monitor changes
