@@ -29,3 +29,4 @@ pacman -Rs $(pacman -Qtdq)
 
 Clean:
 rm /var/cache/pacman/pkg/*
+(also pacman -Scc?)
