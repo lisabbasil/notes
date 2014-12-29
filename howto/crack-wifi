@@ -42,17 +42,23 @@ You'll need
 
  4) See what's out there
     # airodump-ng $m
-    If TKIP is used as authorisation method, reaver won't work.
+    From the victim's wifi, write down the BSSID as $bssid and the channel as
+    $channel.
+    Now there are two possibilities, either you try to hack it via the WPS
+    weakness, which does work only on routers with old firmware but which would
+    be fast. For this, reaver is used. Continue with 5a).
+    The other way to crack a password is to establish a handshake with the
+    victim's wifi and then derive the password with a password list. This is the
+    more traditional approach and works, as long as the password is in a
+    password list. Continue with 6a)
 
- 5) Find out if victim is vulnerable
+5a) Find out if victim is vulnerable
     To crack the wifi password, the wifi needs to have Wi-Fi Protected Setup
     (WPS) enabled. Only this allows the WPA or WPA2 security to be bypassed. If
     WPS is not enabled, you can try a hand-shake with the wifi and then brute-
-    force the password (see e.g. https://www.youtube.com/watch?v=OSfz30sr2Xw)
-    Let's see if WPS is enabled with
+    force the password (see 6a). Let's see if WPS is enabled with
     # wash -i $m
-    WPS Locked needs to show "No". Write down the BSSID from your victim, I will
-    call it $bssid. You will also need the channel $channel.
+    WPS Locked needs to show "No".
     The wash command should list reachable wifis within a few seconds. If it
     produces no output, you might try to create /usr/etc/reaver. See
     https://aur.archlinux.org/packages/reaver/ or
@@ -62,7 +68,7 @@ You'll need
     # rfkill block wifi
     # rfkill unblock wifi
 
- 6) Crack the WPS pin
+5b) Crack the WPS pin
     # reaver -i $m -b $bssid -c $channel -a -S -N -vv
     If you get
     > WARNING: Failed to associate with $bssid
@@ -76,3 +82,17 @@ You'll need
     > [-] Failed to re-initialize interface 'mon0'
     you might have to start all over again. But reaver should have saved the
     progress and be able to continue from where you left off.
+
+6a) Make handshake with the victim's wifi
+    # airodump-ng --channel $channel --bssid $bssid --write filename $m
+    and wait for the handshake to appear at the top right
+
+6b) You can force a handshake by deauthorizing whoever is connected to the
+    network.
+    # aireplay-ng -0 5 -a $bssid $m
+    Repeat this step if it doesn't work, but don't be too aggressive.
+
+6c) Once you have to *.cap file, you can run a passwords file on it. You can do
+    this either online (e.g. http://www.onlinehashcrack.com/) or offline with a
+    passwords file. To crack it offline use
+    # aircrack-ng -w passwords.txt *.cap
