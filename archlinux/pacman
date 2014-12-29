@@ -30,3 +30,7 @@ pacman -Rs $(pacman -Qtdq)
 Clean:
 rm /var/cache/pacman/pkg/*
 (also pacman -Scc?)
+
+Install old package:
+pacman -U /path/to/package
+but try `downgrade package` first
