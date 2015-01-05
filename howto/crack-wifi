@@ -8,16 +8,16 @@ You'll need
  1) Wifi adapter
     Find out how your wifi adapter is called. Run
     # airmon-ng
-    I call it $w here.
+    The AWUS036H has a Realtek8187L chip. Go with this one. I call it $w here.
 
  2) Start monitor mode
     # airmon-ng start $w
+    We'll be using mon0 from now on and I call it $m
     You might want to killall the processes that might cause problems. But it
     could also work just like that, I haven't tried it. Run
     # airmon-ng stop $w
     to stop monitor mode. See what you have with
     # airmon-ng
-    We'll be using mon0 from now on and I call it $m
     Type
     # iwconfig
     for more information
