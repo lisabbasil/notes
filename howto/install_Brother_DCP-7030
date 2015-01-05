@@ -19,4 +19,5 @@ chmod a+w /dev/bus/usb/$BUS/$DEVICE
 You may have to redo the last step with setting the permission, every time you open xsane
 
 
-
+For Arch Linux, simply follow
+https://wiki.archlinux.org/index.php/Brother_DCP-7030
