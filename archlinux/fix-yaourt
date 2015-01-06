@@ -1,0 +1,18 @@
+After an update of pacman and package-query, yaourt was broken, reporting
+package-query: error while loading shared libraries: libalpm.so.8
+
+To fix it I reinstalled yaourt and package-query by
+
+sudo pacman-db-upgrade
+yaourt -R package-query yaourt
+ 
+wget https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
+tar xf package-query.tar.gz
+cd package-query
+makepkg -si
+cd ..
+
+wget https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
+tar xf yaourt.tar.gz
+cd yaourt
+makepkg -si
