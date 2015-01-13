@@ -1,20 +1,29 @@
+Check
+https://twiki.cern.ch/twiki/bin/view/AtlasComputing/ATLASStorageAtCERN#Users_area_on_EOS
+for more quota
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 EOS is the disk storage system at CERN for large physics data. The following is
 a quick tutorial for beginners. After the tutorial, you should know how to do
 the following:
 
-Upload a file to EOS Download a file from EOS to your local directory Check for
-the presence of a file in your EOS home directory and the corresponding quota
+- Upload a file to EOS
+- Download a file from EOS to your local directory
+- Check for the presence of a file in your EOS home directory and the
+  corresponding quota
+
 This tutorial assumes that you are connected on LXPLUS. First of all, source the
 following file (.sh or .csh depending on your shell).
 
-% source /afs/cern.ch/project/eos/installation/<experiment>/etc/setup.sh
+$ source /afs/cern.ch/project/eos/installation/atlas/etc/setup.sh
 
 Since only selected user communities (typically your experiment) have got access
 to EOS you might have a similar error (telling you that your Unix group has no
-        EOS access)
+EOS access)
 
-% eos ls 
-[eos.select] error: I don't have an instance mapped for group "zz"!
+$ eos ls 
+> [eos.select] error: I don't have an instance mapped for group "zz"!
 
 EOS home directories have a similar structure to your AFS directory. The
 detailed structure of the EOS repository depends on the given experiment so
@@ -22,44 +31,43 @@ yours might differ a bit from the examples given here. EOS commands are often
 very similar to Unix (for example ls --> eos ls).
 
 First of all create a subdirectory on EOS:
-% eos mkdir /eos/<experiment>/user/l/laman/eos_tutorial
+$ eos mkdir /eos/atlas/user/b/bschneid/eos_tutorial
 
 Make sure you have a local file available for the test, where you will upload
 your file to EOS:
-% ls -l test.txt
--rw-r--r-- 1 laman vy 2801 Apr 26 10:45 test.txt
+$ ls -l test.txt
+> -rw-r--r-- 1 bschneid vy 2801 Apr 26 10:45 test.txt
 
 Then copy the local file to your EOS directory:
-% xrdcp test.txt
-% root://eos<experiment>.cern.ch//eos/<experiment>/user/l/laman/eos_tutorial/eos.txt
- [100%][==================================================] [5/5]
+$ xrdcp test.txt \
+    root://eosatlas//eos/atlas/user/b/bschneid/eos_tutorial/eos.txt
+> [100%][==================================================] [5/5]
 
 You can check its presence on EOS with 'eos ls':
-% eos ls -l /eos/<experiment>/user/l/laman/eos_tutorial
--rw-r--r--   1 laman    vy               2801 Apr 26 10:46 eos.txt
+$ eos ls -l /eos/atlas/user/b/bschneid/eos_tutorial
+> -rw-r--r--   1 bschneid    vy               2801 Apr 26 10:46 eos.txt
 
 Now, copy it back in your directory (download) from EOS
-% xrdcp
-% root://eos<experiment>.cern.ch//eos/<experiment>/user/l/laman/eos_tutorial/eos.txt
-% eos.txt
-[100%][==================================================] [5/5]
+$ xrdcp \
+    root://eosatlas//eos/atlas/user/b/bschneid/eos_tutorial/eos.txt \
+    eos.txt
+> [100%][==================================================] [5/5]
 
-% ls -l eos.txt
--rw-r--r-- 1 laman vy 2801 Apr 26 10:54 eos.txt
+$ ls -l eos.txt
+-rw-r--r-- 1 bschneid vy 2801 Apr 26 10:54 eos.txt
 
-Please note that: xroot is the data transfer protocol eos<experiment>.cern.ch is
-the host of the EOS (xroot) server
-/eos/<experiment>/user/l/laman/eos_tutorial/eos.txt is the EOS full path
+Please note that:
+xroot is the data transfer protocol
+eosatlas/ is the host of the EOS (xroot) server
+/eos/atlas/user/b/bschneid/eos_tutorial/eos.txt is the EOS full path
 
 EOS has a quota and you can check it with the command "eos quota". Please note
 that you have a limit on size and on number of files.
 
-
-Remember that 'eos<experiment>' is the entry point  for your experiment (if
-        enabled) so you should consult your computer group person.  As of today
-the LHC experiments ALICE, ALICE, CMS and LHCb have dedicated instances. More
-experiments are being added (eos<experiment>=eosalice, eosatlas, eoscms,
-        eoslhcb, eosams and eoscompass) 
+Remember that 'eosatlas' is the entry point  for your experiment (if enabled) so
+you should consult your computer group person.  As of today the LHC experiments
+ALICE, ALICE, CMS and LHCb have dedicated instances. More experiments are being
+added (eosatlas=eosalice, eosatlas, eoscms, eoslhcb, eosams and eoscompass) 
 
 Important: at variance with CASTOR all EOS files are disk-only (no backup). In
 case of inadvertent deletion by users or a major hardware failure EOS files
@@ -67,14 +75,7 @@ cannot be recovered.
  
 More resources:
 
-EOS web site: http://cern.ch/eos (one stop for documentation, status and
-support) LXPLUS man pages for the xrdcp command CASTOR web site:
-http://cern.ch/castor Experiment-specific instructions
-
-ATLAS users:
-https://twiki.cern.ch/twiki/bin/view/AtlasComputing/ATLASStorageAtCERN#Users_area_on_EOS
-CMS users: https://twiki.cern.ch/twiki/bin/view/CMS/T2CHCERN (CMS page) or
-contact CMS Support for storage:
-https://cern.service-now.com/service-portal/function.do?name=CMS-EOS-CASTOR.
-v1.1, 24-APR-2013 (EOS team)
-
+EOS web site: http://cern.ch/eos (documentation, status and support)
+LXPLUS man pages for the xrdcp command
+CASTOR web site: http://cern.ch/castor
+Experiment-specific instructions
