@@ -1,0 +1,11 @@
+To use cmt to checkout packages, you can do
+$ cmt co <directory-tree>
+which simply checks out the trunk. If you want a specific tag, you can use
+$ cmt co -r <package_name-tag> <directory-tree>
+
+<directory-tree> can be something like
+InnerDetector/InDetValidation/InDetPhysValMonitoring
+
+checking out with cmt does add a few informational files and then check out the
+packages with svn. If you check out the packages with svn, the informational
+files are missing and your code might not compile/run.
