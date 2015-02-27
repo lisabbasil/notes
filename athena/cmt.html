@@ -1,0 +1,1608 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)file:///home/basil/Downloads/userguide.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<!--  <link rel="stylesheet" href="style.css"> -->
+
+  
+
+</head><body bgcolor="white"><center>
+    <b>
+      <em>
+	<font color="#F58802" size="+4">
+	  Atlas software developer's guide
+	</font>
+      </em>
+    </b>
+  </center>
+
+
+
+<p></p><p></p><center><i><font size="+2" color="red">Warning : this document is under construction</font></i></center>
+
+
+  <font face="Arial, Helvetica" color="#000000">     
+
+
+ <blockquote>
+ <p>
+</p><center>$Date: 2004-11-13 16:33:56 $<br>
+$Revision: 1.9 $<br>
+Editors: C. Arnault, RD Schaffer<br>
+Contributors: S. Albrand, D. Rousseau</center>
+<p></p>
+ </blockquote>
+
+
+    <ul>
+      <li>0. <a href="file:///home/basil/Downloads/userguide.html#Overview">Overview</a></li>
+      <p></p>
+      <li>1. <a href="file:///home/basil/Downloads/userguide.html#definitions">Definitions</a></li>
+      <p></p>
+      <li>2. <a href="file:///home/basil/Downloads/userguide.html#notations">Notations/Conventions</a></li>
+      <p></p>
+      <li>3. <a href="file:///home/basil/Downloads/userguide.html#Configuring_your_environment">Configuring your environment</a></li>
+      <p></p>
+      <li>4. <a href="file:///home/basil/Downloads/userguide.html#Querying_the_environment">Querying your environment</a></li>
+      <p></p>
+      <li>5. <a href="file:///home/basil/Downloads/userguide.html#Basic_scenarios">Basic scenarios</a>
+      <p></p>
+	   <ul>
+          <li>5.1 <a href="file:///home/basil/Downloads/userguide.html#Running_Athena">Running Athena</a></li>
+          <li>5.2 <a href="file:///home/basil/Downloads/userguide.html#Checking_out_a_package">Checking out a package</a></li>
+          <li>5.3 <a href="file:///home/basil/Downloads/userguide.html#Modifying_an_algorithm">Modifying an algorithm</a></li>
+          <li>5.4 <a href="file:///home/basil/Downloads/userguide.html#Checking_in_a_package">Checking in a package</a></li>
+          <li>5.5 <a href="file:///home/basil/Downloads/userguide.html#Tagging_a_package">Tagging a package</a></li>
+          <li>5.6 <a href="file:///home/basil/Downloads/userguide.html#Creating_a_new_package">Creating a new package</a></li>
+	</ul> 
+      <p></p>
+   </li><li>6. <a href="file:///home/basil/Downloads/userguide.html#Requirements_file_syntax">Requirements file syntax</a></li>
+	<ul>
+          <li>6.1 <a href="file:///home/basil/Downloads/userguide.html#Conventional_macros">Conventional macros</a></li>
+          <li>6.2 <a href="file:///home/basil/Downloads/userguide.html#Conventional_patterns">Conventional patterns</a></li>
+	</ul>
+ </ul>
+
+ <p></p>
+ <hr>
+
+ <a name="Overview"></a>
+ <h2>0 - Overview</h2>
+ <blockquote>
+ <p>
+ We present here an introduction to developing software in Atlas.  A
+ Configuration Management Tool (
+ <a href="http://www.cmtsite.net/">CMT</a>) is used to build (compile and
+ link) and run our software. The software is grouped into separate
+ packages, where some packages may be related or "depend" upon each
+ other. This dependency means that a package "requires" information
+ from other packages. For example, this "requirement" may be the
+ location of some "include" files or it could be the need to link
+ against the library produced in another package. Thus the dependency
+ between packages expresses a certain direction of flow of information
+ as well as the order in which the build process must take place.
+    </p>
+
+ <p>
+ CMT groups together <i>all</i> of the information needed to build or run the
+ "build-products" of a package in a single <font color="red">requirements file</font> in each package, which can be found
+ in a <font color="red">cmt</font> directory. The information is
+ expressed in term of variables called <b><font color="green">macro</font></b>'s, and <b><font color="green">set</font></b>'s where the former are "internal"
+ variables only seen by the requirements files or the makefiles,
+ whereas the latter can be exported to ones session as environment
+ variables.  The 
+ dependency between packages is expressed by <b><font color="green">use</font></b> statements where a package says which
+ other packages it depends upon. (See <a href="file:///home/basil/Downloads/userguide.html#Requirements_file_syntax">[6.]</a> for an explanation of the
+ syntax.) Note that the macro and set variables in one package are
+ visible from other 
+ packages that use it. In this way, we have grouped many
+ commonly used definitions into an AtlasPolicy package which <i>all</i>
+ packages in Atlas are supposed to depend upon.
+ </p>
+
+ <p>
+ CMT can be used in a wide variety of ways. In Atlas we have adopted a
+number of conventions which hopefully simplify software
+development. Firstly, users set (or change) their session environment
+variables with the use of a <font color="red">login
+requirements</font> file that each user has in a directory their home
+area. This is explained in section <a href="file:///home/basil/Downloads/userguide.html#Configuring_your_environment"> [3.]</a>. Secondly, for user
+development of the software, one may have one or more "development"
+areas where one can check out packages from CVS, modify the software
+and build the software against a particular release of the Atlas
+software (see section <a href="file:///home/basil/Downloads/userguide.html#Configuring_your_environment">
+[3.]</a> for defining/changing your development area and section <a href="file:///home/basil/Downloads/userguide.html#Basic_scenarios">[5.]</a>
+ for examples). Finally, there is a template package <font color="red">TestRelease</font> which one normally checks out along
+with other packages. The TestRelease package is typically where one
+can use the <b><font color="blue">cmt broadcast</font></b> command,
+for example, to broadcast a <b><font color="blue">gmake</font></b>
+command to all of ones checked-out packages to build them. As well,
+the TestRelease package has a run directory where, for example, one
+conventionally runs <font color="red">athena</font> with one's
+packages under development. Section <a href="file:///home/basil/Downloads/userguide.html#Basic_scenarios">[5.]</a> provides examples for the use of the
+TestRelease package. Note that for specific applications, packages
+similar to TestRelease have been developed to run them.
+
+     </p>
+
+    </blockquote>
+    <p></p>
+    <hr>
+
+    
+    <a name="definitions"></a>
+    <h2>1 - Definitions</h2>
+    <blockquote>
+      <ul>
+	<li>
+
+	   CMT is an open-source product developed at LAL-Orsay. All
+	   information about CMT (complete documentation, how to
+	   download and install it on local sites, mailing list,
+	   etc...) can be found on its <a href="http://www.cmtsite.net/">web site</a>.
+
+           <p></p>
+	</li>
+	<li>
+	  
+	  A <font color="red">CMT package</font> is a directory
+	  structure like 
+
+	  <pre><b>&lt;package&gt;/&lt;version&gt;/<font color="red">cmt</font>/<font color="red">requirements</font></b></pre>
+
+	     where <b><tt>&lt;version&gt;</tt></b> is the name of the CVS
+	     tag given to this package. The "contents" of a package
+	     are below the <b><tt>&lt;version&gt;</tt></b>
+	     directory. All packages have at least a <b>cmt</b>
+	     directory containing a <b>requirements</b> file. 
+
+           <p></p>
+	</li>
+
+	<li>
+
+	     A <font color="red">requirements file</font> contains the
+	     information to build its components (e.g. compile/link
+	     files for libraries or applications) and use them at run
+	     time (e.g. specifying where a package's shared library is
+	     located). A package's requirements file also specifies
+	     which other packages it depends upon (with <b><font color="red">use</font></b> statements). 
+	     A requirements file in one package has access to the
+	     (public) 
+	     information in the requirements files of these other
+	     packages (e.g. to access "include files", to know which
+	     compiler options to use, or to know which libraries to link
+	     against).
+
+	</li>
+	     <p></p>
+	<li>
+
+	     A <font color="red">CMT constituent</font> or  <font color="red">component</font> is an element that can be
+	     "built" with gmake. For example, a library may be built by
+	     compiling C++ files and then putting their executable
+	     object code into a shared or archive library.  Some
+	     components are built by default, i.e. with just <font color="blue"><b>gmake</b></font>, others are built
+	     explicitly, i.e. <font color="blue"><b>gmake
+	     &lt;constituent-name&gt;</b></font>. 
+
+	</li>
+
+	<p></p>
+	<li>
+	  A <font color="red">CMT sub-package</font> is a directory structure like
+
+	  <pre><b>&lt;parent&gt;/&lt;package&gt;/&lt;version&gt;/<font color="red">cmt</font>/<font color="red">requirements</font></b></pre>
+
+	     where the sub-package <b><tt>&lt;package&gt;</tt></b>
+	     lies below below another CMT package
+	     <b><tt>&lt;parent&gt;</tt></b>.
+
+	</li>
+
+	<p></p>
+	<li>
+
+	     A <font color="red">Leaf package</font> is a CMT package
+	     with no sub-packages (and no sub-containers) and will be
+	     simply named a <font color="red">Package</font>
+
+	</li>
+
+	<p></p>
+	<li>
+
+	     A <font color="red">Container package</font> is a CMT package
+	     with sub-packages or sub-container packages. By convention in
+	     Atlas, a container package is used as a grouping
+	     mechanism for its sub-packages or sub-container packages
+	     and does not build its own components.
+
+	  <p></p>
+
+	  <img src="file:///home/basil/Downloads/AtlasInternalPackageStructure.jpg?cvsroot=atlas">
+	  <p></p>
+
+	     Figure 1. <br>
+
+	     Here is a typical structure of a container package
+	     <b>A</b> with two subpackages <b>B</b> and <b>C</b>. Each
+	     package has a <b>cmt</b> directory and requirements
+	     file. The package <b>B</b> has the typical structure of a
+	     package with C++ classes: header (.h) files are stored in
+	     the directory <b>B</b> and the source (.cxx) files are
+	     stored in the <b>src</b> directory. There are also
+	     directories for documentation (doc), tests
+	     (test) and Athena jobOption files (share). Finally,
+	     there is a directory, <b>i686-rh73-gcc32-opt</b> created when
+	     one runs <font color="blue"><b>gmake</b></font>. This
+	     directory is where compiled
+	     files, libraries and executables are created. The name of
+	     this directory corresponds to the value of the CMTCONFIG
+	     environment variable. This name varies according to the
+	     platform (linux or sun), compiler (gcc or CC) and with
+	     the type of build (debug or optimized), which keeps
+	     separate the binary files for the different types of
+	     builds. 
+	     
+	<p></p>
+	</li><li>
+
+	     There are three different kinds of <font color="red">libraries</font> that one can build:
+	     <font color="red">archive</font>,
+	     <font color="red">shared</font>, and 
+	     <font color="red">component</font>. All three physically
+	     contain binary (executable) code from compiled
+	     files. Rather the distinction comes from how they are
+	     used.
+	     <p></p>
+	     <ul>
+	       <li>
+		    When an application links against an <font color="red">archive library</font> (or <font color="red">static library</font>)
+		    library's binary code is physically copied into
+		    the application. So when the application runs, it
+		    executes code that it "contains".
+	       </li>
+		    <p></p>
+	       <li>
+		    When an application links against a <font color="red">shared library</font> the 
+		    library's binary code is NOT copied but only
+		    "referenced". So when the application runs, it
+		    must be able to locate the library by name to run
+		    the binary code contained in the library. Locating
+		    a library is done, for example on linux, via the
+		    path-variable LD_LIBRARY_PATH which contains
+		    a list of directories where shared libraries may
+		    be found. 
+		    <p></p>
+
+		    Generally an application may refer to several
+		    shared libraries. In this case, only the
+		    application needs to specify this set. Shared
+		    libraries themselves need not specifiy the other
+		    shared libraries they refer to (i.e. their
+		    external symbols are <i>not</i> resolved)
+
+		    <p></p>
+	       </li>
+	       <li>
+		    A <font color="red">component library</font> is a
+		    a shared library which is built like an
+		    application. That is a component library is linked
+		    against all other shared libraries
+		    that it needs to "have its external symbols
+		    resolved". An application, then, may decide at
+		    run-time to dynamically load and run a "component"
+		    which is in a specific component library. For this
+		    one just needs to locate the library by name and
+		    have a standard mechanism to find the entry point
+		    in the component library. For example, Athena
+		    Algorithms and Services are components in
+		    component libraries which are dynamically loaded
+		    by specifying them in the jobOptions.		    
+	       </li>
+		    <p></p>
+		    In practice, applications built with shared/component
+		    libraries are used for development or interactive
+		    sessions. Whereas applications linked against
+		    archive libraries are more suitable for production work.
+	     </ul>
+
+	</li>
+
+      </ul>
+
+    </blockquote>
+
+    <p></p>
+    <hr>
+
+    <a name="notations"></a>
+    <h2>2 - Notations/Conventions</h2>
+    <blockquote>
+
+      <ul>
+
+	<li>All scripts mentioned in this document exist for the 2 shell families:
+	  <ul>
+	    <li><tt>.sh</tt> = for sh, bash, zsh</li>
+	    (<i>for bash, convert all "<font color="red">source xxx.sh</font>" to "<font color="red">. xxx.sh</font>"</i>)
+	
+	    <li><tt>.csh</tt> = for csh, tcsh</li>
+	  </ul>
+	</li>
+
+	<p></p>
+
+	<li>Executable instructions are prefixed by either <font color="red">sh&gt;</font> or <font color="red">csh&gt;</font> when they are specific to the corresponding shell family or simply <font color="red">&gt;</font> when they are not specific. They are written in <font color="blue"><b>bold-blue</b></font><i>.</i></li>
+
+	<p></p>
+
+	<li>CMT statements are written in <font color="green"><b>bold-green</b></font></li>
+
+      </ul>
+    </blockquote>
+
+    <p></p>
+    <hr>
+
+    <a name="Configuring_your_environment"></a>
+    <h2>3 - Configuring your environment</h2>
+    <blockquote>
+      <blockquote>
+	<i>This section should be read first and is mandatory for a
+	  proper understanding of any other operation</i>
+      </blockquote>
+
+      <p>
+
+      This section describes how to configure the session environment
+      for working with a given release of the Atlas software. The
+      first step, <b>bootstrap procedure</b>, creates a home
+      requirements file and setup scripts for new users. The second
+      step is the most frequently used step which sets or changes
+      one's session environment. The last step is what needs to be
+      done when moving to a new version of CMT.
+
+      </p>
+
+      <p>
+	</p><ol>
+	  <li>New users must follow a <a href="file:///home/basil/Downloads/userguide.html#bootstrap_procedure">
+	       bootstrap procedure</a> <i>[3.1]</i> to
+	       create their own login requirements file and
+	       setup scripts. 
+	  </li>
+	  <p></p>
+	  <li>Most often users will simply
+	       <a href="file:///home/basil/Downloads/userguide.html#Setting_up_for_sessions">source</a> <i>[3.2]</i>
+	       their home setup scripts.
+	  </li>
+	  <p></p>
+	  <li>Occasionally, the version of CMT changes and it is
+	       required to <a href="file:///home/basil/Downloads/userguide.html#Re-configuring">re-configure</a>
+	       <i>[3.3]</i> one's home setup scripts.
+	  </li>
+	</ol>
+      <p></p>
+
+      <p></p>
+      <hr>
+      <a name="bootstrap_procedure"></a>
+      <h3>3.1 - Bootstrap procedure</h3>
+      <blockquote>
+
+	The <b>Bootstrap procedure</b> is used to create a home
+	requirements file and setup scripts. <br>
+
+	There are three steps to this procedure:
+	<ol>
+	  <li>Setup up the correct version of CMT:
+
+	       <pre><b>sh&gt; <font color="blue">. &lt;location of CMT&gt;/setup.sh</font> 
+csh&gt; <font color="blue">source &lt;location of CMT&gt;/setup.csh</font></b></pre>
+
+	       where <tt><b><font color="blue">&lt;location of
+	       CMT&gt;</font></b></tt> differs from site to site. At
+	       CERN it is: 
+
+	  <pre><b>/afs/cern.ch/sw/contrib/CMT/&lt;<i>version</i>&gt;/mgr/	       </b></pre>
+
+	  We are currently working with <i>patch</i> versions of CMT
+	  <tt><font color="red">v1r16</font></tt>, where the current
+	  version is <tt><font color="red">v1r16p20040901</font></tt>
+	
+	       <p>
+	       </p><ul>
+		 <li><i>please contact your local site manager about
+		      the specific installation</i></li> 
+		 <li><i>refer to the <a href="http://www.cmtsite.net/install.html">CMT
+		      manual</a> in case you need to install CMT on
+		      your laptop or site</i></li> 
+	       </ul>
+	       <p></p>
+	  </li>
+	  <li> Create, or replace, your <a href="file:///home/basil/Downloads/userguide.html#Creating_and_customizing_the_login_requirments_file">login requirements file</a>
+	       <i>[3.1.1]</i>:
+	  </li>
+	  <a name="Generate_the_setup_files"></a>
+	  <li> Generate the setup files for your login requirements file:
+	    <pre><b>&gt; <font color="blue">cd ${HOME}/cmthome</font>
+&gt; <font color="blue">cmt config</font></b></pre>
+	<p></p>
+	  </li>
+	       This last step (i.e. <b><font color="blue">cmt
+	       config</font></b>) only needs to be done
+	       <b>once</b>. Further modifications of the login
+	       requirements file will be taken into account when one 
+	       <a href="file:///home/basil/Downloads/userguide.html#Setting_up_for_sessions">sources</a> the
+	       setup files. One will only need to <a href="file:///home/basil/Downloads/userguide.html#Re-configuring">re-configure</a> when the
+	       version of CMT changes.
+	       
+	</ol>
+
+
+	<a name="Creating_and_customizing_the_login_requirments_file"></a>
+	<h4>3.1.1 - Creating and customizing the login requirments file</h4>
+	  
+	Several parameters, including some environment variables
+	need to be set to use a release, for example:
+
+	<ul>
+	  <li>the version of CMT</li>
+	  <li>the release number (eg. <tt><font color="red">5.2.0</font></tt>)</li>
+	  <li>
+	       some general purpose environment variables
+	       <table>
+		 <tbody><tr>
+		   <td>CMTCONFIG</td>
+		   <td>the current build directory, is a configuration
+			tag</td>
+		 </tr>
+		 <tr>
+		   <td>CMTSITE</td>
+		   <td>the current site, is a configuration tag</td>
+		 </tr>
+		 <tr>
+		   <td>CMTPATH</td>
+		   <td>the list of package areas</td>
+		 </tr>
+		 <tr>
+		   <td>PATH</td>
+		   <td>access to executables</td>
+		 </tr>
+		 <tr>
+		   <td>LD_LIBRARY_PATH</td>
+		   <td>access to shared libraries</td>
+		 </tr>
+	  </tbody></table>
+     </li>
+   </ul>
+
+   <p>
+   We recommend a mechanism based on a
+   <i>login requirements</i> file and corresponding setup
+   scripts to initialize these settings. A login requirements file
+   is no different than a requirements file in a package. It is only
+   used to set environment variables, and not to compile code or
+   build libraries.     
+   </p>
+
+   <a name="Creating_the_requirements_file"></a>
+   <h4>3.1.1.1 - Creating the requirements file</h4>
+   
+   <ol>
+     <li>Select a location for maintaining your login
+	  requirements file and the associated setup scripts. This
+	  can be anywhere, e.g. in your HOME directory
+	  (<b><tt>${HOME}</tt></b>) but we recommend to use by
+	  convention a dedicated location
+	  <b><tt>${HOME}/cmthome</tt></b>. This convention is used
+	  throughout this document.</li>
+	  <p></p>
+
+     <li> Create an empty requirements file in the selected location
+	  and fill it with a <a href="file:///home/basil/Downloads/simple/requirements?cvsroot=atlas">simple
+	  template</a> of a login requirements file. 
+	  <p>
+	    It should be noted here that within this template, the
+	    section referencing the AtlasSettings package is
+	    mandatory so as to obtain the full set of Atlas
+	    conventions:
+
+	  </p><pre><b><font color="green"># the AtlasSettings package centralizes the setting of basic
+# environment variables
+use AtlasSettings v* $(ATLAS_DIST_AREA)
+
+</font></b></pre>
+
+	  In more detail, AtlasSettings sets up:
+	  <ul>
+	    <li>CVSROOT which points to the CVS repository works with your afs password </li>
+	    <li>CMTCVSOFFSET to be "offline" which allows to omit this
+	    dir when checking out packages with "cmt co XXX" </li>
+	    <li>CVSIGNORE - the list of files to ignore when checking
+	    in files</li>
+	    <li>CMTPATH to include the desired release area</li>
+	    <li>SITEROOT - the base of all atlas software at a
+	    particular site</li>
+	    <li>CMTCONFIG - where build products are kept in each package</li>
+	    <li>At CERN, adds in the right compiler to be used to PATH
+	    and LD_LIBRARY_PATH</li>
+	  </ul>
+	  <p></p>
+     </li>
+	  <p></p>
+   </ol>
+
+   <a name="Customizing_the_requirements_file"></a>
+   <h4>3.1.1.2 - Customizing the requirements file  </h4>
+
+   In a requirements file, one can set parameters that are
+   internal to CMT, <b><font color="green">macro</font></b>'s, or
+   ones that are exported to the environment, <b><font color="green">set</font></b>'s. One can also
+   prepend/append/remove items to path-like environment 
+   variables (e.g. PATH or LD_LIBRARY_PATH). (See <a href="file:///home/basil/Downloads/userguide.html#Requirements_file_syntax">[6.]</a> for an explanation of the
+   requirements file syntax.) <br> 
+   One may customize the following:
+   
+   <ul>
+     <p></p>
+     <li>The site description, by setting the
+	  <b><tt>CMTSITE</tt></b> value (several typical values are suggested).
+	  <pre><b><font color="green">set CMTSITE CERN</font></b>	  </pre>
+	  This is normally set to the site where one is working,
+	  e.g. CERN, and to EXTSITE for portables.
+     </li>
+     <li>The base location of all releases (this will generally
+	  differ from site to site) by setting the <b><tt>ATLAS_DIST_AREA</tt></b> value. For CERN, set:
+	  <pre><b><font color="green">macro ATLAS_DIST_AREA "/afs/cern.ch/atlas/software/dist"</font></b></pre>
+     </li>
+     <li>The release number, by setting the
+	  <b><tt>ATLAS_RELEASE</tt></b> value (see <a href="http://atlas.web.cern.ch/Atlas/GROUPS/SOFTWARE/OO/sit/release/Releases_status.html">Release status</a>)  
+	  <pre><b><font color="green">macro ATLAS_RELEASE   "5.2.0"</font></b></pre>
+     </li>
+     <li>The location of your preferred development or work area,
+	  where packages will be checked out, by setting the
+	  <b><tt>devarea</tt></b> value 
+	  
+	  <pre><b><font color="green">macro devarea "${HOME}/MyTest"
+	  
+macro home_dir  "${HOME}"
+path_remove CMTPATH  "${home_dir}"
+path_prepend CMTPATH "$(devarea)"
+</font></b></pre>
+	  Where the last three lines first remove from
+	  <b><tt>$CMTPATH</tt></b> any
+	  devarea previously defined in your <b><tt>${HOME}</tt></b>
+	  directory, and then prepends the new devarea.
+     </li>
+   </ul>
+   
+   <p>If you have just created your requirements file for the first
+   time, then go back to item <i>3.</i> of the <a href="file:///home/basil/Downloads/userguide.html#bootstrap_procedure">Bootstrap procedure</a>
+   <i>[3.1]</i>, to be sure you have generated the setup files.
+   </p>
+
+   <p>Otherwise, you will only need to <a href="file:///home/basil/Downloads/userguide.html#Setting_up_for_sessions">source </a> <i>[3.2]</i> your setup
+   scripts to update the environment (e.g. CMTPATH and CMTCONFIG) for
+   these changes to your home requirements file.</p>
+
+   </blockquote>
+
+
+	
+       <p></p>
+      <hr>
+      <a name="Setting_up_for_sessions"></a>
+      <h3>3.2 - Setting up one's session environment</h3>
+      <blockquote>
+	We assume here that the login requirements has been correctly
+	<a href="file:///home/basil/Downloads/userguide.html#Creating_and_customizing_the_login_requirments_file">prepared [3.1]</a> in a
+
+	dedicated location, (by convention we assume this location is <b><tt>${HOME}/cmthome</tt></b>).  Each session should start with
+	the following action:
+
+	<pre><b>sh&gt; <font color="blue">source ${HOME}/cmthome/setup.sh</font>
+csh&gt; <font color="blue">source ${HOME}/cmthome/setup.csh</font></b></pre>
+
+   <p>
+   This will set environment variables with the default values given
+   in the login requirements file. This will also set the default
+   compilation mode to be debug. <br>
+   To instead set the compilation mode to optimized, one does:
+   </p>
+
+   <pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=opt</font></b>
+   </pre>
+   
+   <p>
+   This is an example of how to "tune" one's environment using
+   <i>tag</i> specifications.  In general, one can source a setup file
+   as:
+   </p>
+
+   <pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=tag1,tag2</font></b>
+   </pre>
+
+   <p>
+   where multiple tags are in a comma-separated list, no spaces. <br>
+   One can switch
+   back and forth between debug and optimized mode by alternately using:
+   </p>
+
+   <pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=opt</font></b>
+<b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=dbg</font></b></pre>
+   
+   
+   <blockquote>
+   <i>Please note that this operation can be performed <b>multiple
+   times</b> from
+   <b>anywhere</b>, i.e. not only from the directory where
+   the login requirements file is located. (This was <i>not</i> true for CMT
+   versions v1r10p20011126 and earlier.)</i>
+   </blockquote>
+
+
+<p>
+
+This mechanism can also be extented by creating user defined tags, for
+selecting various alternate configurations such as (see <a href="file:///home/basil/Downloads/userguide.html#Requirements_file_syntax">[6.]</a> for the requirements file
+syntax):
+
+</p>
+
+<ul>
+	    <li>
+	      Releases
+	      <pre><b><font color="green">macro ATLAS_RELEASE   "5.2.0" \
+      5.0.0           "5.0.0" \
+      5.1.0           "5.1.0" \
+      5.2.0           "5.2.0"</font></b></pre>
+<pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh</font></b>
+<b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=5.0.0</font></b>
+<b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=5.1.0</font></b></pre>
+	      alternatively select the release 5.2.0 (default), 5.0.0
+		 or 5.1.0 as the base release.
+	    </li>
+	    <p></p>
+	    <li>
+	      Nightly builds
+	      <pre><b><font color="green">macro ATLAS_RELEASE   "5.2.0" \
+      5.0.0           "5.0.0" \
+      5.1.0           "5.1.0" \
+      5.2.0           "5.2.0" \
+      rel0            "nightlies/rel/atlrel_0" \
+      rel1            "nightlies/rel/atlrel_1" \
+      rel2            "nightlies/rel/atlrel_2" \
+      rel3            "nightlies/rel/atlrel_3" \
+      rel4            "nightlies/rel/atlrel_4" \
+      rel5            "nightlies/rel/atlrel_5" \
+      rel6            "nightlies/rel/atlrel_6"</font></b></pre>
+	      <pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=rel0</font></b>        [1]
+<b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=rel1,opt</font></b>    [2]</pre>
+	      <ol>
+		<li> work with the nightly #0 using debug code (debug
+		     is default)</li>
+		<li> work with the nightly #1 using optimized code</li>
+	      </ol>
+	    </li>
+	    <p></p>
+	    <li>
+	      Work or development areas
+	      <pre><b><font color="green">path_remove CMTPATH  /carnault/
+
+path_prepend CMTPATH "" tools "/afs/cern.ch/user/c/carnault/Tools"
+path_prepend CMTPATH "" area1 "/afs/cern.ch/user/c/carnault/MyTest1"
+path_prepend CMTPATH "" area2 "/afs/cern.ch/user/c/carnault/MyTest2"</font></b></pre>
+		 <pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=5.1.0,area1,tools,opt</font></b> [1]
+<b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=rel2,opt,area1</font></b>        [2]</pre>
+		 <ol>
+		   <li> Work with release 5.1.0, and two development
+			areas: area1 and Tools. Use optimized code.</li>
+		   <li> Work with the nightly #2 and development area
+			area1; use optimized code.</li>
+		 </ol>
+	    </li>
+
+	    <p></p>
+	    <li>
+		 One may also associate tags with one another. For example,
+	      <pre><b><font color="green">tag area1  5.1.0</font></b>    [1]
+<b><font color="green">tag area2  rel2</font></b>     [2]</pre>
+		 <ol>
+		   <li> <b><font color="green">area1</font></b> is associated with
+		 release <b><font color="green">5.1.0</font></b>,
+		   </li>
+		   <li> <b><font color="green">area2</font></b> is associated with
+		 the nightly release <b><font color="green">rel2</font></b>
+		   </li>
+		 </ol>
+		 <p>
+		 In this way, one does not need to specify the release tag when sourcing the setup:
+</p>
+		 <pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=area1,tools,opt</font></b> [1]
+<b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh -tag=opt,area2</font></b>       [2]</pre>
+	    </li>
+
+	  </ul>
+	  <p></p>
+
+	  <p>
+	  After one has setup the environment, one can 
+	  <a href="file:///home/basil/Downloads/userguide.html#Querying_the_environment">query</a> the
+	  environment to understand the various settings.
+	  </p>
+
+
+	  </blockquote>
+
+	  <p></p>
+	  <hr>
+	  <a name="Re-configuring"></a>
+      <h3>3.3 - Re-configuring for a CMT version change</h3>
+     <blockquote>
+     This is in fact the same operation as the
+     <a href="file:///home/basil/Downloads/userguide.html#bootstrap_procedure">bootstrap procedure</a>
+     <i>[3.1]</i>, where one leaves out the step of creating the login
+     requirements file:
+     <ol>
+       <li>Setup up the correct version of CMT
+	       <pre><b>sh&gt; <font color="blue">. &lt;location of CMT&gt;/setup.sh</font> 
+csh&gt; <font color="blue">source &lt;location of CMT&gt;/setup.csh</font></b></pre>
+
+	       where <tt><b><font color="blue">&lt;location of
+	       CMT&gt;</font></b></tt> differs from site to site. At
+	       CERN it is: 
+
+	       <pre><b>/afs/cern.ch/sw/contrib/CMT/&lt;<i>version</i>&gt;/mgr/	       </b></pre>
+
+<p>
+	       The current version of CMT is <tt><font color="red">v1r16p20040901</font></tt>, and the
+	       previous one was <tt><font color="red">v1r14p20031120</font></tt> (see <a href="http://atlas.web.cern.ch/Atlas/GROUPS/SOFTWARE/OO/sit/release/Releases_status.html">Release
+	    status</a> to know which version of CMT to use - older releases may
+	    need an older CMT version.)  </p>
+       </li>	
+       <li>Generate the setup files for your login requirements file
+	    <pre><b>&gt; <font color="blue">cd ${HOME}/cmthome</font>
+&gt; <font color="blue">cmt config</font></b></pre>
+	<p></p>
+       </li>
+       <li>Then you will re-source the setup files with the tags you
+	    want as described in <a href="file:///home/basil/Downloads/userguide.html#Setting_up_for_sessions">[3.2]</a> 
+	    	<pre><b>sh&gt; <font color="blue"> source ${HOME}/cmthome/setup.sh -tag=&lt;your tags&gt;</font>
+csh&gt; <font color="blue">source ${HOME}/cmthome/setup.csh -tag=&lt;your tags&gt;</font></b></pre>
+	<p></p>
+       </li>
+       <li>If you already have packages checked out in a work area,
+	    then you will need to run <b>cmt config</b> in each
+	    package so as to recreate the setup and cleanup
+	    scripts. This may be done from the TestRelease package
+	    with a <b>cmt broadcast</b> command:
+
+	    <pre><b>&gt; <font color="blue">cd ${HOME}/MyTest/TestRelease/TestRelease-00-00-14/cmt</font>
+&gt; <font color="blue">cmt broadcast cmt config</font></b></pre>
+	<p></p>
+       </li>
+     </ol>
+
+      </blockquote>
+
+    </blockquote>
+
+    <p></p>
+    <hr>
+
+    <a name="Querying_the_environment"></a>
+    <h2>4 - Querying the environment</h2>
+    <blockquote>
+     Often one wants to answer the question <b>"what is my current
+     context?"</b>. This is typically to understand whether one has
+     set things up correctly or to report problems. As well, this is
+     helpful for more advanced investigation to understand a package's
+     configuration, e.g. to find out what are the compilation flags
+     and which ones are set.  This
+     section presents some useful queries and explains the responses: 
+
+      <ul>
+	<li>
+	  <i>What is the current version of CMT ?</i>
+	  <p></p>
+	  <pre><b><font color="blue">&gt; cmt version</font>
+v1r16p20040901</b></pre>
+	</li>
+
+	<li>
+	  <i>A few important environment variables to test:</i>
+	  <p></p>
+	  <pre>&gt; <b><font color="blue">echo $CMTROOT</font>
+/afs/cern.ch/sw/contrib/CMT/v1r16p20040901
+&gt; <font color="blue">echo $CMTCONFIG</font>
+i686-rh73-gcc32-dbg
+&gt; <font color="blue">echo $CMTPATH</font>
+/afs/cern.ch/user/c/carnault/MyTest1:/afs/cern.ch/atlas/software/dist/5.2.0:
+/afs/cern.ch/atlas/offline/external/Gaudi/0.11.4</b></pre>
+	     <p>
+	     <b><tt>CMTROOT</tt></b> is the path to the CMT package.
+	     <b><tt>CMTCONFIG</tt></b> is where build products are
+	     kept in each package. And <b><tt>CMTPATH</tt></b> is a
+	     path-like variable containing a set work areas.
+	     </p>
+	</li>
+
+	<li>
+	  <i>Which release am I using ?</i>
+	</li>
+	<li>
+	  <i>Which packages areas do I see ?</i>
+	  <p></p>
+	  <pre><b><font color="blue">&gt; cmt show path</font>
+# Add path /afs/cern.ch/user/c/carnault/MyTest1 from initialization
+# Add path /afs/cern.ch/atlas/software/dist/5.2.0 from initialization
+# Add path /afs/cern.ch/atlas/offline/external/Gaudi/0.11.4 from initialization
+# Add path /afs/cern.ch/sw/contrib from default path
+#
+/afs/cern.ch/user/c/carnault/MyTest1:/afs/cern.ch/atlas/software/dist/5.2.0:
+/afs/cern.ch/atlas/offline/external/Gaudi/0.11.4:/afs/cern.ch/sw/contrib</b></pre>
+	     <p>
+	     Here the path consists of C. Arnault's development area,
+	     release 5.2.0's area, the Gaudi area, and the area where
+	     CMT itself is located.
+	     </p>
+	</li>
+
+	<li>
+	  <i>What are the current configuration tags ?</i>
+	  <p></p>
+	  <pre><b><font color="blue">&gt; cmt show tags</font>
+CMTv1 (from CMTVERSION)
+CMTr14 (from CMTVERSION)
+CMTp20030620 (from CMTVERSION)
+Linux (from uname) package AtlasPolicy implies [Unix]
+i686-rh73-gcc32-dbg (from CMTCONFIG) package ExternalPolicy implies [rh73_gcc32dbx Linux redhat73 gcc-3.2 debug]
+CERN (from CMTSITE) package ExternalPolicy implies [ATLAS]
+Default (from Default)
+Unix (from package CMT)
+debug (from package CMT) package AtlasPolicy implies [dbg]
+gcc-3.2 (from package GaudiPolicy)
+redhat73 (from package GaudiPolicy)
+rh73_gcc32 (from package GaudiPolicy) package GaudiPolicy implies [Linux redhat73 gcc-3.2]
+rh73_gcc32dbx (from package GaudiPolicy) package GaudiPolicy implies [rh73_gcc32 debug]
+ATLAS (from package ExternalPolicy)
+dbg (from package AtlasPolicy) package AtlasPolicy implies [debug]</b></pre>
+	     <p>
+	     From this one can see that the user is working at <b>CERN</b> on
+	     <b>RedHat 7.3</b> with <b>gcc 3.2</b> in debug mode.
+	     </p>
+	</li>
+
+      </ul>
+
+      <p>Generally it is wise to systematically provide the output of
+      all of these commands when sending bug reports.</p>
+
+      <p>Finally various queries are often useful to understand what might go wrong:
+</p><pre><b>&gt; <font color="blue">cmt show uses</font>         </b>[1]
+<b>&gt; <font color="blue">cmt show constituents</font> </b>[2]
+<b>&gt; <font color="blue">cmt show patterns</font>     </b>[3]
+<b>&gt; <font color="blue">cmt show macros</font>       </b>[4]
+<b>&gt; <font color="blue">cmt show sets</font>         </b>[5]</pre>
+      <p></p>
+
+      <ol>
+	<li>displays the dependency graph of the current package</li>
+	<p></p>
+	<li>displays the constituents (applications, libraries or generated documents) declared by this package (or implicitly declared through patterns)</li>
+	<p></p>
+	<li>displays all patterns available to this package (acquired from packages in the use graph) and those effectively applied.</li>
+	<p></p>
+	<li>displays all macros and their values</li>
+	<p></p>
+	<li>displays all environment variables and their values</li>
+      </ol>
+
+      <p>Further investigation for a particular <b><font color="blue">macro</font></b> or <b><font color="blue">set</font></b> parameter:
+</p><pre><b>&gt; <font color="blue">cmt show macro &lt;macro&gt;</font></b>      [1]
+<b>&gt; <font color="blue">cmt show macro_value &lt;macro&gt;</font></b>[2]
+<b>&gt; <font color="blue">cmt show set &lt;set&gt;</font></b>          [3]
+<b>&gt; <font color="blue">cmt show set_value &lt;set&gt;</font></b>    [4]</pre>
+      <p></p>
+
+      <ol>
+	<li>displays in which package  &lt;macro&gt; is set and a
+	     non-expanded value </li>
+	<p></p>
+	<li>displays the expanded value of  &lt;macro&gt;</li>
+	<p></p>
+	<li>displays in which package &lt;set&gt; is set and a
+	     non-expanded value</li>
+	<p></p>
+	<li>displays the expanded value of  &lt;set&gt;</li>
+      </ol>
+
+
+      
+    </blockquote>
+
+    <p></p>
+    <hr>
+
+    <a name="Basic_scenarios"></a>
+    <h2>5 - Basic scenarios</h2>
+    <blockquote>
+
+    <a name="Running_Athena"></a>
+    <h3>5.1 - Scenario #1: Running Athena</h3>
+    <blockquote>
+      This primary scenario explains how to define the simplest
+      environment required to run <b>athena</b> which uses
+      prebuilt components from the release. In this scenario, we do not
+      intend to modify any code yet, but we will be able to modify
+      job-options.
+
+      <p>The current state of the software requires to first
+	<i>copy</i> several data files to the working directory (job
+	options, data sets, scripts, etc...). A conventional Make
+	target is used for this operation.</p>
+
+      <p>In order to connect to the release, and to acquire settings
+	from packages of this release, a <b>TestRelease</b> empty
+	package is created, with a requirements file specifying the
+	list of requested packages.
+      </p>
+
+      <p>
+	A simple template of this package is available from the
+	standard CVS repository, and can be checked out as follows:
+</p><pre><b>&gt; <font color="blue">cd ${HOME}/MyTest</font>           [1]
+&gt; <font color="blue">cmt co TestRelease</font>          [2]
+# ================= working on package TestRelease version TestRelease-00-00-14 (At head)  path 
+  # get top files 
+  # get branches cmt doc
+Creating setup scripts.       [3]
+Creating cleanup scripts.</b></pre>
+
+	<p>
+	  </p><ol>
+	    <li>One must be exactly in one's development area to
+		 properly checkout a package (see <a href="file:///home/basil/Downloads/userguide.html#Customizing_the_requirements_file">
+		 [3.1.1.2]</a> for setting up one's development area)
+	    </li>
+	    <li> A checkout builds the proper CMT structure.</li> 
+	    <li>The <b><font color="blue">cmt config</font></b>
+		 command is automatically applied after the
+		 checkout, and thus does not need to be applied by
+		 hand. This generates the proper setup scripts. </li> 
+	  </ol>
+	<p></p>
+
+	The next operation performs the copying of the runtime files
+	  to the local directory:
+
+<pre><b>&gt; <font color="blue">cd TestRelease/TestRelease-00-00-14/cmt</font>  [1]
+&gt; <font color="blue">source setup.[c]sh</font>                       [2]
+&gt; <font color="blue">cmt show constituent_names</font>               [3]
+runtime
+apps
+TestReleaseChk
+install_readme
+config
+TestReleasecwreport
+myctest
+&gt; <font color="blue">cmt show macro_value constituents</font>        [4]
+ runtime apps config 
+&gt; <font color="blue">gmake</font>                                    [5]</b></pre>
+
+
+	<p>
+	  </p><ol>
+	    <li>In general, all configuration or build actions should
+		 be performed while being in the <b>cmt</b> directory</li>
+	    <li>this will set all environment variables required to
+		 work with this package in particular (eg
+		 <b><tt>LD_LIBRARY_PATH</tt></b>)</li>
+	    <li><font color="red">(optional step)</font> using <b><font color="blue">cmt show
+		 constituent_names</font></b> one can display all
+		 declared constituents</li>
+	    <li><font color="red">(optional step)</font> whereas the macro <b><font color="blue">constituents</font></b> specifies all
+		 constituents to be
+		 built <i>by default</i></li>
+	    <li>without arguments the default target <b>all</b> is
+		 built, which in turn triggers the build of all
+		 elements in the macro <b>$(constituents)</b></li> 
+	  </ol>
+	<p></p>
+
+	Now running athena is possible by selecting one of the job
+	  options files available in the <b><tt>../run</tt></b>
+	  directory: 
+
+	<pre><b>&gt; <font color="blue">cd ../run</font>                   [1]
+&gt; <font color="blue">athena HelloWorldOptions.txt</font></b></pre>
+      <p></p>
+
+      <p>
+	</p><ol>
+	  <li>By convention, applications are executed from the
+	       <b>run</b> directory. This is currently
+	       <i>required</i> because there are some data files read
+	       from the same directory as the application is run. 
+	       These are installed in <b>../run</b> by the <b><font color="blue">gmake</font></b> step above.</li>
+	</ol>
+      <p></p>
+
+      <p>The <b>TestRelease</b> package is already configured to see
+	<i>all</i> packages from the release (try some
+	<a href="file:///home/basil/Downloads/userguide.html#Querying_the_environment">query</a>
+	commands). This happens via the use statement:
+</p><pre><b><font color="green">use AtlasRelease AtlasRelease-*</font></b></pre>
+	in the requirements file. Since all packages are seen, this
+	may cause some commands to be slow, for	example, <b><font color="blue">cmt show macro ...</font> </b>
+	because the macros of all packages consulted. It is possible
+	to improve this by restricting the use statements to the sets
+	of packages which are strictly needed (eg. to those with
+	athena components that one wants to run).
+      <p></p>
+
+    </blockquote>
+
+    <p></p>
+    <hr>
+
+    <a name="Checking_out_a_package"></a>
+    <h3>5.2 - Scenario #2: Checking out a package</h3>
+    <blockquote>
+      This section presents the main scenarios for checking out
+	packages.
+
+      <p>
+	</p><ol>
+	  <li><a href="file:///home/basil/Downloads/userguide.html#checking_out_one_single_package_at_HEAD">checking out a single package</a></li>
+	  <li><a href="file:///home/basil/Downloads/userguide.html#checking_out_all_packages_of_a_container">checking out all packages of a container</a></li>
+	</ol>
+      <p></p>
+
+      <hr>
+      <a name="checking_out_one_single_package_at_HEAD"></a>
+      <h3>5.2.1 - checking out a single package</h3>
+      <blockquote>
+	This section discusses how to properly select and checkout a
+	package. One should:
+	<ol>
+	  <li>completely identify the package of interest</li>
+	  <li>select a work area</li>
+	  <li>perform the checkout</li>
+	</ol>
+
+	<h4>1. completely identify the package of interest</h4>
+	<p>
+	To identify a package you must know its <b>name</b>, and the
+	name if its container(s) if it is a sub-package. As well, the
+	<b>package tag</b> associated with a given release is needed to check
+	out a specific version of the package. <br>
+	Both <b>CMT</b> and the <b><a href="http://isnpx0168.in2p3.fr/athena/WEBSERVICE/taginfohelp.html">taginfo</a></b>
+	tool offer queries to extract this information, or one can
+	simply look at a release  or use the <a href="http://isnpx0168.in2p3.fr/athena">Tag Collector</a>.<br>
+	(Note: to use
+	the <b><font color="blue">taginfo</font></b> command, you need
+	to have setup your runtime environment as described in <a href="file:///home/basil/Downloads/userguide.html#Running_Athena">[5.1]</a>. For this it is sufficient to
+	have done the sourcing of the setup in the TestRelease
+	package:
+
+	</p><pre><b>&gt; <font color="blue">cd TestRelease/TestRelease-00-00-14/cmt</font>
+&gt; <font color="blue">source setup.[c]sh</font></b></pre>
+	)
+
+	For example, if one wants to find out about the
+	<b>GeneratorModules</b> package, one can alternately:
+<pre><b>&gt; <font color="blue">ls /afs/cern.ch/atlas/software/dist/5.2.0/Generators/GeneratorModules</font> [1]
+GeneratorModules-01-02-35
+...
+&gt; <font color="blue">taginfo package -name=GeneratorModules</font>                                [2]
+simplePackage;offline/Generators/GeneratorModules/;GeneratorModules;GeneratorModules-01-02-35
+&gt; <font color="blue">taginfo package -name=GeneratorModules -release=5.0.0</font>                 [3]
+simplePackage;offline/Generators/GeneratorModules/;GeneratorModules;GeneratorModules-01-02-30
+&gt; <font color="blue">taginfo package -name=GeneratorModules -release=under_construction</font>    [4]
+simplePackage;offline/Generators/GeneratorModules/;GeneratorModules;GeneratorModules-01-02-38
+&gt; <font color="blue">cmt show packages | grep GeneratorModules</font>                             [5]
+GeneratorModules GeneratorModules-01-02-35 /afs/cern.ch/atlas/software/dist/5.2.0/Generators/GeneratorModules
+&gt; <font color="blue">cmt cvstags Generators/GeneratorModules</font>                               [6]
+GeneratorModules-01-02-38
+GeneratorModules-01-02-37
+GeneratorModules-01-02-36
+...
+&gt; <font color="blue">taginfo cvstags -name=GeneratorModules -all=1 | cut -d';' -f4</font>         [7]
+GeneratorModules-01-02-19
+GeneratorModules-01-02-18
+GeneratorModules-01-02-17
+...</b></pre>
+	<p></p>
+
+	<p>
+	  </p><ol>
+	    <li>This lists the version of the package in release 5.2.0
+		 from the cern dist area</li>
+	    <li>This command shows the GeneratorModules package for the
+		 latest frozen release</li>
+	    <li>This command shows the GeneratorModules package for
+		 release 5.0.0</li>
+	    <li>This command shows the GeneratorModules package for
+		 the release currently being worked on</li>
+	    <li>This command shows all packages reachable from the current <b>CMTPATH</b> list</li>
+	    <li>This command shows all CVS tags currently applied to this package</li>
+	    <li>The same query but using <b>taginfo</b> instead</li>
+	  </ol>
+	<p></p>
+
+
+	<h4>2. select a work area</h4>
+
+	  <p>
+	  A work area is a directory where one checks out one or more
+	  packages to work on. When there is more than one package in
+	  a work area, <b>CMT</b> needs to know where this work area
+	  is, so as to include it in the package
+	  search-path-list. This is simply done by installing the work
+	  area in the environment variable <b>CMTPATH</b>. 
+	  </p>
+
+
+	  <p>
+	  In the special case of working on only a single package, it
+	  is not required to add one's work area to <b>CMTPATH</b>. In
+	  this case you will be building in the cmt directory of
+	  this package and only the base release is needed and is
+	  already in <b>CMTPATH</b>. Thus for this simple scenario you
+	  may skip the rest of this subsection and <a href="file:///home/basil/Downloads/userguide.html#perform_the_checkout">checkout</a> your package in
+	  any directory.
+	  </p>
+
+	  <p>
+	  To add your work directory to <b>CMTPATH</b>, one may use
+	  the shell commands : 
+
+	  </p><pre><b>sh&gt; <font color="blue">export CMTPATH=${HOME}/MyTest:${CMTPATH}</font>
+csh&gt; <font color="blue">setenv CMTPATH ${HOME}/MyTest:${CMTPATH}</font></b></pre>
+	  <p></p>
+
+	  <p>
+	  Or one may use the method via your in the login requirements
+	  file (as described in <a href="file:///home/basil/Downloads/userguide.html#Customizing_the_requirements_file"> [3.1.1.2]</a>):
+
+	  </p><pre><b><font color="green">macro home_dir  "${HOME}"
+path_remove CMTPATH  "${home_dir}"     [1]
+path_prepend CMTPATH "${HOME}/MyTest"  [2][3]</font></b></pre>
+
+	  <ol>
+	    <li>this will first remove from <b>CMTPATH</b> from any
+		 item <i>containing</i> the string <b>"${HOME}"</b> or
+		 your home directory path </li>
+	    <li>this adds the selected work area at top of the path list</li>
+	    <li>the order in <b>CMTPATH</b> is <b>relevant</b>,
+		 i.e. one does <b><font color="green">path_prepend</font></b>
+		 as opposed to 
+		 <b><font color="green">path_append</font></b> because
+		 packages are searched for in the the directories of
+		 <b>CMTPATH</b> from left-to-right</li> 
+	  </ol>
+
+	  After modifying your login requirements file, you must
+	  again source your home setup file:
+	  <pre><b>&gt; <font color="blue">source ${HOME}/cmthome/setup.[c]sh</font></b>	  </pre>
+	  with any tags you may want. See <a href="file:///home/basil/Downloads/userguide.html#Setting_up_for_sessions">Setting up for sessions</a>
+	  <i>[3.2]</i>. 
+
+	  <i>(For more details see <a href="file:///home/basil/Downloads/howto.html#select a work  area">how to select a work area</a>)</i>
+
+	<p></p>
+
+	  <a name="perform_the_checkout"></a>
+	<h4>3. perform the checkout and rebuild the package</h4>
+
+	  One can either check out the <b>HEAD revision</b> or a specific
+	  <b>tagged revision</b> of a package.<br>
+
+	  For the <b>HEAD revision</b> of a package, one does a
+	  <b><font color="blue">cmt co</font></b> <i>without</i> any
+	  options: 
+	  
+	  <pre><b>&gt; <font color="blue">cd ${HOME}/MyTest</font>                      [1]
+&gt; <font color="blue">cmt co Generators/GeneratorModules</font>     [2]
+# ================= working on package GeneratorModules version GeneratorModules-01-02-13 (At head)  path Generators
+  # get top files 
+  # get branches GeneratorModules cmt doc src share
+# Required version v17r10 of package CLHEP incompatible with selected version CLHEP-00-01-07   [3]
+Creating setup scripts.                  [4]
+Creating cleanup scripts.                [4]
+&gt; <font color="blue">cd Generators/GeneratorModules/*/cmt</font>   [5]
+&gt; <font color="blue">gmake</font>                                  [6]</b></pre>
+
+	<ol>
+	  <li>one must be in the work area directory</li>
+	  <li>without tag specification, the HEAD revision will be
+	       checked out</li>
+	  <li>this is a warning and can be ignored</li>
+	  <li>a <b>cmt config</b> action is automatically executed, so
+	       as to generate the setup scripts for the checked out package</li> 
+	  <li>build operations must be performed from the <b>cmt</b> directory</li>
+	  <li>we first rebuild this package</li>
+	</ol>
+
+	To check out a specific <b>tagged revision</b> of a package, one uses
+	the <b><font color="blue">-r</font></b> option of the
+	<b><font color="blue">cmt co</font></b> command.
+	Note that in this
+	case, the checkout operation will produce what CVS calls a
+	"<i><a href="http://www.cvshome.org/docs/manual/cvs_4.html#SEC53">sticky tag</a></i>"
+	which means that in principle no modification is expected to
+	be checked back in for this
+	package (i.e. one can only check back in changes for HEAD
+	revisions of packages, unless the specified tag is a branch
+	tag). This is typically useful when a previous version of this
+	package is required.
+
+
+	<pre><b>&gt; <font color="blue">taginfo package -name=GeneratorModules -release=3.0.1</font>              [1]
+simplePackage;offline/Generators/GeneratorModules/;GeneratorModules;GeneratorModules-01-02-03
+&gt; <font color="blue">cmt co -r GeneratorModules-01-02-03 Generators/GeneratorModules</font>    [2]
+# ================= working on package GeneratorModules version GeneratorModules-01-02-03 path Generators
+  # get top files 
+  # get branches GeneratorModules cmt doc src share
+# Required version v17r10 of package CLHEP incompatible with selected version CLHEP-00-01-07
+Creating setup scripts.
+Creating cleanup scripts.
+Installing the baseline directory
+&gt; <font color="blue">cd Generators/GeneratorModules/*/cmt</font>
+&gt; <font color="blue">cvs status -v requirements</font>                                         [3]
+===================================================================
+File: requirements      Status: Up-to-date
+
+   Working revision:    1.26
+   Repository revision: 1.26    /atlascvs/offline/Generators/GeneratorModules/cmt/requirements,v
+   Sticky Tag:          GeneratorModules-01-02-03 (revision: 1.26)
+   Sticky Date:         (none)
+...</b></pre>
+
+	<p>
+	  </p><ol>
+	    <li><b>taginfo</b> is used to query what was the tag of
+		 this package in the release 3.0.1</li>
+	    <li>the <b>-r</b> option is used to select a particular
+		 tag for this version</li>
+	    <li>one may verify that this package has got a <i>sticky
+		 tag</i>, meaning that no modification can be committed</li>
+	  </ol>
+	<p></p>
+      </blockquote>
+
+      <hr>
+      <a name="checking_out_all_packages_of_a_container"></a>
+      <h3>5.2.2 - checking out all packages of a container</h3>
+      <blockquote>
+	  In this section, we explain how to obtain into the work area
+	  all packages belonging to a given container for a particular
+	  release. The example here uses release 4.0.0, and it assumes
+	  that you have set the to be your default release (see <a href="file:///home/basil/Downloads/userguide.html#Setting_up_for_sessions"> [3.2]</a>). The containers
+	  available in release 4.0.0 may be shown by the following
+	  command:
+
+	<pre><b>&gt; <font color="blue">taginfo release -name=4.0.0 | grep -i containerPackage</font>
+topContainerPackage;offline/Applications/;Applications;Applications-01-04-12
+topContainerPackage;offline/Calorimeter/;Calorimeter;Calorimeter-02-00-01
+topContainerPackage;offline/Control/;Control;Control-01-03-04
+containerPackage;offline/Control/AthenaExamples/;AthenaExamples;AthenaExamples-01-02-25
+topContainerPackage;offline/Database/;Database;Database-00-00-55
+topContainerPackage;offline/Applications/;Applications;Applications-01-04-09
+...
+containerPackage;offline/LArCalorimeter/LArCnv/;LArCnv;LArCnv-00-05-05
+...</b></pre>
+
+	Then the checkout operation is performed in two steps:
+
+	<ol>
+	  <li>
+	       <p>
+	       retreiving the container itself using the correct tag for
+	       release 4.0.0 
+	       </p>
+
+	    <pre><b>&gt; <font color="blue">cd ${HOME}/MyTest</font>
+&gt; <font color="blue">cmt co -r LArCnv-00-05-05 LArCalorimeter/LArCnv</font></b></pre>
+	  </li>
+	  <li>
+	    retreiving the packages directly contained in the container
+	    <pre><b>&gt; <font color="blue">cmt co -requirements LArCalorimeter/LArCnv/LArCnv-00-05-05/cmt/requirements</font></b></pre>
+	       where the arugment to <b><font color="blue">-requirements</font></b> is the
+	       requirements file of LArCnv that you have checked out.
+	  </li>
+	</ol>
+
+	Once all packages are retreived, some global operations may be
+	performed on them via the <b>cmt broadcast</b> command as follows:
+
+	<pre><b>&gt; <font color="blue">cd LArCalorimeter/LArCnv/LArCnv-00-05-05/cmt</font>   [1]
+&gt; <font color="blue">cmt broadcast</font>                    [2]
+&gt; <font color="blue">cmt broadcast cmt config</font>         [3]
+&gt; <font color="blue">cmt broadcast gmake</font>              [4]</b></pre>
+
+	<ol>
+	  <li>We move to the <b>cmt</b> directory of the <i>container</i>, so as to
+	    have a consistent vision over all packages of the
+	    container</li>
+	  <li>This minimal broadcast command (with no shell action
+	    specified) is only meant to display the list of packages
+	    that will be reached during any broadcast command. This
+	    dummy command is also useful to verify that the <b>CMTPATH</b>
+	    is correctly setup (since broadcast is applied onto all
+	    packages reached from the first item of <b>CMTPATH</b>).</li>
+	  <li> This is ONLY needed to be done ONCE. This creates setup
+	       and cleanup scripts in each 
+	       package. Normally <b>cmt config</b> is done at checkout
+	       time, but this has not been implemented for the
+	       <i>-requirements</i> option.</li>
+	  <li>Then it's likely that you will want to rebuild them</li>
+	</ol>
+
+	The <b>cmt broadcast</b> command may also
+	be issued from the cmt directory of the TestRelease
+	package. Make sure you have a TestRelease package checked out
+	into your working area:
+<pre><b>&gt; <font color="blue">cd ${HOME}/MyTest</font>           
+&gt; <font color="blue">cmt co TestRelease</font></b></pre>
+
+	Go to the cmt directory of TestRelease:
+<pre><b>&gt; <font color="blue">cd TestRelease/TestRelease-00-00-14/cmt</font></b></pre>
+
+	Modify the uses in the requirements file. Change
+<pre><b><font color="green">use AtlasRelease AtlasRelease-*</font></b></pre>
+	to
+<pre><b><font color="green">#use AtlasRelease AtlasRelease-*</font>    [1]
+<font color="green">use LArCnv LArCnv-* LArCalorimeter</font>  [2]</b></pre>
+	<ol>
+	  <li>Comment out the dependency on AtlasRelease which in turn
+	       depends on ALL packages in the release</li>
+	  <li>Add use for the package LArCnv, all versions, which is a
+	       sub-package of LArCalorimeter</li>
+	</ol>
+
+
+	Then simply broadcast the <b>gmake</b> command:
+	
+<pre><b>&gt; <font color="blue">cmt broadcast gmake</font></b></pre>
+
+	where we have assumed that a <b>cmt config</b> already has
+	been broadcast ONCE.
+	
+      </blockquote>
+
+      <!--
+      <hr></hr>
+      <a name=""></a>
+      <h3></h3>
+      <blockquote>
+      </blockquote>
+      -->
+
+    </blockquote>
+
+    <p></p>
+    <hr>
+
+    <a name="Modifying_an_algorithm"></a>
+    <h3>5.3 - Scenario #3: Modifying an algorithm</h3>
+    <blockquote>
+	We now combine the two previous scenarios (
+	<a href="file:///home/basil/Downloads/userguide.html#Running_Athena">[5.1]</a> and 
+	<a href="file:///home/basil/Downloads/userguide.html#Checking_out_a_package">[5.2]</a>) to check out,
+	build and run the <b>AthExHelloWorld</b> example package. For
+	a single package, one can build and run athena from the
+	package itself. 
+
+	<pre><b>&gt; <font color="blue"> cd ${HOME}/MyTest</font>                                [1]
+&gt; <font color="blue"> cmt co Control/AthenaExamples/AthExHelloWorld</font>    [2]
+# ================= working on package AthExHelloWorld version AthExHelloWorld-00-00-12 (At head)  path Control/AthenaExamples
+  # get top files 
+  # get branches AthExHelloWorld cmt share src
+Creating setup scripts.
+Creating cleanup scripts.
+&gt; <font color="blue">cd Control/AthenaExamples/AthExHelloWorld/AthExHelloWorld-00-00-12/cmt</font>
+&gt; <font color="blue">gmake</font>                                             [3]
+...
+&gt; <font color="blue">source setup.[c]sh</font>                                [4]
+&gt; <font color="blue">cd ../share</font>                                       [5]
+&gt; <font color="blue">athena HelloWorldOptions.txt</font>
+...
+&gt; <font color="blue">emacs ../src/...</font>                                  [6]
+...
+&gt; <font color="blue">(cd ../cmt; gmake)</font>                                [6]
+&gt; <font color="blue">athena HelloWorldOptions.txt</font>                      [6]</b></pre>
+
+	<p>
+	  </p><ol>
+	    <li>Again, we must start from the development area</li>
+	    <li>The path to the package has to be completely
+		 specified, including its container names. Note:
+		 "Creating xxx scripts" means that <b>cmt config</b>
+		 has been run</li>
+	    <li>The component can be immediately built</li>
+	    <li>To test the component one has to set the needed
+		 environment variables</li>
+	    <li>HelloWorldOptions.txt is in the share directory</li>
+	    <li>This is the main development cycle</li>
+	  </ol>
+	<p></p>
+      <p></p>
+
+<p>
+	  Alternately, one may build and run from the TestRelease
+	  package. This is useful when more than one package is
+	  checked out in one's development area.<br>
+	  Modify the <b>use</b> statements in the requirements file of
+	  TestRelease:
+
+</p><pre><b><font color="green">use Control    Control-*</font>                [1]
+<font color="green"># use Event      Event-*</font>                [1]
+<font color="green">use Generators Generators-*</font>             [1]
+<font color="green"># use Simulation Simulation-*</font>           [1]
+<font color="green">...</font>
+<font color="green">#use AtlasRelease AtlasRelease-*</font>        [2]</b></pre>
+	<ol>
+	  <li>Needed for runtime environment - access to the needed
+	       component libraries</li>
+	  <li>Reduce the number of dependent packages</li>
+	</ol>
+
+	Now repeat the steps above, this time from TestRelease:
+	
+<pre><b>&gt; <font color="blue">cd ${HOME}/MyTest/TestRelease/TestRelease-00-00-14/cmt</font>
+&gt; <font color="blue">cmt broadcast gmake</font>                               [1]
+&gt; <font color="blue">source setup.[c]sh</font>                                [2]
+&gt; <font color="blue">cd ../run</font>                                         [3]
+&gt; <font color="blue">athena HelloWorldOptions.txt</font>
+&gt; <font color="blue">...</font>
+&gt; <font color="blue">emacs .../src/HelloWorld.cxx</font>                      [4]
+&gt; <font color="blue">...</font>
+&gt; <font color="blue">cmt broadcast gmake</font>                               [4]
+&gt; <font color="blue">athena HelloWorldOptions.txt</font>                      [4]</b></pre>
+
+	<ol>
+	  <li>A broadcast can run <i>any</i> command in all dependent
+	       packages in one's work area</li>
+	  <li>Setup runtime environment</li>
+	  <li>JobOption files have been copied in the <b>gmake</b>
+	       step into the <b>run</b> directory</li>
+	    <li>Again, the main development cycle</li>
+	</ol>
+
+	Finally, when one has several packages checked out, there are
+	two useful options to the <b>cmt broadcast</b> which allow one
+	to selectively build certain packages:
+
+<pre><b>&gt; <font color="blue">cmt broadcast -select=AthExHello gmake</font>           [1]
+&gt; <font color="blue">cmt broadcast -begin=AthExHello gmake</font>            [2]</b></pre>
+
+	<ol>
+	  <li>The <font color="blue">-select</font> option will select
+	       only those packages whose full directory path contains
+	       the provided <i>AthExHello</i> string </li>
+	  <li>The <font color="blue">-begin</font> option will
+	       <i>begin</i>  the <b>gmake</b> with the package that
+	       matches the provided string, thus continuing until
+	       TestRelease itself </li>
+	</ol>
+	
+	</blockquote>
+
+    <p></p>
+    <hr>
+
+    <a name="Checking_in_a_package"></a>
+    <h3>5.4 - Checking in a package</h3>
+    <blockquote>
+      We assume here that a package had first been checked out, and
+      some modifications were done to it.
+    </blockquote>
+
+    <p></p>
+    <hr>
+
+     <a name="Tagging_a_package"></a>
+    <h3>5.5 - Tagging a package</h3>
+    <blockquote>
+    </blockquote>
+
+     <p></p>
+    <hr>
+
+    <a name="Creating_a_new_package"></a>
+    <h3>5.6 - Creating a new package</h3>
+    <blockquote>
+    </blockquote>
+
+	</blockquote>
+
+	<p></p>
+	<hr>
+	<a name="Requirements_file_syntax"></a>
+	<h2>6 - Requirements file syntax</h2>
+	<blockquote>
+	  <p>
+	  We explain briefly here the syntax of a requirements file.  
+	  In a requirements file, one can set parameters that are
+	  internal to CMT, <b>macro</b>'s, or
+	  ones that are exported to the environment, <b>set</b>'s. One can also
+	  prepend/append/remove items to path-like environment 
+	  variables (e.g. PATH or LD_LIBRARY_PATH).<br>
+	  These all follow the same syntax, e.g.:
+	  </p>
+
+	  <pre><b><font color="green">macro ATLAS_DIST_AREA "/afs/cern.ch/atlas/software/dist"</font></b></pre>
+	  <p>
+	  where there is a <i>keyword</i> (<b>macro</b>) followed by the <i>name</i> of
+	  the parameter (<b>ATLAS_DIST_AREA</b>) and a <i>default
+	  value</i> (<b>/afs/cern.ch/atlas/software/dist</b>),
+	  which must be within
+	  " " if it includes spaces.  This may be followed by other
+	  <b>values</b> and the <b>tag</b> which selects them. <br>
+	  For the <b>macro ATLAS_RELEASE</b>
+	  example of <a href="file:///home/basil/Downloads/userguide.html#Setting_up_for_sessions"> [3.2]</a>:
+	  </p>
+	  <pre><b><font color="green">macro ATLAS_RELEASE   "4.0.0" \
+      3.0.2           "3.0.2" \
+      3.2.1           "3.2.1" \
+      rel0            "nightlies/rel/atlrel_0" \
+      rel1            "nightlies/rel/atlrel_1" \
+      rel2            "nightlies/rel/atlrel_2" \
+      rel3            "nightlies/rel/atlrel_3" \
+      rel4            "nightlies/rel/atlrel_4" \
+      rel5            "nightlies/rel/atlrel_5" \
+      rel6            "nightlies/rel/atlrel_6"</font></b></pre>
+<p>
+the default value is <b>4.0.0</b>. There are other values with
+their corresponding tags, e.g. <b>rel0</b> is the tag for
+<b>nightlies/rel/atlrel_0</b>. Note that the <b>"\"</b> character is a
+continuation character and that macro statements with tags are
+conventionally formatted as above to easily match the tag/value pairs.
+
+</p><p></p>
+<hr>
+
+<a name="Conventional_macros"></a>
+<h3>6.1 - Conventional macros</h3>
+    <blockquote>
+(to be completed)
+    </blockquote>
+     <p></p>
+    <hr>
+
+<a name="Conventional_patterns"></a>
+<h3>6.2 - Conventional patterns</h3>
+    <blockquote>
+(to be completed)
+    </blockquote>
+     <p></p>
+    <hr>
+
+</blockquote>
+
+
+
+<!--
+
+    <p></p>
+    <hr></hr>
+
+    <a name="xxxx"></a>
+    <h2>xxxx</h2>
+    <blockquote>
+    </blockquote>
+
+-->
+
+  </font>
+
+
+
+<hr>
+<p></p><p></p><center><i><font size="+2" color="red">Warning : this document is under construction</font></i></center>
+
+</body></html>

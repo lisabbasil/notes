@@ -1,0 +1,1774 @@
+Taken from: http://www.ccs.miami.edu/hpc/lsf/7.0.6/lsf_config_ref/index.htm?lsf_envars.ref.html~main
+
+Environment variables
+Environment variables set for job execution
+LSF transfers most environment variables between submission and execution hosts.
+
+Environment variables related to file names and job spooling directories support paths that contain up to 4094 characters for UNIX and Linux, or up to 255 characters for Windows.
+
+Environment variables related to command names and job names can contain up to 4094 characters for UNIX and Linux, or up to 255 characters for Windows.
+
+In addition to environment variables inherited from the user environment, LSF also sets several other environment variables for batch jobs:
+LSB_ERRORFILE: Name of the error file specified with a bsub -e.
+
+LSB_JOBID: Job ID assigned by LSF.
+
+LSB_JOBINDEX: Index of the job that belongs to a job array.
+
+LSB_CHKPNT_DIR: This variable is set each time a checkpointed job is submitted. The value of the variable is chkpnt_dir/job_Id, a subdirectory of the checkpoint directory that is specified when the job is submitted. The subdirectory is identified by the job ID of the submitted job.
+
+LSB_HOSTS: The list of hosts that are used to run the batch job. For sequential jobs, this is only one host name. For parallel jobs, this includes multiple host names.
+
+LSB_RESIZABLE: Indicates that a job is resizable or auto-resizable.
+
+LSB_QUEUE: The name of the queue the job is dispatched from.
+
+LSB_JOBNAME: Name of the job.
+
+LSB_RESTART: Set to ‘Y’ if the job is a restarted job or if the job has been migrated. Otherwise this variable is not defined.
+
+LSB_EXIT_PRE_ABORT: Set to an integer value representing an exit status. A pre-execution command should exit with this value if it wants the job to be aborted instead of requeued or executed.
+
+LSB_EXIT_REQUEUE: Set to the REQUEUE_EXIT_VALUES parameter of the queue. This variable is not defined if REQUEUE_EXIT_VALUES is not configured for the queue.
+
+LSB_INTERACTIVE: Set to ‘Y’ if the job is submitted with the -I option. Otherwise, it is not defined.
+
+LS_JOBPID: Set to the process ID of the job.
+
+LS_SUBCWD: This is the directory on the submission when the job was submitted. This is different from PWD only if the directory is not shared across machines or when the execution account is different from the submission account as a result of account mapping.
+
+LSB_BIND_JOB: Set to the value of binding option. But when the binding option is USER, LSB_BIND_JOB is set to the real binding decision of end user.
+
+Note:
+If the binding option is Y, LSB_BIND_JOB is set to BALANCE. If the binding option is N, LSB_BIND_JOB is set to NONE.
+
+LSB_BIND_CPU_LIST: Set to the actual CPU list used when the job is sequential job and single host parallel job.
+
+If the job is a multi-host parallel job, LSB_BIND_CPU_LIST is set to the value in submission environment variable $LSB_USER_BIND_CPU_LIST. If there is no such submission environment variable in user's environment, LSB_BIND_CPU_LIST is set to an empty string.
+
+Parent topic: Environment Variables
+Environment variables for resize notification command
+All environment variables that are set for a job are also set when a job is resized.
+
+The following (additional) environment variables apply only to the resize notification command environment (when using resizable jobs):
+
+LSB_RESIZE_NOTIFY_OK: A notification command should exit with this variable if the allocation resize notification command succeeds.
+
+LSF updates the job allocation to reflect the new allocation.
+
+LSB_RESIZE_NOTIFY_FAIL: A notification command should exit with this variable if the allocation resize notification command fails.
+
+For an allocation grow event, LSF schedules the pending allocation request.
+
+For an allocation shrink event, LSF fails the release request.
+
+LSB_RESIZE_EVENT = grow | shrink: Indicates why the notification command was called. Grow means add more resources to an existing allocation. Shrink means remove some resources from existing allocation.
+
+LSB_RESIZE_HOSTS = hostA numA hostB numB … hostZ numZ: Lists the additional slots for a grow event, or the released slots for a shrink event.
+
+Environment variable reference
+BSUB_BLOCK
+
+BSUB_CHK_RESREQ
+
+
+BSUB_QUIET
+
+BSUB_QUIET2
+
+
+BSUB_STDERR
+
+CLEARCASE_DRIVE
+
+CLEARCASE_MOUNTDIR
+
+CLEARCASE_ROOT
+
+ELIM_ABORT_VALUE
+
+LM_LICENSE_FILE
+
+LS_EXEC_T
+
+LS_JOBPID
+
+LS_LICENSE_SERVER_feature
+
+LS_SUBCWD
+
+
+LSB_CHKPNT_DIR
+
+LSB_DEBUG
+
+LSB_DEBUG_CMD
+
+
+LSB_DEBUG_MBD
+
+LSB_DEBUG_NQS
+
+LSB_DEBUG_SBD
+
+LSB_DEBUG_SCH
+
+LSB_DEFAULT_JOBGROUP
+
+LSB_DEFAULTPROJECT
+
+LSB_DEFAULTQUEUE
+
+LSB_DJOB_COMMFAIL_ACTION
+
+LSB_DJOB_ENV_SCRIPT
+
+LSB_DJOB_NUMPROC
+
+LSB_ECHKPNT_METHOD
+
+LSB_ECHKPNT_METHOD_DIR
+
+LSB_ECHKPNT_KEEP_OUTPUT
+
+LSB_ERESTART_USRCMD
+
+LSB_EXEC_RUSAGE
+
+LSB_EXECHOSTS
+
+LSB_EXIT_IF_CWD_NOTEXIST
+
+LSB_EXIT_PRE_ABORT
+
+LSB_EXIT_REQUEUE
+
+LSB_FRAMES
+
+LSB_HOSTS
+
+LSB_INTERACTIVE
+
+LSB_JOB_INCLUDE_POSTPROC
+
+LSB_JOBEXIT_INFO
+
+LSB_JOBEXIT_STAT
+
+LSB_JOBFILENAME
+
+LSB_JOBGROUP
+
+LSB_JOBID
+
+LSB_JOBINDEX
+
+LSB_JOBINDEX_STEP
+
+LSB_JOBNAME
+
+LSB_JOBPEND
+
+LSB_JOBPGIDS
+
+LSB_JOBPIDS
+
+LSB_MAILSIZE
+
+LSB_MCPU_HOSTS
+
+LSB_NQS_PORT
+
+LSB_NTRIES
+
+LSB_OLD_JOBID
+
+LSB_OUTPUT_TARGETFAILED
+
+LSB_QUEUE
+
+LSB_REMOTEINDEX
+
+LSB_REMOTEJID
+
+LSB_RESIZABLE
+
+LSB_RESIZE_NOTIFY_OK
+
+LSB_RESIZE_NOTIFY_FAIL
+
+LSB_RESTART_PGID
+
+LSB_RESTART
+
+LSB_RESTART_PID
+
+LSB_RTASK_GONE_ACTION
+
+LSB_SUB_APP_NAME
+
+LSB_SUB_CLUSTER
+
+LSB_SUB_COMMAND_LINE
+
+LSB_SUB_EXTSCHED_PARAM
+
+LSB_SUB_JOB_ACTION_WARNING_TIME
+
+LSB_SUB_JOB_WARNING_ACTION
+
+
+LSB_SUB_PARM_FILE
+
+LSB_SUCCESS_EXIT_VALUES
+
+LSB_SUSP_REASONS
+
+LSB_SUSP_SUBREASONS
+
+LSB_UNIXGROUP
+
+LSB_USER_BIND_CPU_LIST
+
+LSB_USER_BIND_JOB
+
+LSF_CMD_LOGDIR
+
+LSF_DEBUG_CMD
+
+LSF_DEBUG_LIM
+
+LSF_DEBUG_RES
+
+LSF_EAUTH_AUX_DATA
+
+LSF_EAUTH_AUX_PASS
+
+LSF_EAUTH_CLIENT
+
+LSF_EAUTH_SERVER
+
+LSF_EAUTH_UID
+
+LSF_EXECUTE_DOMAIN
+
+LSF_INTERACTIVE_STDERR
+
+LSF_INVOKE_CMD
+
+LSF_JOB_STARTER
+
+LSF_LD_PRELOAD
+
+LSF_LD_LIBRARY_PATH
+
+LSF_LIM_API_NTRIES
+
+LSF_LIM_DEBUG
+
+LSF_LOGDIR
+
+LSF_MASTER
+
+LSF_NIOS_DEBUG
+
+LSF_NIOS_DIE_CMD
+
+LSF_NIOS_IGNORE_SIGWINDOW
+
+LSF_NIOS_PEND_TIMEOUT
+
+LSF_NIOS_PORT_RANGE
+
+LSF_RESOURCES
+
+LSF_TS_LOGON_TIME
+
+LSF_USE_HOSTEQUIV
+
+LSF_USER_DOMAIN
+
+
+BSUB_BLOCK
+Description
+If set, tells NIOS that it is running in batch mode.
+
+Default
+Not defined
+
+Notes
+If you submit a job with the -K option of bsub, which is synchronous execution, then BSUB_BLOCK is set. Synchronous execution means you have to wait for the job to finish before you can continue.
+
+Where defined
+Set internally
+
+See also
+The -K option of bsub
+
+BSUB_CHK_RESREQ
+Syntax
+BSUB_CHK_RESREQ=any_value
+
+Description
+When BSUB_CHK_RESREQ is set, bsub checks the syntax of the resource requirement selection string without actually submitting the job for scheduling and dispatch. Use BSUB_CHK_RESREQ to check the compatibility of your existing resource requirement select strings against the stricter syntax enabled by LSF_STRICT_RESREQ=y in lsf.conf. LSF_STRICT_RESREQ does not need to be set to check the resource requirement selection string syntax.
+
+bsub only checks the select section of the resource requirement. Other sections in the resource requirement string are not checked.
+
+Default
+Not defined
+
+Where defined
+From the command line
+
+Example
+BSUB_CHK_RESREQ=1
+
+BSUB_QUIET
+Syntax
+BSUB_QUIET=any_value
+
+Description
+Controls the printing of information about job submissions. If set, bsub will not print any information about job submission. For example, it will not print <Job is submitted to default queue <normal>, nor <Waiting for dispatch>.
+
+Default
+Not defined
+
+Where defined
+From the command line
+
+Example
+BSUB_QUIET=1
+BSUB_QUIET2
+Syntax
+BSUB_QUIET2=any_value
+
+Description
+Suppresses the printing of information about job completion when a job is submitted with the bsub -K option.
+
+If set, bsub will not print information about job completion to stdout. For example, when this variable is set, the message <<Job is finished>> will not be written to stdout.
+
+If BSUB_QUIET and BSUB_QUIET2 are both set, no job messages will be printed to stdout.
+
+Default
+Not defined
+
+Where defined
+From the command line
+
+Example
+BSUB_QUIET2=1
+BSUB_STDERR
+Syntax
+BSUB_STDERR=y
+
+Description
+Redirects LSF messages for bsub to stderr.
+
+By default, when this parameter is not set, LSF messages for bsub are printed to stdout.
+
+When this parameter is set, LSF messages for bsub are redirected to stderr.
+
+Default
+Not defined
+
+Where defined
+From the command line on UNIX. For example, in csh:
+
+setenv BSUB_STDERR Y
+
+From the Control Panel on Windows, as an environment variable
+
+CLEARCASE_DRIVE
+Syntax
+CLEARCASE_DRIVE=drive_letter:
+
+Description
+Optional, Windows only.
+
+Defines the virtual drive letter for a Rational ClearCase view to the drive. This is useful if you wish to map a Rational ClearCase view to a virtual drive as an alias.
+
+If this letter is unavailable, Windows attempts to map to another drive. Therefore, CLEARCASE_DRIVE only defines the default drive letter to which the Rational ClearCase view is mapped, not the final selected drive letter. However, the PATH value is automatically updated to the final drive letter if it is different from CLEARCASE_DRIVE.
+
+Notes:
+CLEARCASE_DRIVE is case insensitive.
+
+Where defined
+From the command line
+
+Example
+CLEARCASE_DRIVE=F:
+CLEARCASE_DRIVE=f:
+See also
+CLEARCASE_MOUNTDIR, CLEARCASE_ROOT
+
+CLEARCASE_MOUNTDIR
+Syntax
+CLEARCASE_MOUNTDIR=path
+Description
+Optional.
+
+Defines the Rational ClearCase mounting directory.
+
+Default
+/vobs
+Notes:
+CLEARCASE_MOUNTDIR is used if any of the following conditions apply:
+
+A job is submitted from a UNIX environment but run in a Windows host.
+
+The Rational ClearCase mounting directory is not the default /vobs
+
+Where defined
+From the command line
+
+Example
+CLEARCASE_MOUNTDIR=/myvobs
+See also
+CLEARCASE_DRIVE, CLEARCASE_ROOT
+
+CLEARCASE_ROOT
+Syntax
+CLEARCASE_ROOT=path
+
+Description
+The path to the Rational ClearCase view.
+
+In Windows, this path must define an absolute path starting with the default ClearCase drive and ending with the view name without an ending backslash (\).
+
+Notes
+CLEARCASE_ROOT must be defined if you want to submit a batch job from a ClearCase view.
+
+For interactive jobs, use bsub -I to submit the job.
+
+Where defined
+In the job starter, or from the command line
+
+Example
+In UNIX:
+CLEARCASE_ROOT=/view/myview
+In Windows:
+CLEARCASE_ROOT=F:\myview
+See also
+CLEARCASE_DRIVE, CLEARCASE_MOUNTDIR, LSF_JOB_STARTER
+
+ELIM_ABORT_VALUE
+Syntax
+ELIM_ABORT_VALUE
+
+Description
+Used when writing an elim executable to test whether the elim should run on a particular host. If the host does not have or share any of the resources listed in the environment variable LSF_RESOURCES, your elim should exit with $ELIM_ABORT_VALUE.
+
+When the MELIM finds an elim that exited with ELIM_ABORT_VALUE, the MELIM marks the elim and does not restart it on that host.
+
+Where defined
+Set by the master elim (MELIM) on the host when the MELIM invokes the elim executable
+
+LM_LICENSE_FILE
+Syntax
+LM_LICENSE_FILE=file_name
+
+Description
+The path to where the license file is found. The file name is the name of the license file.
+
+Default
+/usr/share/flexlm/licenses/license.dat
+
+Notes
+A FLEXnet variable read by the lmgrd daemon.
+
+Where defined
+From the command line
+
+See also
+LSF_LICENSE_FILE in lsf.conf
+
+LS_EXEC_T
+Syntax
+LS_EXEC_T=START | END | CHKPNT | JOB_CONTROLS
+
+Description
+Indicates execution type for a job. LS_EXEC_T is set to:
+
+START or END for a job when the job begins executing or when it completes execution
+
+CHKPNT when the job is checkpointed
+
+JOB_CONTROLS when a control action is initiated
+
+Where defined
+Set by sbatchd during job execution
+
+LS_JOBPID
+Description
+The process ID of the job.
+
+Where defined
+During job execution, sbatchd sets LS_JOBPID to be the same as the process ID assigned by the operating system.
+
+LS_LICENSE_SERVER_feature
+Syntax
+LS_LICENSE_SERVER_feature="domain:server:num_available ..."
+
+server is of the format port@host
+
+Description
+The license server information provided to the job. The purpose of this environment variable is to provide license server information to the job.
+
+Where defined
+During the license job execution, sbatchd sets LS_LICENSE_SERVER_feature to be the same as the license server information defined in the job’s rusage string. This is only used by the job and logged in the mbatchd log file if DEBUG1 and LC_LICSCHED are defined in lsf.conf.
+
+LS_SUBCWD
+Description
+The current working directory (cwd) of the submission host where the remote task command was executed.
+
+The current working directory can be up to 4094 characters long for UNIX and Linux or up to 255 characters for Windows.
+
+How set
+LSF looks for the PWD environment variable. If it finds it, sets LS_SUBCWD to PWD.
+
+If the PWD environment variable does not exist, LSF looks for the CWD environment variable. If it finds CWD, sets LS_SUBCWD to CWD.
+
+If the CWD environment variable does not exist, LSF calls the getwd() system function to retrieve the current working directory path name. LSF sets LS_SUBCWD to the value that is returned.
+
+Where defined
+Set by sbatchd
+
+LSB_CHKPNT_DIR
+Syntax
+LSB_CHKPNT_DIR=checkpoint_dir/job_ID
+
+Description
+The directory containing files related to the submitted checkpointable job.
+
+Valid values
+The value of checkpoint_dir is the directory you specified through the -k option of bsub when submitting the checkpointable job.
+
+The value of job_ID is the job ID of the checkpointable job.
+
+Where defined
+Set by LSF, based on the directory you specified when submitting a checkpointable job with the -k option of bsub.
+
+LSB_DEBUG
+This parameter can be set from the command line or from lsf.conf. See LSB_DEBUG in lsf.conf.
+
+LSB_DEBUG_CMD
+This parameter can be set from the command line or from lsf.conf. See LSB_DEBUG_CMD in lsf.conf.
+
+LSB_DEBUG_MBD
+This parameter can be set from the command line with badmin mbddebug or from lsf.conf.
+
+See LSB_DEBUG_MBD in lsf.conf.
+
+LSB_DEBUG_NQS
+This parameter can be set from the command line or from lsf.conf. See LSB_DEBUG_NQS in lsf.conf.
+
+LSB_DEBUG_SBD
+This parameter can be set from the command line with badmin sbddebug or from lsf.conf.
+
+See LSB_DEBUG_SBD in lsf.conf.
+
+LSB_DEBUG_SCH
+This parameter can be set from the command line or from lsf.conf. See LSB_DEBUG_SCH in lsf.conf.
+
+LSB_DEFAULT_JOBGROUP
+Syntax
+LSB_DEFAULT_JOBGROUP=job_group_name
+
+Description
+The name of the default job group.
+
+When you submit a job to LSF without explicitly specifying a job group, LSF associates the job with the specified job group. LSB_DEFAULT_JOBGROUP overrrides the setting of DEFAULT_JOBGROUP in lsb.params. The bsub -g job_group_name option overrides both LSB_DEFAULT_JOBGROUP and DEFAULT_JOBGROUP.
+
+If you submit a job without the -g option of bsub, but you defined LSB_DEFAULT_JOBGROUP, then the job belongs to the job group specified in LSB_DEFAULT_JOBGROUP.
+
+Job group names must follow this format:
+Job group names must start with a slash character (/). For example, LSB_DEFAULT_JOBGROUP=/A/B/C is correct, but LSB_DEFAULT_JOBGROUP=A/B/C is not correct.
+
+Job group names cannot end with a slash character (/). For example, LSB_DEFAULT_JOBGROUP=/A/ is not correct.
+
+Job group names cannot contain more than one slash character (/) in a row. For example, job group names like LSB_DEFAULT_JOBGROUP=/A//B or LSB_DEFAULT_JOBGROUP=A////B are not correct.
+
+Job group names cannot contain spaces. For example, LSB_DEFAULT_JOBGROUP=/A/B C/D is not correct.
+
+Project names and user names used for macro substitution with %p and %u cannot start or end with slash character (/).
+
+Project names and user names used for macro substitution with %p and %u cannot contain spaces or more than one slash character (/) in a row.
+
+Project names or user names containing slash character (/) will create separate job groups. For example, if the project name is canada/projects, LSB_DEFAULT_JOBGROUP=/%p results in a job group hierarchy /canada/projects.
+
+Where defined
+From the command line
+
+Example
+LSB_DEFAULT_JOBGROUP=/canada/projects
+Default
+Not defined
+
+See also
+DEFAULT_JOBGROUP in lsb.params, the -g option of bsub
+
+LSB_DEFAULTPROJECT
+Syntax
+LSB_DEFAULTPROJECT=project_name
+
+Description
+The name of the project to which resources consumed by a job will be charged.
+
+Default
+Not defined
+
+Notes
+If the LSF administrator defines a default project in the lsb.params configuration file, the system uses this as the default project. You can change the default project by setting LSB_DEFAULTPROJECT or by specifying a project name with the -P option of bsub.
+
+If you submit a job without the -P option of bsub, but you defined LSB_DEFAULTPROJECT, then the job belongs to the project specified in LSB_DEFAULTPROJECT.
+
+If you submit a job with the -P option of bsub, the job belongs to the project specified through the -P option.
+
+Where defined
+From the command line, or through the -P option of bsub
+
+Example
+LSB_DEFAULTPROJECT=engineering
+See also
+DEFAULT_PROJECT in lsb.params, the -P option of bsub
+
+LSB_DEFAULTQUEUE
+Syntax
+LSB_DEFAULTQUEUE=queue_name
+
+Description
+Defines the default LSF queue.
+
+Default
+mbatchd decides which is the default queue. You can override the default by defining LSB_DEFAULTQUEUE.
+
+Notes
+If the LSF administrator defines a default queue in the lsb.params configuration file, then the system uses this as the default queue. Provided you have permission, you can change the default queue by setting LSB_DEFAULTQUEUE to a valid queue (see bqueues for a list of valid queues).
+
+Where defined
+From the command line
+
+See also
+DEFAULT_QUEUE in lsb.params
+
+LSB_DJOB_NUMPROC
+Syntax
+LSB_DJOB_NUMPROC=num
+
+Description
+The number of processors (slots) allocated to the job.
+
+Default
+Not defined
+
+Where defined
+Set by sbatchd before starting a job on the execution host.
+
+See Also
+LSB_MCPU_HOSTS
+
+LSB_ECHKPNT_METHOD
+This parameter can be set as an environment variable and/or in lsf.conf. See LSB_ECHKPNT_METHOD in lsf.conf.
+
+LSB_ECHKPNT_METHOD_DIR
+This parameter can be set as an environment variable and/or in lsf.conf. See LSB_ECHKPNT_METHOD_DIR in lsf.conf.
+
+LSB_ECHKPNT_KEEP_OUTPUT
+This parameter can be set as an environment variable and/or in lsf.conf. See LSB_ECHKPNT_KEEP_OUTPUT in lsf.conf.
+
+LSB_ERESTART_USRCMD
+Syntax
+LSB_ERESTART_USRCMD=command
+
+Description
+Original command used to start the job.
+
+This environment variable is set by erestart to pass the job’s original start command to a custom erestart method erestart.method_name. The value of this variable is extracted from the job file of the checkpointed job.
+
+If a job starter is defined for the queue to which the job was submitted, the job starter is also included in LSB_ERESTART_USRCMD. For example, if the job starter is /bin/sh -c "%USRCMD" in lsb.queues, and the job name is myapp -d, LSB_ERESTART_USRCMD will be set to:
+/bin/sh -c "myapp -d"
+Where defined
+Set by erestart as an environment variable before a job is restarted
+
+See also
+LSB_ECHKPNT_METHOD, erestart, echkpnt
+
+LSB_EXEC_RUSAGE
+Syntax
+LSB_EXEC_RUSAGE="resource_name1 resource_value1 resource_name2 resource_value2..."
+
+Description
+Indicates which rusage string is satisfied to permit the job to run. This environment variable is necessary because the OR (||) operator specifies alternative rusage strings for running jobs.
+
+Valid values
+resource_value1, resource_value2,... refer to the resource values on resource_name1, resource_name2,... respectively.
+
+Default
+Not defined
+
+Where defined
+Set by LSF after reserving a resource for the job.
+
+LSB_EXECHOSTS
+Description
+A list of hosts on which a batch job will run.
+
+Where defined
+Set by sbatchd
+
+Product
+MultiCluster
+
+LSB_EXIT_IF_CWD_NOTEXIST
+Syntax
+LSB_EXIT_IF_CWD_NOTEXIST=Y | y | N | n
+
+Description
+Indicates that the job will exit if the current working directory specified by bsub -cwd or bmod -cwd is not accessible on the execution host.
+
+Default
+Not defined
+
+Where defined
+From the command line
+
+LSB_EXIT_PRE_ABORT
+Description
+The queue-level or job-level pre_exec_command can exit with this value if the job is to be aborted instead of being requeued or executed
+
+Where defined
+Set by sbatchd
+
+See also
+See PRE_EXEC in lsb.queues, or the -E option of bsub
+
+LSB_EXIT_REQUEUE
+Syntax
+LSB_EXIT_REQUEUE="exit_value1 exit_value2..."
+
+Description
+Contains a list of exit values found in the queue’s REQUEUE_EXIT_VALUES parameter defined in lsb.queues.
+
+Valid values
+Any positive integers
+
+Default
+Not defined
+
+Notes
+If LSB_EXIT_REQUEUE is defined, a job will be requeued if it exits with one of the specified values.
+
+LSB_EXIT_REQUEUE is not defined if the parameter REQUEUE_EXIT_VALUES is not defined.
+
+Where defined
+Set by the system based on the value of the parameter REQUEUE_EXIT_VALUES in lsb.queues
+
+Example
+LSB_EXIT_REQUEUE="7 31"
+See also
+REQUEUE_EXIT_VALUES in lsb.queues
+
+LSB_FRAMES
+Syntax
+LSB_FRAMES=start_number,end_number,step
+
+Description
+Determines the number of frames to be processed by a frame job.
+
+Valid values
+The values of start_number, end_number, and step are positive integers. Use commas to separate the values.
+
+Default
+Not defined
+
+Notes
+When the job is running, LSB_FRAMES will be set to the relative frames with the format LSB_FRAMES=start_number,end_number,step.
+
+From the start_number, end_number, and step, the frame job can know how many frames it will process.
+
+Where defined
+Set by sbatchd
+
+Example
+LSB_FRAMES=10,20,1
+LSB_HOSTS
+Syntax
+LSB_HOSTS="host_name..."
+
+Description
+A list of hosts selected by LSF to run the job.
+
+Notes
+If a job is run on a single processor, the system sets LSB_HOSTS to the name of the host used.
+
+For parallel jobs, the system sets LSB_HOSTS to the names of all the hosts used.
+
+Where defined
+Set by sbatchd when the job is executed. LSB_HOSTS is set only when the list of host names is less than 4096 bytes.
+
+See also
+LSB_MCPU_HOSTS
+
+LSB_INTERACTIVE
+Syntax
+LSB_INTERACTIVE=Y
+
+Description
+Indicates an interactive job. When you submit an interactive job using bsub -I, the system sets LSB_INTERACTIVE to Y.
+
+Valid values
+LSB_INTERACTIVE=Y (if the job is interactive)
+
+Default
+Not defined (if the job is not interactive)
+
+Where defined
+Set by sbatchd
+
+LSB_JOB_INCLUDE_POSTPROC
+Syntax
+LSB_JOB_INCLUDE_POSTPROC=Y | y | N | n
+
+Description
+Enables the post-execution processing of the job to be included as part of the job.
+
+LSB_JOB_INCLUDE_POSTPROC in the user environment overrides the value of JOB_INCLUDE_POSTPROC in lsb.params and lsb.applications.
+
+Default
+Not defined
+
+Where defined
+From the command line
+
+LSB_JOBEXIT_INFO
+Syntax
+LSB_JOBEXIT_INFO="SIGNAL signal_value signal_name"
+
+Description
+Contains information about signal that caused a job to exit.
+
+Applies to post-execution commands. Post-execution commands are set with POST_EXEC in lsb.queues.
+
+When the post-execution command is run, the environment variable LSB_JOBEXIT_INFO is set if the job is signalled internally. If the job ends successfully, or the job is killed or signalled externally, LSB_JOBEXIT_INFO is not set.
+
+Examples
+LSB_JOBEXIT_INFO="SIGNAL -1 SIG_CHKPNT" LSB_JOBEXIT_INFO="SIGNAL -14 SIG_TERM_USER" LSB_JOBEXIT_INFO="SIGNAL -23 SIG_KILL_REQUEUE"
+Default
+Not defined
+
+Where defined
+Set by sbatchd
+
+LSB_JOBEXIT_STAT
+Syntax
+LSB_JOBEXIT_STAT=exit_status
+
+Description
+Indicates a job’s exit status.
+
+Applies to post-execution commands. Post-execution commands are set with POST_EXEC in lsb.queues.
+
+When the post-execution command is run, the environment variable LSB_JOBEXIT_STAT is set to the exit status of the job. Refer to the man page for the wait(2) command for the format of this exit status.
+
+The post-execution command is also run if a job is requeued because the job’s execution environment fails to be set up, or if the job exits with one of the queue’s REQUEUE_EXIT_VALUES. The LSB_JOBPEND environment variable is set if the job is requeued. If the job’s execution environment could not be set up, LSB_JOBEXIT_STAT is set to 0.
+
+Valid values
+Any positive integer
+
+Where defined
+Set by sbatchd
+
+LSB_JOBFILENAME
+Syntax
+LSB_JOBFILENAME=file_name
+
+Description
+The path to the batch executable job file that invokes the batch job. The batch executable job file is a /bin/sh script on UNIX systems or a .BAT command script on Windows systems.
+
+LSB_JOBGROUP
+Syntax
+LSB_JOBGROUP=job_group_name
+
+Description
+The name of the job group associated with the job. When a job is dispatched, if it belongs to a job group, the runtime variable LSB_JOBGROUP is defined as its group. For example, if a dispatched job belongs to job group /X, LSB_JOBGROUP=/X.
+
+Where defined
+Set during job execution based on bsub options or the default job group defined in DEFAULT_JOBGROUP in lsb.params and the LSB_DEFAULT_JOBGROUP environment variable.
+
+Default
+Not defined
+
+LSB_JOBID
+Syntax
+LSB_JOBID=job_ID
+
+Description
+The job ID assigned by sbatchd. This is the ID of the job assigned by LSF, as shown by bjobs.
+
+Valid values
+Any positive integer
+
+Where defined
+Set by sbatchd, defined by mbatchd
+
+See also
+LSB_REMOTEJID
+
+LSB_JOBINDEX
+Syntax
+LSB_JOBINDEX=index
+
+Description
+Contains the job array index.
+
+Valid values
+Any integer greater than zero but less than the maximum job array size.
+
+Notes
+LSB_JOBINDEX is set when each job array element is dispatched. Its value corresponds to the job array index. LSB_JOBINDEX is set for all jobs. For non-array jobs, LSB_JOBINDEX is set to zero (0).
+
+Where defined
+Set during job execution based on bsub options.
+
+Example
+You can use LSB_JOBINDEX in a shell script to select the job command to be performed based on the job array index.
+
+For example:
+if [$LSB_JOBINDEX -eq 1]; then cmd1 fi if [$LSB_JOBINDEX -eq 2]; then cmd2 fi
+See also
+LSB_JOBINDEX_STEP, LSB_REMOTEINDEX
+
+LSB_JOBINDEX_STEP
+Syntax
+LSB_JOBINDEX_STEP=step
+
+Description
+Step at which single elements of the job array are defined.
+
+Valid values
+Any integer greater than zero but less than the maximum job array size
+
+Default
+1
+
+Notes
+LSB_JOBINDEX_STEP is set when a job array is dispatched. Its value corresponds to the step of the job array index. This variable is set only for job arrays.
+
+Where defined
+Set during job execution based on bsub options.
+
+Example
+The following is an example of an array where a step of 2 is used:
+array[1-10:2] elements:1 3 5 7 9
+If this job array is dispatched, then LSB_JOBINDEX_STEP=2
+
+See also
+LSB_JOBINDEX
+
+LSB_JOBNAME
+Syntax
+LSB_JOBNAME=job_name
+
+Description
+The name of the job defined by the user at submission time.
+
+Default
+The job’s command line
+
+Notes
+The name of a job can be specified explicitly when you submit a job. The name does not have to be unique. If you do not specify a job name, the job name defaults to the actual batch command as specified on the bsub command line.
+
+The job name can be up to 4094 characters long for UNIX and Linux or up to 255 characters for Windows.
+
+Where defined
+Set by sbatchd
+
+Example
+When you submit a job using the -J option of bsub, for example:
+% bsub -J "myjob" job 
+sbatchd sets LSB_JOBNAME to the job name that you specified:
+LSB_JOBNAME=myjob
+LSB_JOBPEND
+Description
+Set if the job is requeued.
+
+Where defined
+Set by sbatchd for POST_EXEC only
+
+See also
+LSB_JOBEXIT_STAT, REQUEUE_EXIT_VALUES, POST_EXEC
+
+LSB_JOBPGIDS
+Description
+A list of the current process group IDs of the job.
+
+Where defined
+The process group IDs are assigned by the operating system, and LSB_JOBPGIDS is set by sbatchd.
+
+See also
+LSB_JOBPIDS
+
+LSB_JOBPIDS
+Description
+A list of the current process IDs of the job.
+
+Where defined
+The process IDs are assigned by the operating system, and LSB_JOBPIDS is set by sbatchd.
+
+See also
+LSB_JOBPGIDS
+
+LSB_MAILSIZE
+Syntax
+LSB_MAILSIZE=value
+
+Description
+Gives an estimate of the size of the batch job output when the output is sent by email. It is not necessary to configure LSB_MAILSIZE_LIMIT.
+
+LSF sets LSB_MAILSIZE to the size in KB of the job output, allowing the custom mail program to intercept output that is larger than desired.
+
+LSB_MAILSIZE is not recognized by the LSF default mail program. To prevent large job output files from interfering with your mail system, use LSB_MAILSIZE_LIMIT to explicitly set the maximum size in KB of the email containing the job information.
+
+Valid values
+A positive integer
+If the output is being sent by email, LSB_MAILSIZE is set to the estimated mail size in kilobytes.
+
+-1
+If the output fails or cannot be read, LSB_MAILSIZE is set to -1 and the output is sent by email using LSB_MAILPROG if specified in lsf.conf.
+
+Not defined
+If you use the -o or -e options of bsub, the output is redirected to an output file. Because the output is not sent by email in this case, LSB_MAILSIZE is not used and LSB_MAILPROG is not called.
+
+If the -N option is used with the -o option of bsub, LSB_MAILSIZE is not set.
+
+Where defined
+Set by sbatchd when the custom mail program specified by LSB_MAILPROG in lsf.conf is called.
+
+LSB_MCPU_HOSTS
+Syntax
+LSB_MCPU_HOSTS="host_nameA num_processors1 host_nameB num_processors2..."
+
+Description
+Contains a list of the hosts and the number of CPUs used to run a job.
+
+Valid values
+num_processors1, num_processors2,... refer to the number of CPUs used on host_nameA, host_nameB,..., respectively
+
+Default
+Not defined
+
+Notes
+The environment variables LSB_HOSTS and LSB_MCPU_HOSTS both contain the same information, but the information is presented in different formats. LSB_MCPU_HOSTS uses a shorter format than LSB_HOSTS. As a general rule, sbatchd sets both these variables. However, for some parallel jobs, LSB_HOSTS is not set.
+
+For parallel jobs, several CPUs are used, and the length of LSB_HOSTS can become very long. sbatchd needs to spend a lot of time parsing the string. If the size of LSB_HOSTS exceeds 4096 bytes, LSB_HOSTS is ignored, and sbatchd sets only LSB_MCPU_HOSTS.
+
+To verify the hosts and CPUs used for your dispatched job, check the value of LSB_HOSTS for single CPU jobs, and check the value of LSB_MCPU_HOSTS for parallel jobs.
+
+Where defined
+Set by sbatchd before starting a job on the execution host
+
+Example
+When the you submit a job with the -m and -n options of bsub, for example,
+% bsub -m "hostA hostB" -n 6 job
+sbatchd sets the environment variables LSB_HOSTS and LSB_MCPU_HOSTS as follows:
+LSB_HOSTS= "hostA hostA hostA hostB hostB hostB"
+LSB_MCPU_HOSTS="hostA 3 hostB 3" 
+Both variables are set in order to maintain compatibility with earlier versions.
+
+See also
+LSB_HOSTS
+
+LSB_NQS_PORT
+This parameter can be defined in lsf.conf or in the services database such as /etc/services.
+
+See LSB_NUM_NIOS_CALLBACK_THREADS in lsf.conf for more details.
+
+LSB_NTRIES
+Syntax
+LSB_NTRIES=integer
+
+Description
+The number of times that LSF libraries attempt to contact mbatchd or perform a concurrent jobs query.
+
+For example, if this parameter is not defined, when you type bjobs, LSF keeps displaying "batch system not responding" if mbatchd cannot be contacted or if the number of pending jobs exceeds MAX_PEND_JOBS specified in lsb.params or lsb.users.
+
+If this parameter is set to a value, LSF only attempts to contact mbatchd the defined number of times and then quits. LSF will wait for a period of time equal to SUB_TRY_INTERVAL specified in lsb.params before attempting to contact mbatchd again.
+
+Valid values
+Any positive integer
+
+Default
+INFINIT_INT (The default is to continue the attempts to contact mbatchd)
+
+LSB_OLD_JOBID
+Syntax
+LSB_OLD_JOBID=job_ID
+
+Description
+The job ID of a job at the time it was checkpointed.
+
+When a job is restarted, it is assigned a new job ID and LSB_JOBID is replaced with the new job ID. LSB_OLD_JOBID identifies the original ID of a job before it is restarted.
+
+Valid values
+Any positive integer
+
+Where defined
+Set by sbatchd, defined by mbatchd
+
+See also
+LSB_JOBID
+
+LSB_OUTPUT_TARGETFAILED
+Syntax
+LSB_OUTPUT_TARGETFAILED=Y
+
+Description
+Indicates that LSF cannot access the output file specified for a job submitted the bsub -o option.
+
+Valid values
+Set to Y if the output file cannot be accessed; otherwise, it is not defined.
+
+Where defined
+Set by sbatchd during job execution
+
+LSB_DJOB_COMMFAIL_ACTION
+Syntax
+LSB_DJOB_COMMFAIL_ACTION="KILL_TASKS"
+
+Description
+Defines the action LSF should take if it detects a communication failure with one or more remote parallel or distributed tasks. If defined, LSF will try to kill all the current tasks of a parallel or distributed job associated with the communication failure. If not defined, the job RES notifies the task RES to terminate all tasks, and shut down the entire job.
+
+Default
+Terminate all tasks, and shut down the entire job
+
+Valid values
+KILL_TASKS
+
+Where defined
+Set by the system based on the value of the parameter DJOB_COMMFAIL_ACTION in lsb.applications when running bsub -app for the specified application
+
+See also
+DJOB_COMMFAIL_ACTION in lsb.applications
+
+LSB_DJOB_ENV_SCRIPT
+Syntax
+LSB_DJOB_ENV_SCRIPT=script_name
+
+Description
+Defines the name of a user-defined script for setting and cleaning up the parallel or distributed job environment. This script will be executed by LSF with the argument setup before launching a parallel or distributed job, and with argument cleanup after the parallel job is finished.
+
+The script will run as the user, and will be part of the job.
+
+If a full path is specified, LSF will use the path name for the execution. Otherwise, LSF will look for the executable from $LSF_BINDIR.
+
+Where defined
+Set by the system to the value of the parameter DJOB_ENV_SCRIPT in lsb.applications when running bsub -app for the specified application
+
+See also
+DJOB_ENV_SCRIPT in lsb.applications
+
+LSB_QUEUE
+Syntax
+LSB_QUEUE=queue_name
+
+Description
+The name of the queue from which the job is dispatched.
+
+Where defined
+Set by sbatchd
+
+LSB_REMOTEINDEX
+Syntax
+LSB_REMOTEINDEX=index
+
+Description
+The job array index of a remote MultiCluster job. LSB_REMOTEINDEX is set only if the job is an element of a job array.
+
+Valid values
+Any integer greater than zero, but less than the maximum job array size
+
+Where defined
+Set by sbatchd
+
+See also
+LSB_JOBINDEX, MAX_JOB_ARRAY_SIZE in lsb.params
+
+LSB_REMOTEJID
+Syntax
+LSB_REMOTEJID=job_ID
+
+Description
+The job ID of a remote MultiCluster job.
+
+Where defined
+Set by sbatchd, defined by mbatchd
+
+See also
+LSB_JOBID
+
+LSB_RESTART
+Syntax
+LSB_RESTART=Y
+
+Description
+Indicates that a job has been restarted or migrated.
+
+Valid values
+Set to Y if the job has been restarted or migrated; otherwise, it is not defined.
+
+Notes
+If a batch job is submitted with the -r option of bsub, and is restarted because of host failure, then LSB_RESTART is set to Y. If a checkpointable job is submitted with the -k option of bsub, then LSB_RESTART is set to Y when the job is restarted. If bmig is used to migrate a job, then LSB_RESTART is set to Y when the migrated job is restarted.
+
+If the job is not a restarted job, then LSB_RESTART is not set.
+
+Where defined
+Set by sbatchd during job execution
+
+See also
+LSB_RESTART_PGID, LSB_RESTART_PID
+
+LSB_RESTART_PGID
+Syntax
+LSB_RESTART_PGID=pgid
+
+Description
+The process group ID of the checkpointed job when the job is restarted.
+
+Notes
+When a checkpointed job is restarted, the operating system assigns a new group process ID to the job. LSF sets LSB_RESTART_PGID to the new group process ID.
+
+Where defined
+Set during restart of a checkpointed job.
+
+See also
+LSB_RESTART_PID, LSB_RESTART
+
+LSB_RESTART_PID
+Syntax
+LSB_RESTART_PID=pid
+
+Description
+The process ID of the checkpointed job when the job is restarted.
+
+Notes
+When a checkpointed job is restarted, the operating system assigns a new process ID to the job. LSF sets LSB_RESTART_PID to the new process ID.
+
+Where defined
+Defined during restart of a checkpointed job
+
+See also
+LSB_RESTART_PGID, LSB_RESTART
+
+LSB_RTASK_GONE_ACTION
+Syntax
+LSB_RTASK_GONE_ACTION=task_action ...
+
+Description
+Defines the actions LSF should take if it detects that a remote task of a parallel job is gone. Where task_action is:
+IGNORE_TASKCRASH
+A remote task crashes. The job RES does nothing.
+
+KILLJOB_TASKDONE
+A remote task exits with zero value. The job RES notifies the task RES to terminate all tasks in the job.
+
+KILLJOB_TASKEXIT
+A remote task exits with non-zero value. The job RES notifies the task RES to terminate all tasks in the job.
+
+Where defined
+Set by the system based on the value of the parameter RTASK_GONE_ACTION in lsb.applications when running bsub -app for the specified application
+
+See also
+RTASK_GONE_ACTION in lsb.applications
+
+LSB_SUB_APP_NAME
+Description
+Application profile name specified by bsub -app.
+
+Where defined
+Set by esub before a job is dispatched.
+
+LSB_SUB_CLUSTER
+Description
+Name of submission cluster (MultiCluster only)
+
+Where defined
+Set on the submission environment and passed to the execution cluster environment. The parameter will ONLY be valid in Multi Cluster environment. For jobs on a local cluster, the parameter is not set when using any daemon wrappers such as job starter, post-, pre- or eexec scripts.
+
+LSB_SUB_COMMAND_LINE
+Description
+The job command line.
+
+The job command line can be up to 4094 characters long for UNIX and Linux or up to 255 characters for Windows.
+
+Where defined
+Set by esub before a job is submitted.
+
+LSB_SUB_EXTSCHED_PARAM
+Description
+Value of external scheduling options specified by bsub -extsched, or queue-level MANDATORY_EXTSCHED or DEFAULT_EXTSCHED.
+
+Where defined
+Set by esub before a job is submitted.
+
+LSB_SUB_JOB_ACTION_WARNING_TIME
+Description
+Value of job warning time period specified by bsub -wt.
+
+Where defined
+Set by esub before a job is submitted.
+
+LSB_SUB_JOB_WARNING_ACTION
+Description
+Value of job warning action specified by bsub -wa.
+
+Where defined
+Set by esub before a job is submitted.
+
+LSB_SUB_PARM_FILE
+Syntax
+LSB_SUB_PARM_FILE=file_name
+
+Description
+Points to a temporary file that LSF uses to store the bsub options entered in the command line. An esub reads this file at job submission and either accepts the values, changes the values, or rejects the job. Job submission options are stored as name-value pairs on separate lines in the format option_name=value. A typical use of this file is to control job submission options.
+
+Where defined
+Set by LSF on the submission host before running esub. Not defined when lsrun or lsgrun are used for interactive remote execution.
+
+LSB_SUCCESS_EXIT_VALUES
+Syntax
+LSB_SUCCESS_EXIT_VALUES=[exit_code …]
+
+Description
+Specifies the exit values that indicate successful execution for applications that successfully exit with non-zero values. Use spaces to separate multiple exit codes. exit_code should be the value between 0 and 255.
+
+User-defined LSB_SUCCESS_EXIT_VALUES overrides application profile level specification of SUCCESS_EXIT_VALUES in lsb.applications.
+
+LSB_SUSP_REASONS
+Syntax
+LSB_SUSP_REASONS=integer
+
+Description
+An integer representing suspend reasons. Suspend reasons are defined in lsbatch.h.
+
+This parameter is set when a job goes to system-suspended (SSUSP) or user-suspended status (USUSP). It indicates the exact reason why the job was suspended.
+
+To determine the exact reason, you can test the value of LSB_SUSP_REASONS against the symbols defined in lsbatch.h.
+
+Where defined
+Set during job execution
+
+See also
+LSB_SUSP_SUBREASONS
+
+LSB_SUSP_SUBREASONS
+Syntax
+LSB_SUSP_SUBREASONS=integer
+
+Description
+An integer representing the load index that caused a job to be suspended.
+
+When the suspending reason SUSP_LOAD_REASON (suspended by load) is set in LSB_SUSP_REASONS, LSB_SUSP_SUBREASONS set to one of the load index values defined in lsf.h.
+
+Use LSB_SUSP_REASONS and LSB_SUSP_SUBREASONS together in you custom job control to determine the exact load threshold that caused a job to be suspended.
+
+Load index values are defined in lsf.h.
+
+Load Index
+
+Value
+
+R15S
+
+0
+
+R1M
+
+1
+
+R15M
+
+2
+
+UT
+
+3
+
+PG
+
+4
+
+IO
+
+5
+
+LS
+
+6
+
+IT
+
+7
+
+TMP
+
+8
+
+SWP
+
+9
+
+MEM
+
+10
+
+Default
+Not defined
+
+Where defined
+Set during job execution
+
+See also
+LSB_SUSP_REASONS
+
+LSB_UNIXGROUP
+Description
+Specifies the UNIX user group of the submitting user.
+
+Notes
+This variable is useful if you want pre- or post-execution processing to use the user group of the user who submitted the job, and not sys(1).
+
+Where defined
+Set during job execution
+
+LSB_USER_BIND_CPU_LIST
+The binding requested at job submission takes effect when LSF_BIND_JOB=USER_CPU_LIST in lsf.conf or BIND_JOB=USER_CPU_LIST in an application profile in lsb.applications. LSF makes sure that the value is in the correct format, but does not check that the value is valid for the execution hosts.
+
+The correct format is a list which may contain multiple items, separated by comma, and ranges. For example: 0,5,7,9-11.
+
+LSB_USER_BIND_JOB
+The binding requested at job submission takes effect when LSF_BIND_JOB=USER in lsf.conf or BIND_JOB=USER in an application profile in lsb.applications. This value must be one of Y, N, NONE, BALANCE, PACK, or ANY. Any other value is treated as ANY.
+
+LSF_CMD_LOGDIR
+This parameter can be set from the command line or from lsf.conf.
+
+See LSF_CMD_LOGDIR in lsf.conf.
+
+LSF_DEBUG_CMD
+This parameter can be set from the command line or from lsf.conf.
+
+See LSB_DEBUG_MBD in lsf.conf.
+
+LSF_DEBUG_LIM
+This parameter can be set from the command line or from lsf.conf.
+
+See LSF_DEBUG_LIM in lsf.conf.
+
+LSF_DEBUG_RES
+This parameter can be set from the command line or from lsf.conf.
+
+See LSF_DEBUG_RES in lsf.conf.
+
+LSF_EAUTH_AUX_DATA
+Syntax
+LSF_EAUTH_AUX_DATA=path/file_name
+Description
+Used in conjunction with LSF daemon authentication, specifies the full path to the temporary file on the local file system that stores auxiliary authentication information (such as credentials required by a remote host for use during job execution). Provides a way for eauth -c, mbatchd, and sbatchd to communicate the location of auxiliary authentication data. Set internally by the LSF libraries in the context of eauth.
+
+For Kerberos authentication, used for forwarding credentials to the execution host.
+
+LSF_EAUTH_AUX_PASS
+Syntax
+LSF_EAUTH_AUX_PASS=yes
+Description
+Enables forwarding of credentials from a submission host to an execution host when daemon authentication is enabled. LSF_EAUTH_AUX_PASS=yes indicates that a credential can be added to the execution context of a job. Set to yes by bsub during job submission or by bmod during job modification so that eauth -c can forward credentials.
+
+LSF_EAUTH_CLIENT
+Syntax
+LSF_EAUTH_CLIENT=mbatchd | sbatchd | pam | res | user
+Description
+Used with LSF daemon authentication, specifies the LSF daemon, command, or user that invokes eauth -c. Used when writing a customized eauth executable to set the context for the call to eauth. Set internally by the LSF libraries or by the LSF daemon, command, or user calling eauth -c.
+
+LSF_EAUTH_SERVER
+Syntax
+LSF_EAUTH_SERVER=mbatchd | sbatchd | pam | res
+Description
+Used with LSF daemon authentication, specifies the daemon that invokes eauth -s. Used when writing a customized eauth executable to set the context for the call to eauth. Set internally by the LSF libraries or by the LSF daemon calling eauth -s.
+
+LSF_EAUTH_UID
+Syntax
+LSF_EAUTH_UID=user_ID
+Description
+Specifies the user account under which eauth -s runs. Set by the LSF daemon that executes eauth. Set by the LSF daemon that executes eauth.
+
+LSF_EXECUTE_DOMAIN
+Syntax
+LSF_EXECUTE_DOMAIN=domain_namesetenv LSF_EXECUTE_DOMAIN domain_name
+Description
+If UNIX/Windows user account mapping is enabled, specifies the preferred Windows execution domain for a job submitted by a UNIX user. The execution domain must be one of the domains listed in LSF_USER_DOMAIN.
+
+LSF_EXECUTE_DOMAIN is defined in the user environment (.cshrc or .profile) or from the command line. Specify only one domain.
+
+Use this parameter in conjunction with the bsub, lsrun, and lsgrun commands to bypass the order of the domains listed in LSF_USER_DOMAIN and run the job using the specified domain. If you do not have a Windows user account in the execution domain, LSF tries to run the job using one of the other domains defined by LSF_USER_DOMAIN. Once you submit a job with an execution domain defined, you cannot change the execution domain for that particular job.
+
+LSF_INTERACTIVE_STDERR
+This parameter can be defined in lsf.conf.
+
+See LSF_INTERACTIVE_STDERR in lsf.conf for more details.
+
+LSF_INVOKE_CMD
+Syntax
+LSF_INVOKE_CMD=invoking_command_name
+Description
+Indicates the name of the last LSF command that invoked an external executable (for example, esub or eexec).
+
+External executables get called by different LSF commands, such as bsub, bmod, or lsrun.
+
+Default
+Not defined
+
+Where defined
+Set internally within by LSF
+
+LSF_JOB_STARTER
+Syntax
+LSF_JOB_STARTER=binary
+
+Description
+Specifies an executable program that has the actual job as an argument.
+
+Default
+Not defined
+
+Interactive Jobs
+If you want to run an interactive job that requires some preliminary setup, LSF provides a job starter function at the command level. A command-level job starter allows you to specify an executable file that will run prior to the actual job, doing any necessary setup and running the job when the setup is complete.
+
+If LSF_JOB_STARTER is properly defined, RES will invoke the job starter (rather than the job itself), supplying your commands as arguments.
+
+Batch Jobs
+A job starter can also be defined at the queue level using the JOB_STARTER parameter, although this can only be done by the LSF administrator.
+
+Where defined
+From the command line
+
+Example: UNIX
+The job starter is invoked from within a Bourne shell, making the command-line equivalent:
+/bin/sh -c "$LSF_JOB_STARTER command [argument...]"
+where command [argument...] are the command line arguments you specified in lsrun, lsgrun, or ch.
+
+If you define LSF_JOB_STARTER as follows:
+setenv LSF_JOB_STARTER "/bin/csh -c"
+and run a simple C-shell job:
+lsrun "'a.out; echo hi'"
+The following will be invoked to correctly start the job:
+
+/bin/sh -c "/bin/csh -c 'a.out; echo hi'"
+Example: Windows
+RES runs the job starter, passing it your commands as arguments:
+LSF_JOB_STARTER command [argument...]
+If you define LSF_JOB_STARTER as follows:
+set LSF_JOB_STARTER=C:\cmd.exe /C
+and run a simple DOS shell job:
+C:\> lsrun dir /p
+then the following will be invoked to correctly start the job:
+C:\cmd.exe /C dir /p
+See also
+JOB_STARTER in lsb.queues
+
+LSF_LD_LIBRARY_PATH
+Description
+When LSF_LD_SECURITY=Y in lsf.conf, contains the value of the LD_LIBRARY_PATH environment variable, which is removed from the job environment during job initialization to ensure enhanced security against users obtaining root privileges. LSF_LD_LIBRARY_PATH allows the LD_LIBRARY_PATH environment variable to be put back before the job runs.
+
+Where defined
+For jobs submitted using bsub -Is or bsub -Ip only.
+
+See also
+LSF_LD_PRELOAD, LSF_LD_SECURITY in lsf.conf
+
+LSF_LD_PRELOAD
+Description
+When LSF_LD_SECURITY=Y in lsf.conf, contains the value of the LD_PRELOAD evnironment variable, which is removed from the job environment during job initialization to ensure enhanced security against users obtaining root privileges. LSF_LD_PRELOAD allows the LD_PRELOAD environment variable to be put back before the job runs.
+
+Where defined
+For jobs submitted using bsub -Is or bsub -Ip only.
+
+See also
+LSF_LD_LIBRARY_PATH, LSF_LD_SECURITY in lsf.conf
+
+LSF_LIM_API_NTRIES
+Syntax
+LSF_LIM_API_NTRIES=integer
+
+Description
+Defines the number of times LSF commands will retry to communicate with the LIM API when LIM is not available. LSF_LIM_API_NTRIES is ignored by LSF and EGO daemons and EGO commands. The LSF_LIM_API_NTRIES environment variable. overrides the value of LSF_LIM_API_NTRIES in lsf.conf.
+
+Valid values
+1 to 65535
+
+Where defined
+From the command line or from lsf.conf
+
+Default
+Not defined. If not defined in lsf.conf. LIM API exits without retrying.
+
+LSF_LIM_DEBUG
+This parameter can be set from the command line or from lsf.conf.
+
+See LSF_LIM_DEBUG in lsf.conf.
+
+LSF_LOGDIR
+This parameter can be set from the command line or from lsf.conf.
+
+See LSF_LOGDIR in lsf.conf.
+
+LSF_MASTER
+Description
+Set by the LIM to identify the master host. The value is Y on the master host and N on all other hosts. An elim executable can use this parameter to check the host on which the elim is currently running.
+
+Used when the external load indices feature is enabled.
+
+When defined
+Set by the LIM when it starts the master external load information manager (MELIM).
+
+See also
+LSF_RESOURCES
+
+LSF_NIOS_DEBUG
+This parameter can be set from the command line or from lsf.conf.
+
+See LSF_NIOS_DEBUG in lsf.conf.
+
+LSF_NIOS_DIE_CMD
+Syntax
+LSF_NIOS_DIE_CMD=command
+
+Description
+If set, the command defined by LSF_NIOS_DIE_CMD is executed before NIOS exits.
+
+Default
+Not defined
+
+Where defined
+From the command line
+
+LSF_NIOS_IGNORE_SIGWINDOW
+Syntax
+LSF_NIOS_IGNORE_SIGWINDOW=any_value
+
+Description
+If defined, the NIOS will ignore the SIGWINDOW signal.
+
+Default
+Not defined
+
+Notes
+When the signal SIGWINDOW is defined, some tasks appear to die when they receive the SIGWINDOW while doing I/O. By defining LSF_NIOS_IGNORE_SIGWINDOW, these tasks are given the chance to ignore the signal.
+
+Where defined
+From the command line
+
+LSF_NIOS_PEND_TIMEOUT
+Syntax
+LSF_NIOS_PEND_TIMEOUT=minutes
+
+Description
+Applies only to interactive batch jobs.
+
+Maximum amount of time that an interactive batch job can remain pending.
+
+If this parameter is defined, and an interactive batch job is pending for longer than the specified time, the interactive batch job is terminated.
+
+Valid values
+Any integer greater than zero
+
+Default
+Not defined
+
+LSF_NIOS_PORT_RANGE
+Syntax
+LSF_NIOS_PORT_RANGE=min_port_number-max_port_number
+
+Description
+Defines a range of listening ports for NIOS to use.
+
+Example
+LSF_NIOS_PORT_RANGE=5000-6000
+Default
+Not defined. LSF randomly assigns a NIOS port number.
+
+LSF_RESOURCES
+Syntax
+LSF_RESOURCES=dynamic_external_resource_name...
+
+Description
+Space-separated list of dynamic external resources. When the LIM starts a master external load information manager (MELIM) on a host, the LIM checks the resource mapping defined in the ResourceMap section of lsf.cluster.cluster_name. Based on the mapping (default, all, or a host list), the LIM sets LSF_RESOURCES to the list of resources expected on the host and passes the information to the MELIM.
+
+Used when the external load indices feature is enabled.
+
+When defined
+Set by the MELIM on the host when the MELIM invokes the elim executable.
+
+See also
+LSF_MASTER
+
+LSF_TS_LOGON_TIME
+Syntax
+LSF_TS_LOGON_TIME=milliseconds
+
+Description
+Specifies the time to create a Windows Terminal Service session. Configure LSF_TS_LOGON_TIME according to the load on your network enviroment.
+
+The default, 30000 milliseconds, is suitable for most environments. If you set LSF_TS_LOGON_TIME too small, the LSF tries multiple times before it succeeds in making a TS session with the TS server, which can cause the job wait a long time before it runs. For a congested network. set LSF_TS_LOGON_TIME=1000000.
+
+Where defined
+From the command line
+
+Default
+30000 milliseconds
+
+LSF_USE_HOSTEQUIV
+Syntax
+LSF_USE_HOSTEQUIV=y | Y
+
+Description
+Used for authentication purposes. If LSF_USE_HOSTEQUIV is defined, RES and mbatchd call the ruserok(3) function to decide if a user is allowed to run remote jobs. LSF trusts all hosts configured in the LSF cluster that are defined in hosts.equiv, or in .rhosts in the user’s home directory.
+
+The ruserok(3) function checks in the /etc/hosts.equiv file and the user’s $HOME/.rhosts file to decide if the user has permission to execute remote jobs.
+
+If LSF_USE_HOSTEQUIV is not defined, all normal users in the cluster can execute remote jobs on any host.
+
+If LSF_ROOT_REX is set, root can also execute remote jobs with the same permission test as for normal users.
+
+Default
+Not defined
+
+See also
+LSF_ROOT_REX and LSF_AUTH in lsf.conf
+
+LSF_USER_DOMAIN
+Syntax
+LSF_USER_DOMAIN=domain_name | .
+
+Description
+Set during LSF installation or setup. If you modify this parameter in an existing cluster, you probably have to modify passwords and configuration files also.
+
+Windows or mixed UNIX-Windows clusters only.
+
+Enables default user mapping, and specifies the LSF user domain. The period (.) specifies local accounts, not domain accounts.
+
+A user name specified without a domain is interpreted (on a Windows host) as belonging to the LSF user domain
+
+A user name specified with the domain name of the LSF user domain is not valid
+
+In a mixed cluster, this parameter defines a 2-way, 1:1 user map between UNIX user accounts and Windows user accounts belonging to the specified domain, as long as the accounts have the same user name. This means jobs submitted by the Windows user account can run on a UNIX host, and jobs submitted by the UNIX account can run on any Windows host that is available to the Windows user account.
+
+If this parameter is not defined, the default user mapping is not enabled. You can still configure user mapping at the user or system level. User account mapping is required to run cross-platform jobs in a UNIX-Windows mixed cluster.
+
+Where defined
+lsf.conf
+
+Default
+If you upgrade from LSF 4.0.1 or earlier, the default is the existing LSF user domain.
+
+For a new, Windows-only cluster, this parameter is not defined (no LSF user domain, no default user mapping).
+
+For a new, mixed UNIX-Windows cluster, the default is the domain that the Windows installation account belongs to. This can be modified during LSF installation.
