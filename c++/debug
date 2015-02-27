@@ -23,6 +23,10 @@ watch var
 print &var
 watch *0xabcdef
 
+### Go to next line
+next
+# also look up step
+
 ### to continue the run
 continue
 
