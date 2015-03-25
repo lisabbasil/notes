@@ -1,0 +1,51 @@
+- Read shift leader white board. Read daily plan.
+- Get update from last shift leader. You can check who was last and who will be
+  next shift leader on ATLAS website under shifts. Talk about run plan, ATLAS
+  conditions, errors and plans.
+- Login on FSM (key symbol); might need to login twice, once on FSM and once
+  on AlarmScreen? As shift leader you can basically login everywhere.
+- Read checklist. It will be updated at the run meeting. Previous shift leader
+  will tell you from deviations of the plan.
+- Open text editor for elog. Open kWrite under General and open last elog, if
+  not already opened. Save it as new log file, update and delete the contents
+  of the last shifter. First entry in Shift chronology should mention the
+  ongoing run and all its settings (taken from TDAQ panel (?)).
+- All decisions that you take should enter the log.
+- In Monitoring Partition panel, get information from the run. Monitoring
+  Partition panel can be started in DAQ Panel. In Monitoring Panel, open
+  DFPanel (Data Flow) and Trigger Panel (under load panels).
+- Talk to people! Collect and spread information in the control room. Always ask
+  how things are going. People should report back to you but they sometimes
+  don't.
+- Monitor AlarmScreen. Check alarms, right click on them to get information.
+  E.g. see the trend of some values and investigate why they are there. Ask
+  people in the control room, if it's not detector and not computing related,
+  ask SLIMOS.
+- In Trigger panel, check if e.g. SMK is set properly. Get this information form
+  trigger white board.
+- Busy presenter can also be started in DAQ Panel. Green is good, otherwise
+  you have to investigate. Open Log Monitor, type in Run and Subsystem under
+  Message to filter messages.
+- If things change (e.g. you are running late), update plan of the day. Also
+  update if things are done or ongoing. Inform all people (they might be in the
+  control room, otherwise call them).
+- Check whiteboards to get more information.
+- Monitor ELisA from time to time. Experts might post solutions on it without
+  telling you.
+- When trigger drops and busy panel shows red, it might recover from itself.
+  Consult Log to understand what happen. System might recover itself. If it
+  happens often, you might want to restart run (last resort).
+- In Trigger Presenter, you might open Panels and Plot certain Triggers.
+  Monitor them and check for errors.
+- OHP Tool: You can see histograms from the run. Gives you a way to
+  investigate problems and collect information.
+- In DQM Panel, you can monitor the different subdetectors.
+- Monitor FSM. Normally, every error should trigger reaction. Also watch
+  masked alarms from time to time.
+- Always keep an eye on trigger rates, log messages, FSM, ELisA and Busy Panel
+- If you have a serious problem, act immediately (call expert). If you see a
+  strange feature, search in ELisA for information, read shifter assistant
+  tool, ask around in ACR, call expert.
+- If people want to do tests that are not in the daily plan, they should ask the
+  run coordinators. The job of the shift leader is to stick to the daily plan.
+- At the end copy/paste shift report to ELisA
