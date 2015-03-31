@@ -5,6 +5,13 @@ for more quota
 For a list of commands:
 https://twiki.cern.ch/twiki/bin/view/Sandbox/WilliamLockmanSandbox
 
+Use
+$ eosmount <path>
+to mount eos
+
+To get quota:
+$ eos quota | grep -A 4 "Quota Node: /eos/atlas/user/$" | head -5
+
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 EOS is the disk storage system at CERN for large physics data. The following is
