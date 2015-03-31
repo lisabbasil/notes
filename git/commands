@@ -1,0 +1,278 @@
++++ GENERAL +++
+
+Git is a Distributed Version Control System (DVCS), it does not just checkout
+the latest snapshot, but the whole database. Hence almost every operation is
+local.
+
+Opposed to other VCS, git always stores data as snapshots, not differences.
+
+A file can be untracked or tracked. A tracked file can be unmodified,
+modified or staged.
+
+
++++ EVERYDAY COMMANDS +++
+
+git help <command>          Show man page for <command>
+git clone <url>             Clone the project under the address <url> into the
+                            working directory and checks out master
+git clone --bare \          Clone the project <prj> into <prj>.git without
+    <prj> <prj>.git         checking out any working directory; useful for
+                            setting up a server with a git repository
+git init                    Initialize a new repository
+git init --bare --shared    Sets up the read and write permissions of a git
+                            project, according to the user and group permissions
+git status                  Show status of your repository
+git add                     Add an untracked file to repository; stage modified
+                            file; mark conflict file from merge as resolved
+git add -i                  Enter interactive mode to have more options what
+                            files (or parts thereof) to stage
+git add -p                  Partially stage a file
+git commit                  Make snapshot of staged files
+git commit -m <msg>         Add commit message
+git commit -a               Make snapshot of all modified files
+git commit --amend          Add staged files to last commit; can also be used
+                            to change commit message
+git diff                    Show diff of working directory and staging area
+git diff --staged           Show diff of staging area and last snapshot
+git diff <branch>           Get diff of checked out branch with <branch>
+git diff <b1>...<b2>        Get diff of branch <b2> with common ancestor of
+                            branches <b1> and <b2>
+git rm <file>               Remove <file>
+git rm <file> --cached      Remove <file> but keep local copy
+git mv <file1> <file2>      Move <file1> to <file2>
+git reset <branch>          Unstage everything in <branch>
+git reset <branch> <file>   Unstage <file> in <branch>
+git checkout -- <file>      Overwrite local modifications of <file>
+
+
++++ REMOTES +++
+
+A git project does not need to be hosted remotely. It is desirable to have a
+remote repository though, when working with others or to have a backup copy. A
+remote does not need to have a checked out project, only the contents of the
+.git folder (i.e. only the database). A remote can also be on the same computer
+in a different folder, or a mounted filesystem. Supported protocols are local,
+ssh, git and http.
+
+git remote                  Show configured remote servers (projects)
+git remote -v               Show configured remote servers (projects) and their
+                            paths
+git remote add <prj> <url>  Add address <url> to your project <prj>
+git remote show <prj>       Show more information about project <prj>
+git fetch                   Fetch data from remote server (but does not merge)
+git fetch <prj>             Fetch data for project <prj>
+git pull                    Fetch data from tracking branch on remote server and
+                            merge
+git pull <url>              Pull from <url> without adding it as a project
+git push                    Push tracking branch to remote server
+git push <prj> <branch>     Push <branch> to server for project <prj>
+git push -f <prj> <branch>  Overwrite <branch> on server for project <prj>
+git push <prj> <tag>        Push <tag> to server for project <prj>
+git push <prj> --tags       Push all tags to server for project <prj>
+git push <prj> :<branch>    Delete <branch> on server for project <prj>
+
+
++++ TAGS +++
+
+Specific snapshots can be tagged as versions. Once a version is released, a
+specific snapshot can be addressed with the git describe command. To make a
+tarball of a specific <branch> of a project <prj>, use
+git archive <branch> --prefix="<prj>/" | gzip > $(git describe <branch>).tar.gz 
+
+git tag                     Show tags
+git show <tag>              Show information about a specific tag
+git tag -a <tag> -m <msg>   Create (annotated) tag <tag> with message <msg>
+git tag -a <tag> <hash>     Create tag <tag> of previous snapshot with <hash>
+git describe <branch>       Print human readable version number of <branch>
+git archive <branch>        Make archive of <branch> (see also above)
+
+
++++ BRANCHES +++
+
+Every commit stores a pointer to its parent commit (usually the last commit).
+Git always works on a certain branch. The default branch is called master.
+Creating a new branch creates a new pointer to move around. A newly created
+branch will point to the same commit as master. The special pointer HEAD points
+to the local branch you are currently working on. When switching branches, it's
+best to have a clean working area, i.e. no modified or staged files.
+origin/master is the name of a remote branch, it cannot be moved locally.
+
+git branch                  Show local branches and what branch HEAD points to
+git branch -v               Show local branches and their last commit
+git branch -r               Show remote branches
+git branch -a               Show all branches
+git branch <branch>         Create new <branch> without switching to it
+git branch -d <branch>      Delete <branch>
+git branch -m <b1> <b2>     Rename branch <b1> to <b2>
+git branch --merged         Show all branches that are merged into HEAD (these
+                            are safe to delete)
+git branch --no-merged      Show all branches that are not merged (these are NOT
+                            safe to delete)
+git checkout <branch>       Switch to <branch>
+git checkout -b <branch>    Create and switch to <branch>
+git checkout -b <b1> <b2>   Create and switch to branch <b1> starting from
+                            remote branch <b2>
+git merge <branch>          Merge <branch> into HEAD (this is not symmetric!);
+                            can be fast forward if the HEAD is directly
+                            upstream, otherwise it's a three-way merge
+git mergetool               Start difftool to solve merge conflicts
+git merge-base <b1> <b2>    Show common ancestor of branches <b1> and <b2>
+git show <branch>           Show last commit on <branch>
+
+
++++ REBASE +++
+
+Instead of merging branches, one can also rebase them. The end product will be
+exactly the same, but the log will look different. When looking into the log,
+merged branches look like parallel development of two different branches and
+merging the end products. Rebasing, on the other hand, will look like a linear
+history, even though in practice the development has been parallel. Rebasing
+replays changes from one line of work onto another in the order they were
+introduced. Do not rebase commits that you have pushed to a public repository!
+
+git rebase <prj>/<branch>   Rebase checked out branch onto remote <branch>
+git rebase <branch>         Rebase HEAD onto <branch>; this is typically
+                            followed by a fast forward merge
+git rebase <b1> <b2>        Rebase branch <b2> onto branch <b1>
+git rebase -i               Enter interactive mode to rewrite history of all
+                            commits that are not pushed to server; change "pick"
+                            to desired value given in editor; you can also
+                            change order of commits or delete them altogether
+
+
++++ SUBMODULES +++
+
+Submodules are used for nested git projects.
+
+git submodule add <url> <f> Add submodule of git project at <url> in working
+                            directory folder <f>
+git submodule init          Initialize submodule for existing project
+git submodule update        Updates the submofule in existing project; to be
+                            called whenever there are changes in the submodule
+
+
++++ LOGFILES +++
+
+git log                     Show commit messages
+git log -<n>                Show last <n> commit messages
+git log -p                  Show commit messages and diff's
+git log --stat              Show commit messages and show what files have
+                            changed
+git log --pretty=<option>   Change log output format; <option> can be oneline,
+                            short, full, fuller or format; for format options
+                            see below
+git log --graph             Show ASCII graph of branch and merge history
+git log -- <file>           Show only commit messages for <file>
+git shortlog --no-merges \  Get summary of all commits grouped by author of
+    <branch> --not <ver>    <branch> since version <ver>
+git reflog                  Show history of branch references
+git log <b1> --not <b2>     Show log of branch <b1> that are not in branch <b2>
+git log <b1>..<b2>          Show commits reachable by branch <b2> but not by
+                            branch <b1> (same as git log <b2> --not <b1>)
+git log <b1>...<b2>         Show commits reachable by branch <b1> or by branch
+                            <b2> but not by both
+
+
++++ STASH +++
+
+Stashing a working directory onto the stack means to save its state, i.e.
+modifications to files and if they are staged or not. After stashing, the
+working directory is clean. The desired stash can be chosen with stash@{<n>}, if
+this is omitted, stash@{1} is assumed.
+
+git stash                   Save working directory and uncommited changes
+git stash list              Get list of stashes
+git stash apply stash@{<n>} Restore stash <n> to working directory but don't
+                            restage
+git stash apply --index     Restore stash to working directory including restage
+git stash drop stash@{<n>}  Remove stash <n> from stack
+git stash pop stash@{<n>}   Apply stash <n> and drop it
+git stash branch <branch>   Create new <branch> from stash and drop stash
+
+
++++ DEBUG +++
+
+Git has some general features to debug code. git blame can be used to track down
+when a certain change in a file (e.g. a bug) was introduced. git bisect can be
+used to track down when a certain behaviour was introduced, together with a
+script, this can be automated in a very powerful way.
+
+git blame <file>            Show all commits that changed <file>
+git blame -L <m>,<n> <file> Show all commits that changed <file> between lines
+                            <m> and <n>
+git blame -C <file>         Show all commits that changed <file>, also search
+                            for lines of code that come from different files
+                            (e.g. renaming, copying)
+git bisect start            Start bisect method; with this method one can find
+                            out which commit introduced e.g. a bug
+git bisect good             Mark this version as good (i.e. non-buggy)
+git bisect bad              Mark this version as bad (i.e. buggy)
+git bisect reset            End bisect method
+
+
++++ GIT SVN +++
+
+Git can be used with an svn server. Not all features of git can properly be
+used. To checkout use git svn clone <url>. Then show tags/branches with git
+branch -a and switch between them with git checkout -b <branch>, where the -b
+option is only needed when checking out this branch for the first time. When
+using git with an svn server, try to keep your history linear, i.e. rebase
+before commiting. Also, don't use a git server in parallel.
+
+git svn init <url>          Initialize a local git repository with a svn server
+                            located at <url>
+git svn fetch <url>         Fetch data from svn server at <url>
+git svn clone <url>         Initialize local git repository and fetch data from
+                            svn server at <url>
+git svn clone <url> -s      Use svn standard layout for trunk/tags/branches
+git svn dcommit             Take all git commits and push them (one by one) to
+                            the svn server
+git svn fetch               Fetch changes from svn server without merging
+git svn rebase              Pull changes from svn server and rebase your changes
+                            on top of it
+git svn log                 Analog to svn log; don't show local changes
+git svn blame <file>        Analog to svn annotate; don't show local changes
+git svn info                Analog to svn info; don't show local changes
+git svn create-ignore       Create .gitignore file from svn:ignore
+git svn show-ignore         Show ignored files by svn:ignore; redirect to
+                            .git/info/exclude
+
+
++++ PLUMBING +++
+
+Git is a content-adressable filesystem with a version control system on top of
+it. Porcelain commands are high-level commands, plumbing commands are low-level
+commands, that are rarely used in everyday work, but can be very powerful to
+address low-level problems and to understand the inner workings of git.
+
+git hash-object <file>      Show SHA-1 of <file>
+git hash-object --stdin     Show SHA-1 of object read in via stdin
+git hash-object -w <file>   Show SHA-1 of <file> and write it to .git/objects/
+git cat-file <hash>         Show content of <hash>
+git cat-file -p <hash>      Show content of <hash>, deduce type automatically
+git cat-file -t <hash>      Show type of <hash> (blob, tree, commit or tag)
+git rev-parse <branch>      Show SHA-1 to which <branch> points to
+
+
++++ FORMAT OPTIONS +++
+
+Pretty formating options can be very helpful for parsing the logs. Example:
+$ git log --pretty=format:"%h - %an, %ar : %s"
+> 1eba49a - Basil Schneider, 2 days ago : only indent two spaces for specific files
+
+Available options are:
+%H                          Commit hash
+%h                          Abbreviated commit hash
+%T                          Tree hash
+%t                          Abbreviated tree hash
+%P                          Parent hashes
+%p                          Abbreviated parent hashes
+%an                         Author name
+%ae                         Author e-mail
+%ad                         Author date (format respects the -date=option)
+%ar                         Author date, relative
+%cn                         Committer name
+%ce                         Committer e-mail
+%cd                         Committer date
+%cr                         Committer date, relative
+%s                          Subject
