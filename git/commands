@@ -43,6 +43,8 @@ git mv <file1> <file2>      Move <file1> to <file2>
 git reset <branch>          Unstage everything in <branch>
 git reset <branch> <file>   Unstage <file> in <branch>
 git checkout -- <file>      Overwrite local modifications of <file>
+git repack                  Repack git files
+git repack -d               Repack git files and remove
 
 
 +++ REMOTES +++
