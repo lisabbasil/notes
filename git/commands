@@ -10,7 +10,7 @@ A file can be untracked or tracked. A tracked file can be unmodified,
 modified or staged.
 
 
-+++ EVERYDAY COMMANDS +++
++++ COMMANDS +++
 
 git help <command>          Show man page for <command>
 git clone <url>             Clone the project under the address <url> into the
