@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# How to parallelize tasks
+
+# Either use xargs or GNU parallel
+
+# To benchmark, run first a sequential task, e.g.
+
+time for i in {1..10}; do
+    # Read random numbers, compress up to 1000 blocks of 1 megabyte and throw
+    # them away
+    bzip2 -c < /dev/urandom | dd bs=1M count=1000 of=/dev/null
+done
+
+# To use xargs:
+
+# -n1 start the following process for one argument only
+# nproc gives you the number of threds (multithreaded cores)
+time echo {1..10} | xargs -n1 -P$(nproc) \
+    bash -c 'bzip2 -c < /dev/urandom | dd bs=1M count=1000 of=/dev/null'
+
+# To use GNU parallel (see also
+# https://www.gnu.org/software/parallel/parallel_tutorial.html)
+
+time parallel \
+    'bzip2 -c < /dev/urandom | dd bs=1M count=1000 of=/dev/null | true' \
+    ::: {1..10}
