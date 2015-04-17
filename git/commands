@@ -33,18 +33,29 @@ git commit -a               Make snapshot of all modified files
 git commit --amend          Add staged files to last commit; can also be used
                             to change commit message
 git diff                    Show diff of working directory and staging area
-git diff --staged           Show diff of staging area and last snapshot
+git diff --staged           Show diff of staging area and last snapshot (this is
+                            what you commit)
 git diff <branch>           Get diff of checked out branch with <branch>
 git diff <b1>...<b2>        Get diff of branch <b2> with common ancestor of
                             branches <b1> and <b2>
+git diff <h1> <h2>          Get diff of commit with hash <h1> and commit with
+                            hash <h2>
 git rm <file>               Remove <file>
 git rm <file> --cached      Remove <file> but keep local copy
 git mv <file1> <file2>      Move <file1> to <file2>
+git reset --soft HEAD~<n>   Undo the last <n> commits; --soft keeps the index
+                            just as it was before the commit
+git reset --hard HEAD~<n>   Undo the last <n> commits; --hard means to throw
+                            away all changes
+git reset --mixed HEAD~<n>  Undo the last <n> commits; --mixed will keep the
+                            changes but unstages all your files
 git reset <branch>          Unstage everything in <branch>
 git reset <branch> <file>   Unstage <file> in <branch>
+git reset -p                Partially unstage a file
 git checkout -- <file>      Overwrite local modifications of <file>
 git repack                  Repack git files
 git repack -d               Repack git files and remove
+git ls-files                Show all files that are controlled by git
 
 
 +++ REMOTES +++
@@ -101,6 +112,8 @@ origin/master is the name of a remote branch, it cannot be moved locally.
 
 git branch                  Show local branches and what branch HEAD points to
 git branch -v               Show local branches and their last commit
+git branch -vv              Show local branches, their last commit and what they
+                            track
 git branch -r               Show remote branches
 git branch -a               Show all branches
 git branch <branch>         Create new <branch> without switching to it
@@ -114,6 +127,7 @@ git checkout <branch>       Switch to <branch>
 git checkout -b <branch>    Create and switch to <branch>
 git checkout -b <b1> <b2>   Create and switch to branch <b1> starting from
                             remote branch <b2>
+git checkout <hash> -b <b>  Create and switch to branch <b> at revision <hash>
 git merge <branch>          Merge <branch> into HEAD (this is not symmetric!);
                             can be fast forward if the HEAD is directly
                             upstream, otherwise it's a three-way merge
@@ -136,10 +150,11 @@ git rebase <prj>/<branch>   Rebase checked out branch onto remote <branch>
 git rebase <branch>         Rebase HEAD onto <branch>; this is typically
                             followed by a fast forward merge
 git rebase <b1> <b2>        Rebase branch <b2> onto branch <b1>
-git rebase -i               Enter interactive mode to rewrite history of all
-                            commits that are not pushed to server; change "pick"
-                            to desired value given in editor; you can also
-                            change order of commits or delete them altogether
+git rebase -i HEAD~<n>      Enter interactive mode to rewrite history of last
+                            <n> commits that are not pushed to server; change
+                            "pick" to desired value given in editor; you can
+                            also change order of commits or delete them
+                            altogether
 
 
 +++ SUBMODULES +++
@@ -163,6 +178,7 @@ git log --stat              Show commit messages and show what files have
 git log --pretty=<option>   Change log output format; <option> can be oneline,
                             short, full, fuller or format; for format options
                             see below
+git log --oneline           Log output in one line
 git log --graph             Show ASCII graph of branch and merge history
 git log -- <file>           Show only commit messages for <file>
 git shortlog --no-merges \  Get summary of all commits grouped by author of
@@ -171,6 +187,7 @@ git reflog                  Show history of branch references
 git log <b1> --not <b2>     Show log of branch <b1> that are not in branch <b2>
 git log <b1>..<b2>          Show commits reachable by branch <b2> but not by
                             branch <b1> (same as git log <b2> --not <b1>)
+git log origin/master..     Show commits not yet pushed to origin
 git log <b1>...<b2>         Show commits reachable by branch <b1> or by branch
                             <b2> but not by both
 
@@ -227,6 +244,8 @@ git svn fetch <url>         Fetch data from svn server at <url>
 git svn clone <url>         Initialize local git repository and fetch data from
                             svn server at <url>
 git svn clone <url> -s      Use svn standard layout for trunk/tags/branches
+git svn clone <url> \       Only fetch the svn commits from revision <rev> to
+        -r<rev>:HEAD        speed up process
 git svn dcommit             Take all git commits and push them (one by one) to
                             the svn server
 git svn fetch               Fetch changes from svn server without merging
@@ -238,6 +257,11 @@ git svn info                Analog to svn info; don't show local changes
 git svn create-ignore       Create .gitignore file from svn:ignore
 git svn show-ignore         Show ignored files by svn:ignore; redirect to
                             .git/info/exclude
+git svn tag <tag>           Create new svn tag <tag>
+git svn branch <branch>     Create new svn branch <branch>
+git svn find-rev <hash>     Find svn revision number for <hash>
+git svn find-rev <rev>      Find git hash for svn revision number <rev>; <rev>
+                            has format r<revNo>
 
 
 +++ PLUMBING +++
@@ -254,6 +278,8 @@ git cat-file <hash>         Show content of <hash>
 git cat-file -p <hash>      Show content of <hash>, deduce type automatically
 git cat-file -t <hash>      Show type of <hash> (blob, tree, commit or tag)
 git rev-parse <branch>      Show SHA-1 to which <branch> points to
+git rev-parse \             Show top level git directory
+        --show-toplevel
 
 
 +++ FORMAT OPTIONS +++
