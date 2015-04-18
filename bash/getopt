@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+# Use advanced mode of getopt (standard by now), not getopts
+# The reason why people bitch about getopt, is that the ancient version was
+# pretty buggy, not very powerful and is not portable; getopts on the other hand
+# does not support long options and mixing of flags with positional arguments
+
+#!/bin/bash
+
+function usage()
+{
+    echo "usage: $0 [OPTIONS] arg1 arg2 [args...]"
+    echo "Options:"
+    echo "   -h, --help           show this help message"
+    echo "   -f, --flag           set flag"
+    echo "   -v, --value <value>  set value"
+}
+
+OPT=$(getopt \
+    --options hfv: \
+    --long help \
+    --long flag \
+    --long value: \
+    --name "$0" \
+    -- "$@"
+)
+
+if [ $? -ne 0 ]; then
+    usage
+    exit 1
+fi
+
+eval set -- "${OPT}"
+
+value=
+flag=no
+
+while true; do
+    case "$1" in
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        -f|--flag)
+            flag=yes
+            shift
+            ;;
+        -v|--value)
+            value=$2
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+    esac
+done
+
+if [ $# -lt 2 ]; then
+    usage
+    exit 1
+fi
+
+arg1=$1
+arg2=$2
+shift 2
+args=($@)
+
+echo flag=$flag
+echo value=$value
+
+echo arg1=$arg1
+echo arg2=$arg2
+echo args=${args[@]}
