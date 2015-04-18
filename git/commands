@@ -134,6 +134,9 @@ git merge <branch>          Merge <branch> into HEAD (this is not symmetric!);
 git mergetool               Start difftool to solve merge conflicts
 git merge-base <b1> <b2>    Show common ancestor of branches <b1> and <b2>
 git show <branch>           Show last commit on <branch>
+git branch \                Set checked out branch to track origin/master
+    --set-upstream-to \
+    origin/master
 
 
 +++ REBASE +++
