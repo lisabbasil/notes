@@ -1,0 +1,19 @@
+Use
+$ ulimit -c unlimited
+to dump cores
+
+With systemd, this is not needed. Cores are dumped to
+/var/lib/systemd/coredump/*
+
+To get a list of the available coredumps, use
+$ coredumpctl list
+$ coredumpctl list <path>
+
+To run gdb on the last coredump, run
+$ coredumpctl gdb
+
+or for a specific PID
+$ coredumpctl gdb <PID>
+
+To get some examples, browse to the end of
+$ man coredumpctl
