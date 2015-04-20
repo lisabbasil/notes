@@ -2,6 +2,10 @@ Use
 $ ulimit -c unlimited
 to dump cores
 
+In
+/proc/sys/kernel/core_pattern
+it is defined where the system dumps cores
+
 With systemd, this is not needed. Cores are dumped to
 /var/lib/systemd/coredump/*
 
