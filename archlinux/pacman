@@ -21,6 +21,9 @@ yaourt -R
 List:
 pacman -Ql
 
+List installed packages:
+yaourt -Qm
+
 List orphans:
 pacman -Qtdq
 
