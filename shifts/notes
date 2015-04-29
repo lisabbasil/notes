@@ -4,13 +4,17 @@
   conditions, errors and plans.
 - Login on FSM (key symbol); might need to login twice, once on FSM and once
   on AlarmScreen? As shift leader you can basically login everywhere.
+  Login also in ELiSA. And Remote Access Request window (P1 Roles).
 - Read checklist. It will be updated at the run meeting. Previous shift leader
   will tell you from deviations of the plan.
 - Open text editor for elog. Open kWrite under General and open last elog, if
   not already opened. Save it as new log file, update and delete the contents
   of the last shifter. First entry in Shift chronology should mention the
-  ongoing run and all its settings (taken from TDAQ panel (?)).
+  ongoing run and all its settings (taken from DAQ panel).
 - All decisions that you take should enter the log.
+- Grant remote access to other people if they provide a reason, don't grant if
+  it is an automatic request (automatic requests are sent when the original
+  request expired). Put window which shows requests somewhere visible!
 - In Monitoring Partition panel, get information from the run. Monitoring
   Partition panel can be started in DAQ Panel. In Monitoring Panel, open
   DFPanel (Data Flow) and Trigger Panel (under load panels).
@@ -21,6 +25,8 @@
   E.g. see the trend of some values and investigate why they are there. Ask
   people in the control room, if it's not detector and not computing related,
   ask SLIMOS.
+- Update daily plan (to do --> ongoing --> done); also update if you did a run
+  that was not on daily plan.
 - In Trigger panel, check if e.g. SMK is set properly. Get this information form
   trigger white board.
 - Busy presenter can also be started in DAQ Panel. Green is good, otherwise
@@ -48,4 +54,6 @@
   tool, ask around in ACR, call expert.
 - If people want to do tests that are not in the daily plan, they should ask the
   run coordinators. The job of the shift leader is to stick to the daily plan.
+- To get more information about the messages, see in DAQ Panel, Log Manager,
+  ATLAS, crrc
 - At the end copy/paste shift report to ELisA
