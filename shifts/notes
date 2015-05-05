@@ -1,10 +1,10 @@
-- Read shift leader white board. Read daily plan.
 - Get update from last shift leader. You can check who was last and who will be
   next shift leader on ATLAS website under shifts. Talk about run plan, ATLAS
   conditions, errors and plans.
+- Read shift leader white board. Read daily plan.
 - Login on FSM (key symbol); might need to login twice, once on FSM and once
   on AlarmScreen? As shift leader you can basically login everywhere.
-  Login also in ELiSA. And Remote Access Request window (P1 Roles).
+  Login also in ELiSA and Remote Access Request window (P1 Roles).
 - Read checklist. It will be updated at the run meeting. Previous shift leader
   will tell you from deviations of the plan.
 - Open text editor for elog. Open kWrite under General and open last elog, if
@@ -27,7 +27,7 @@
   ask SLIMOS.
 - Update daily plan (to do --> ongoing --> done); also update if you did a run
   that was not on daily plan.
-- In Trigger panel, check if e.g. SMK is set properly. Get this information form
+- In Trigger panel, check if e.g. SMK is set properly. Get this information from
   trigger white board.
 - Busy presenter can also be started in DAQ Panel. Green is good, otherwise
   you have to investigate. Open Log Monitor, type in Run and Subsystem under
@@ -38,9 +38,9 @@
 - Check whiteboards to get more information.
 - Monitor ELisA from time to time. Experts might post solutions on it without
   telling you.
-- When trigger drops and busy panel shows red, it might recover from itself.
-  Consult Log to understand what happen. System might recover itself. If it
-  happens often, you might want to restart run (last resort).
+- When trigger drops and busy panel shows red, consult Log to understand what
+  happened. System might recover itself. If it happens often, you might want to
+  restart run (last resort).
 - In Trigger Presenter, you might open Panels and Plot certain Triggers.
   Monitor them and check for errors.
 - OHP Tool: You can see histograms from the run. Gives you a way to
