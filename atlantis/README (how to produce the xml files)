@@ -1,0 +1,96 @@
+Atlantis Tutorial, 11th Jul 2011
+Edited 25th Nov 2011 (release 17.0.4.7)
+
+A small exercise on producing JiveXML-files:
+--------------------------------------------
+1) Log-in to lxplus and make a install directory:
+ bash
+ mkdir -p ~/AtlantisTutorial/AtlasProduction-17.0.4.7
+ cd ~/AtlantisTutorial/AtlasProduction-17.0.4.7
+
+2) Setup Athena:
+ export AtlasSetup=/afs/cern.ch/atlas/software/dist/AtlasSetup
+ alias asetup='source $AtlasSetup/scripts/asetup.sh'
+ asetup 17.0.4.7,here
+
+3) Make a run directory:
+ mkdir run
+ cd run
+
+4) Get the jobOptions and input file (ttbar mc):
+ cp ~jpthomas/public/AtlantisTutorial/JiveXML_jobOptions_ESDRecEx.py . 
+ cp ~jpthomas/public/AtlantisTutorial/ESD.pool_16.6.6.5.root .
+
+5) Run Athena:
+ source RecExCommon_links.sh
+ athena.py JiveXML_jobOptions_ESDRecEx.py  
+
+6) Files for 5 events have been produced, which you can load
+into Atlantis: JiveXML_105200_00001.xml  etc.
+
+A more advanced step: Event-picking from data11 RAW:
+----------------------------------------------------
+Full details on Twiki page:
+https://twiki.cern.ch/twiki/bin/viewauth/Atlas/Atlantis
+
+7) Set-up pathena:
+
+source /afs/cern.ch/atlas/offline/external/GRID/DA/panda-client/latest/etc/panda/panda_setup.sh
+
+8) Open an editor to create a file 'rrr.txt', which contains 
+the run and event number, here we choose:  
+  180164 103157722
+  180164 103149892
+  180164 103123310
+  180164 103135482
+  180164 103127830
+
+9) Execute the pathena command (replace 'yourgridname' with
+your Grid name. This will ask for your Grid login):
+
+pathena  JiveXML/JiveXML_jobOptions_PhysicsRAW.py  --eventPickEvtList rrr.txt --eventPickDataType RAW --outDS user.yourgridname.AtlantisData11RAW_test1 --extOutFile "JiveXML*.xml" --eventPickStreamName physics_Egamma
+
+Note: Last switch '--eventPickStreamName' depends on which
+stream the events are in. Leaving this out, lookup-service
+will list which streams the events were in, it will tell  
+you to set this option if events are in multiple streams.  
+Therefore, don't put events from different streams (Muons, 
+Egamma) into the same rrr.txt list. One might try 'express' 
+in such a case, but better to run separately for Muons,Egamma.
+
+10) Check on the Panda Monitor how your job is doing, and
+get output back as usual with dq2-get:
+Set-up the Grid tools:
+
+ source /afs/cern.ch/atlas/offline/external/GRID/ddm/DQ2Clients/setup.sh
+ voms-proxy-init --voms atlas
+
+To check the job status, via 'Quick-Search: Panda-job-ID' or 
+your full Grid user name (as on your Grid certificate):
+
+ http://panda.cern.ch/server/pandamon/query?ui=user&name=[full Grid username]
+
+To download the files:
+
+ dq2-get user.yourgridname.AtlantisData11RAW_test1*
+
+Re-do step (9) if the job has failed, of course then change
+the job name at outDS e.g. from 'test1' to 'test2'.
+
+11) You can check with this command if the event-lookup
+service is actually up (there are sometimes server problems):
+
+To set-up the Grid tools if you haven't done already:
+ 
+ source /afs/cern.ch/atlas/offline/external/GRID/ddm/DQ2Clients/setup.sh 
+ voms-proxy-init --voms atlas
+
+To check the event lookup service: 
+
+ runEventLookup.py -debug -e "180164 103091782" 
+
+
+Instructions by Juergen Thomas, 9Jul11
+Edited 12Sep11 - new release
+Edited 25Nov11 - new release
+Contact: hn-atlas-AtlantisDisplay@cern.ch
