@@ -40,6 +40,8 @@ git diff <b1>...<b2>        Get diff of branch <b2> with common ancestor of
                             branches <b1> and <b2>
 git diff <h1> <h2>          Get diff of commit with hash <h1> and commit with
                             hash <h2>
+git diff <h1> <h2> -- <f>   Get diff of commit with hash <h1> and commit with
+                            hash <h2> for file <f>
 git rm <file>               Remove <file>
 git rm <file> --cached      Remove <file> but keep local copy
 git mv <file1> <file2>      Move <file1> to <file2>
