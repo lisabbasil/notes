@@ -86,6 +86,9 @@ git push -f <prj> <branch>  Overwrite <branch> on server for project <prj>
 git push <prj> <tag>        Push <tag> to server for project <prj>
 git push <prj> --tags       Push all tags to server for project <prj>
 git push <prj> :<branch>    Delete <branch> on server for project <prj>
+git push origin HEAD:master Same as git push
+git push <remote> \         Push <refspec> to <remote> <branch>
+    <refspec>:<branch>
 
 
 +++ TAGS +++
