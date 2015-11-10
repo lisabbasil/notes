@@ -1,7 +1,8 @@
 General
 =======
 
-In Linux, Google Chrome uses Mozilla's NSS for the certificates, then you need the certutil tool to manage it. In Debian/Ubuntu certutil comes from
+In Linux, Google Chrome uses Mozilla's NSS for the certificates, then you need
+the certutil tool to manage it. In Debian/Ubuntu certutil comes from
 libnss3-tools.
 
 $ sudo aptitude install libnss3-tools
@@ -13,8 +14,18 @@ Install authority certificates
 
 Get the certificates from https://gridca.cern.ch/gridca/, then install it with
 
-$ certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "CERN Grid Certification Authority" -i CERN Grid Certification Authority.crt
-$ certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "CERN Root Certification Authority" -i CERN Root Certification Authority 2.crt
+$ certutil \
+    -d sql:$HOME/.pki/nssdb \
+    -A \
+    -t TC \
+    -n "CERN Grid Certification Authority" \
+    -i CERN Grid Certification Authority.crt
+$ certutil \
+    -d sql:$HOME/.pki/nssdb \
+    -A \
+    -t TC \
+    -n "CERN Root Certification Authority" \
+    -i CERN Root Certification Authority 2.crt
 
 and now it just works, without needing to restart the browser.
 
@@ -23,7 +34,8 @@ and now it just works, without needing to restart the browser.
 Install user certificate
 ========================
 
-Get the certificates from https://grica.cern.ch/gridca/, then you have to convert the format with
+Get the certificates from https://grica.cern.ch/gridca/, then you have to
+convert the format with
 
 $ openssl x509 -inform pem -in newcert.cer -outform pem -out newcert.crt
 
