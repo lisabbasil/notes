@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# See list of available releases
+scram list
+
+# Set up specific release
+cmsrel 6_2_12
+
+# To set up environment, go to release/src folder and
+cmsenv
+# or
+$(scram runtime -sh)
+
+# Copy EDM data locally (don't forget to get a voms first)
+edmCopyPickMerge \
+    inputFiles=/store/relval/CMSSW_5_3_15/RelValPyquen_ZeemumuJets_pt10_2760GeV/DQM/PU_STARTHI53V10A_TEST_feb14-v3/00000/FE0AF9FB-C196-E311-8678-0025904CF75A.root \
+    outputFile=MyOutputFile.root \
+    maxEvents=100
+
+# Merge EDM files
+edmCopyPickMerge \
+    inputFiles=first.root,second.root,third.root \
+    outputFile=output.root \
+    maxSize=100000
+# or
+edmCopyPickMerge \
+    inputFiles_load=listOfInputFiles.txt \
+    outputFile=output.root \
+    maxSize=100000
+
+# Copy a particular event (eventsToProcess=runnumber:lumiblock:eventnumber)
+cmsRun \
+    pickEvent_cfg.py \
+    inputFiles=file1.root \
+    eventsToProcess=123592:334:755009,123592:23:392793,123592:42:79142 \
+    outputFile=output.root
+# or if file1.root is local
+cmsRun \
+    pickEvent_cfg.py \
+    inputFiles=file:file1.root \
+    eventsToProcess=123592:334:755009,123592:23:392793,123592:42:79142 \
+    outputFile=output.root
+
+# List content of EDM file
+edmDumpEventContent file.root
+# For more options, try
+edmDumpEventContent --help
+
+# Show the parameters used to create this file
+edmProvDump file.root
