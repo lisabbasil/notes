@@ -125,6 +125,7 @@ git branch -r               Show remote branches
 git branch -a               Show all branches
 git branch <branch>         Create new <branch> without switching to it
 git branch -d <branch>      Delete <branch>
+git branch -rd <branch>     Delete remote <branch>
 git branch -m <b1> <b2>     Rename branch <b1> to <b2>
 git branch --merged         Show all branches that are merged into HEAD (these
                             are safe to delete)
