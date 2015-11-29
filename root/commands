@@ -1,0 +1,8 @@
+# Execute script.cpp
+.x script.cpp
+
+# Compile script.cpp if it has changed since last compilation
+.x script.cpp+
+
+# Compile script.cpp anyway
+.x script.cpp++
