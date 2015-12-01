@@ -1,0 +1,21 @@
+SUSY-HIT consists of three programs that are called in this order:
+- SuSpect: Provides spectrum and SUSY breaking parameters at M_{SUSY}.
+- HDecay: Calculates the decay widths and branching ratios of the SM Higgs and
+          of the neutral and charged Higgs particles of the MSSM according to
+          the current theoretical knowledge.
+- SDecay: Calculates the decay widths and branching ratios of all SUSY particles
+          in the MSSM, including the most important higher order effects.
+
+SUSY-HIT can be run in two modes, with (1) or without (2) SuSpect. The
+difference is explained below. To switch from mode 1 to mode 2 or vice versa,
+define the option (1 or 2) in susyhit.in.
+
+1) To run the full chain SuSpect-HDecay-SDecay, SuSpect provides the spectrum.
+   The input parameters are defined in suspect2_lha.in. SuSpect creates a reader
+   friendly formatted file with the spectrum called suspect2.out and a file
+   called slhaspectrum.in. This is passed to HDecay and SDecay and the output
+   file susyhit_slha.out is created.
+
+2) To run only HDecay-SDecay, you have to provide the spectrum yourself. The
+   spectrum can be defined in slhaspectrum.in. SUSY-HIT then creates
+   susyhit_slha.out.
