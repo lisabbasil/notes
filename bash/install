@@ -1,4 +1,10 @@
 To compile (example from tmux installation):
+
+First create the configuration files; this can sometimes be skipped; read the
+README or INSTALL; possible ways to create the configuration files are
+make configure   # for e.g. git
+or
+sh autogen.sh   # for e.g. tmux
 ./configure --help
 ./configure --prefix=$HOME/pkg
 make
@@ -10,10 +16,18 @@ or
 make
 make DESTDIR=$HOME/pkg install
 
-If a dependency is installed in a home folder, make
+If a dependency (e.g. libevent) is installed in a home folder, make
 ./configure --help
 to find out how to tell the configure where the package is, for example
 PKG_CONFIG_PATH=$HOME/pkg/lib/pkgconfig ./configure --prefix=$HOME/pkg
+
+If header files (e.g. ncurses) are installed in a home folder, try
+C_INCLUDE_PATH=$HOME/pkg/include/ncurses make
+
+If you cannot specify path's but only flags, you have to let the bizarre
+makefile language do its magic, e.g.
+CFLAGS="-I$HOME/pkg/include" LIBS="-L$HOME/pkg/lib" \
+    ./configure --prefix=$HOME/pkg
 
 If a library is not found, do
 file ~/pkg/bin/tmux
