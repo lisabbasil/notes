@@ -258,9 +258,10 @@ git svn clone <url> \       Only fetch the svn commits from revision <rev> to
         -r<rev>:HEAD        speed up process
 git svn dcommit             Take all git commits and push them (one by one) to
                             the svn server
-git svn fetch               Fetch changes from svn server without merging
+git svn fetch               Fetch changes from svn server without merging but
+                            pulls tags/branches
 git svn rebase              Pull changes from svn server and rebase your changes
-                            on top of it
+                            on top of it but does not pull tags/branches
 git svn log                 Analog to svn log; don't show local changes
 git svn blame <file>        Analog to svn annotate; don't show local changes
 git svn info                Analog to svn info; don't show local changes
