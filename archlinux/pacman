@@ -37,3 +37,6 @@ rm /var/cache/pacman/pkg/*
 Install old package:
 pacman -U /path/to/package
 but try `downgrade package` first
+
+Find out to which package ${file} belongs to
+pacman -Qo ${file}
