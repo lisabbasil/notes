@@ -31,8 +31,7 @@ Remove orphans:
 pacman -Rs $(pacman -Qtdq)
 
 Clean:
-rm /var/cache/pacman/pkg/*
-(also pacman -Scc?)
+pacman -Sc
 
 Install old package:
 pacman -U /path/to/package
