@@ -1,3 +1,6 @@
+Sometimes, the configure script has to be created first. This is usually done by
+sh autogen.sh
+
 To compile (example from tmux installation):
 
 First create the configuration files; this can sometimes be skipped; read the
