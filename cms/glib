@@ -1,0 +1,47 @@
+Useful resources:
+- Homepage with Firmware and VM
+  http://sbgcmstrackerupgrade.in2p3.fr/
+- MaPSA Light test setup
+  https://twiki.cern.ch/twiki/bin/view/Main/MaPSALightTest
+- GLIB public homepage (with documentation)
+  https://espace.cern.ch/project-GBLIB/public/default.aspx
+
+ 1) Connect the GLIB with the test board and mount the MaPSA-Light onto the
+    test board. The GLIB card used here is version 3, it is written on the back
+    of the GLIB.
+ 2) Power up the GLIB with 12 V. Easiest is to use an old PC power supply.
+    Remember to short-circuit the green cable to the ground, otherwise the power
+    supply doesn't start. This is explained in detail in the GLIB manual on the
+    GLIB public homepage. The test board needs a voltage between 3.5 V and 5 V.
+    I use 3.8 V. Make sure that you have the +/- correct, it's written on the
+    back of the power plug on the card. Connect a resistor between the + and -
+    cable from the power supply for the test board.
+ 3) Flash the FPGA on the GLIB. Use iMPACT from Xilinx. I used a Windows machine
+    but should be working on Linux too.
+ 4) Fire up the VM. I use VMPlayer, but Virtualbox should do fine. Before
+    starting VMPlayer, you might need to start some services with
+    $ sudo /etc/init.d/vmware start
+    At some point I had the package "vmware-modules-dkms" installed which
+    rendered the VMPlayer not working for me. I haven't investigated into that
+    issue but removing the package solved it for me. To log onto the VM, use
+    xtaldaq//xtaldaq
+ 5) Ping GLIB. The IP address of the GLIB is hardcoded to 192.168.0.175. Set
+    your IP address on the host system to e.g. 192.168.0.100 and try to ping the
+    GLIB:
+    $ sudo ifconfig enp0s25 192.168.0.100 netmask 255.255.255.0 up
+    $ ping 192.168.0.175
+    On my system, if I cut the power from the GLIB, I lose the IP address, i.e.
+    I have to assign it again after that. Try to ping GLIB from the guest system
+    as well, this should work out of the box if the host is configured properly.
+ 6) Make sure to have the latest software, it can be found here
+    https://github.com/knash/MAPSA_Software
+ 7) Run the software, first make sure ROOT is available
+    $ . /opt/root/bin/thisroot.sh
+    Then run
+    $ python power.py -s on
+    and
+    $ python -i calibration.py
+    This should produce some plots
+
+Next:
+Ask Kevin..., check random thoughts in todo
