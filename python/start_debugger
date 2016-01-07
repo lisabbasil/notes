@@ -1,0 +1,7 @@
+To start debugger within a script, use
+
+import pdb
+pdb.set_trace()
+
+This works in ipython (tried with heppy) not sure if it works in python as
+well.
