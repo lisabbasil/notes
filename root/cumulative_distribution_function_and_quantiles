@@ -1,5 +1,5 @@
 To go from "probabilities" to "sigmas", use quantiles:
-    
+
 root [0] TMath::NormQuantile(.95)
 (Double_t)1.64485362695147153e+00
 
@@ -17,4 +17,3 @@ which is the same as:
 
 root [3] 1-ROOT::Math::normal_cdf(1.644)
 (const double)5.00881011881717519e-02
-
