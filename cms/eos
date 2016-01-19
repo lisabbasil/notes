@@ -1,3 +1,14 @@
+Redirectors:
+US: root://cmsxrootd.fnal.gov/
+Europe: root://cms-xrd-global.cern.ch/
+CERN: root://eoscms.cern.ch/
+
+It should not matter which redirector you use (AAA philosophy). (This seem not
+to work always, though.)
+
+On a FNAL server, the following commands list the content:
+eos root://cmseos.fnal.gov ls /eos/uscms/store/user/bschneid/
+
 Check http://cern.ch/go/z9Lp for more quota
 
 For a list of commands:
