@@ -1,0 +1,44 @@
+SUSY Les Houches Accord
+
+Cross-section:
+
+The block starts with
+
+XSECTION SQRTS PDG_CODE1 PDG_CODE2 NF PDG_CODE3 ..., where
+
+- SQRTS: a floating number representing the center-of-mass energy, to be given
+  in GeV.
+- PDG_CODE1 and PDG_CODE2: two integer numbers, representing the pdg codes
+  of the initial state particles
+- NF: an integer number, representing the number of final state particles
+- PDG_CODE3, PDG_CODE4, ...: the pdg codes of the final state particles
+
+This general information line is then followed by the cross section themselves,
+given as a series of line under the form
+
+SCALE_SCHEME QCD_ORDER EW_ORDER KAPPA_F KAPPA_R  PDF_ID VALUE CODE VERSION,
+where
+
+- SCALE_SCHEME: an integer number, related to the way the central scales are
+  chosen. So far, the choices are
+  - 0: the central scale is the average mass of the produced particles
+  - 1: fixed scales
+  - 2: the scale is set to the partonic center-of-mass energy
+  - 3: the scale is set to the transverse mass of the final state particles
+- QCD_ORDER: an integer number, which contains information on the order in
+  alpha_s included in the computation. This is codified as
+  - 0: Born cross section
+  - 1: NLO cross section
+  - 2: NLO+NLL cross section
+- EW_ORDER: same as above but with respect to electroweak corrections
+- KAPPA_F: a floating point number, related to the variation of the
+  factorization scale with respect to the central scale. For SCALE_SCHEME set to
+  1, the scale itself has to be provided.
+- KAPPA_R: same as above, for the renormalization scale
+- PDF_ID: the lhapdf code of the employed parton densities
+- VALUE: a floating point number, representing the value of the cross section in
+  pb.
+- CODE: a string representing the name of the program which has computed the
+  cross section
+- VERSION: a string, the version number of the proram employed
+
