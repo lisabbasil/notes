@@ -1,5 +1,62 @@
 SUSY Les Houches Accord
 
+Block EXTPAR:
+
+Optional input parameters for non-minimal/non-universal models. This block may
+be entirely absent from the input file, in which case a minimal type of the
+selected SUSY breaking model will be used. When block EXTPAR is present, the
+starting point is still a minimal model with parameters as given in MINPAR but
+with each value present in EXTPAR replacing the minimal model value of that
+parameter, as applicable. If MINPAR is not present, then all model parameters
+must be specified explicitly using EXTPAR. All scale-dependent parameters are
+understood to be given in the DR scheme.
+
+0: M_input. Input scale for SUGRA, AMSB, and general MSSM models. If absent, the
+GUT scale derived from gauge unification will be used as input scale. Note that
+this parameter has no effect in GMSB scenarios where the input scale by
+definition is identical to the messenger scale, Mmess. A special case is when Q
+= MEWSB ≡ √mt˜1mt˜2 is desired as input scale, since this scale is not known
+beforehand. This choice can be invoked by giving the special value Minput = −1.
+
+Gaugino Masses:
+1: M1(M_input), U(1)_Y gaugino (Bino) mass.
+2: M2(M_input), SU(2)_L gaugino (Wino) mass.
+3: M3(M_input), SU(3)_C gaugino (gluino) mass.
+
+Trilinear coupling:
+11: A_t(M_input), Top trilinear coupling.
+12: A_b(M_input), Bottom trilinear coupling.
+13: A_tau(M_input), Tau trilinear coupling.
+
+Higgs Parameters, only one of the parameter sets (21, 22), (23, 24), (23, 26),
+(23, 27) should be given, they merely represent different ways of specifying the
+same parameters:
+21: m^2_H1(M_input), Down type Higgs mass squared.
+22: m^2_H2(M_input), Up tyep Higgs mass squared.
+23: mu(M_input), mu parameter.
+24: m^2_A(M_input), Tree level pseudoscalar Higgs mass parameter squared
+25: tan beta(M_input), If present, this value overrides the one in MINPAR and
+the input scale is taken as M_input rather than M_Z
+26: m_A^0, Pseudoscalar Higgs pole mass.
+27: m_H^+, Charged Higgs pole mass.
+
+Sfermion Masses:
+31: m_e_L(M_input): Left 1st generation scalar lepton mass.
+32: m_mu_L(M_input): Left 2nd generation scalar lepton mass.
+33: m_tau_L(M_input): Left 3rd generation scalar lepton mass.
+34: m_e_R(M_input): Right scalar electron mass.
+35: m_mu_R(M_input): Right scalar muon mass.
+36: m_tau_R(M_input): Right scalar tau mass.
+41: m_q_1L(M_input): Left 1st generation scalar quark mass.
+42: m_q_2L(M_input): Left 2nd generation scalar quark mass.
+43: m_q_3L(M_input): Left 3rd generation scalar quark mass.
+44: m_u_R(M_input): Right scalar up mass.
+45: m_c_R(M_input): Right scalar charm mass.
+46: m_t_R(M_input): Right scalar top mass.
+47: m_d_R(M_input): Right scalar down mass.
+48: m_s_R(M_input): Right scalar strange mass.
+49: m_b_R(M_input): Right scalar bottom mass.
+
 Cross-section:
 
 The block starts with
