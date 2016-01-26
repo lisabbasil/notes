@@ -1,0 +1,31 @@
+Virtualenv can be used to set up a package in a specific version only for one
+software. It will create a subdirectory. So when you are in the folder of the
+software you want to run, try
+
+$ virtualenv venv
+
+This will use the python interpreter that was used to install virtualenv, in my
+case this is python3.5. To use a different python interpreter, do
+
+$ virtualenv -p /uscms_data/d1/bschneid/pkg/bin/python2.7 venv
+
+or wherever your favorite python interpreter is.
+
+This creates a folder called venv.
+
+To activate the virtual environment, do
+
+$ . venv/bin/activate
+
+This will change the shell. Now you can do
+
+$ pip install package
+
+to install the package only for this environment.
+
+To leave the virtual environment, type
+
+$ deactivate
+
+For more information, visit:
+http://docs.python-guide.org/en/latest/dev/virtualenvs/
