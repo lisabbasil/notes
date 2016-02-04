@@ -6,6 +6,9 @@ Useful resources:
 - GLIB public homepage (with documentation)
   https://espace.cern.ch/project-GBLIB/public/default.aspx
 
+Power up GLIB
+=============
+
  1) Connect the GLIB with the test board and mount the MaPSA-Light onto the
     test board. The GLIB card used here is version 3, it is written on the back
     of the GLIB.
@@ -15,7 +18,8 @@ Useful resources:
     GLIB public homepage. The test board needs a voltage between 3.5 V and 5 V.
     I use 3.8 V. Make sure that you have the +/- correct, it's written on the
     back of the power plug on the card. Connect a resistor between the + and -
-    cable from the power supply for the test board.
+    cable from the power supply for the test board. The current should read
+    between 1.086 A and 1.114, though these are only empirical values.
  3) Flash the FPGA on the GLIB. Use iMPACT from Xilinx. I used a Windows machine
     but should be working on Linux too.
  4) Fire up the VM. I use VMPlayer, but Virtualbox should do fine. Before
@@ -43,5 +47,49 @@ Useful resources:
     $ python -i calibration.py
     This should produce some plots
 
-Next:
-Ask Kevin..., check random thoughts in todo
+Use Keithley electrometer
+=========================
+
+ 1) The Keithley electrometer Model 6517A can be used to measure voltage,
+    current, resistance, charge, temperature, and more. It acts also as a
+    voltage source. There are two mode of operations for the voltage source. It
+    can be used as standalone independent voltage source, or it can be hooked to
+    the electrometer and the current can be measured. Since we want to monitor
+    the current, we use the second mode, which is also referred to (at least in
+    the official manual, not sure if anywhere else) as FVMI (force voltage/
+    measure current). The manual can be found here:
+    http://www3.imperial.ac.uk/pls/portallive/docs/1/7293199.PDF
+ 2) First we need to connect the INPUT on the backside with a triax cable
+    (similar to a coax cable) and the V-SOURCE HI. The V-SOURCE LO is not used.
+ 3) Now we can power on the electrometer. Press "CONFIG" and then the up arrow
+    to enter the voltage source menu. Then press right arrow till you see
+    "METER-CONNECT" on the screen. Enter the menu by pressing "ENTER". Turn on
+    this option. This internally connects the V-SOURCE LO and the Ampere meter
+    LO, such that we can measure current.
+ 4) Now you can use the up and down arrows to define the voltage. Press "OPER"
+    to supply the voltage. When I measured this with a multi meter, I got a
+    voltage that was way too low (about half of what it should have been). This
+    is because we still have "Zero Check" enabled.
+ 5) Now press "I" and then "Z-CHK". This should disable the "Zero Check" and the
+    voltage that you have on the multimeter should be the same as the one you
+    supply. Also the current should be measured on the electrometer. You can use
+    the range up and the range down buttons to change the displayed accuracy.
+    The purpose of "Zero Check" is to protect the instrument from overload and
+    to zero the instrument. When "Zero Check" is enabled, the input of the
+    electrometer is a large resistance. "Zero Check" should always be enabled
+    when conditions change on the input circuit, such as changing functions
+    (measurements) or connections.
+ 6) Steps 3) to 5) are stored in the config 0. So instead of doing these steps,
+    you can press "MENU" and enter "SAVESETUP". Then you can restore
+    configuration #0, press "OPER" and you should be at the same point as if
+    you've carried out steps 3) to 5).
+
+Apply HV
+========
+
+ 1) To apply the HV it is important to get the polarity right. Try it with a
+    very low voltage and measure the current. 1 V in the wrong polarity should
+    give you a current in milli amps. In the right polarity, the HV will not
+    draw more than 1 micro ampere, even when the operational HV (90 V) is
+    applied.
+
