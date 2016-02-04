@@ -5,14 +5,12 @@ To fix it I reinstalled yaourt and package-query by
 
 sudo pacman-db-upgrade
 yaourt -R package-query yaourt
- 
-wget https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
-tar xf package-query.tar.gz
+
+git clone https://aur.archlinux.org/package-query.git
 cd package-query
 makepkg -si
 cd ..
 
-wget https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
-tar xf yaourt.tar.gz
+git clone https://aur.archlinux.org/yaourt.git
 cd yaourt
 makepkg -si
