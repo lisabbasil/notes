@@ -1,0 +1,155 @@
+DOCKER
+======
+
+Hello world on docker
+=====================
+
+ 1) Install docker from repositories
+ 2) To start the docker service with systemd, try
+    $ sudo systemctl start docker.service
+    You can check its status with
+    $ systemctl status docker.service
+    If you do
+    $ docker info
+    you will get a message that the docker service is not running. On the other
+    hand, if you do
+    $ sudo docker info
+    you will get some information about docker, proofing that the docker is
+    running. You can add yourself to the docker group by
+    $ sudo gpasswd -a basil docker
+    and then to make the current user session aware of the new group
+    $ newgrp docker
+    Now
+    $ docker info
+    should show the running docker instance as well.
+ 3) To do a "hello world" on docker, try
+    $ docker run hello-world
+    This contacts the docker daemon, pulls an image from docker hub, creates a
+    new container from that image, produces some output and streams it to the
+    docker client
+
+
+Some commands
+=============
+
+# Get help
+$ man docker
+$ man docker-run
+$ man docker-build
+...
+
+# Naming convention:
+# An image is what you download
+# A container is what you create with the run command from an image.
+# You can create several containers from the same image.
+# Note that both images and containers have ID's. They cannot be mixed. This may
+# lead to confusion.
+
+# Create container from <image> and run <command> in container
+$ docker run <image> <command>
+
+# Create container from <image> with version <tag> and run <command> in
+# container
+$ docker run <image>:<tag> <command>
+
+# Create container from <image> and stay interactively in the container
+$ docker run -it <image> /bin/bash
+
+# Show all the local images:
+$ docker images
+
+# Build a docker image with tag <name> at <path>
+$ docker build -t <name> <path>
+
+Show environment variable
+$ docker run <image> echo $PATH
+will not work ($PATH is expanded in your shell, not in docker), so run
+$ docker run <image> bash -c 'echo $PATH'
+
+# Show all running containers
+$ docker ps
+
+# Show all running and all stopped containers
+$ docker ps -a
+
+# Start container with ID <container_id>
+$ docker start <container_id>
+
+# Stop container with ID <container_id>
+$ docker stop <container_id>
+
+# Remove container with ID <container_id>
+$ docker rm <container_id>
+
+# Remove image with ID <image_id>
+$ docker rmi <image_id>
+
+# Tag image
+$ docker tag <image_id> <user>/<name>:<tag>
+
+# Login to dockerhub
+$ docker login --username=<user> --email=<email>
+
+# Push your image
+$ docker push <user>/<image>
+
+# Pull a docker image (see https://hub.docker.com/ for images)
+$ docker pull user/image
+
+
+Make your own image
+===================
+
+To build your own image, you can use the following keywords:
+FROM    tells docker on which image your image is based on
+RUN     runs a command and commits the result
+CMD     execute a command, there can only be one command in a dockerfile
+ENV     set environment variables (don't use "RUN export"!)
+WORKDIR changes the working directory (don't use "cd dir"!)
+
+The difference between RUN and CMD is, that RUN actually runs a command and
+commits the result; CMD does not execute anything at build time, but specifies
+the intended command for the image.
+
+Store your commands in a file called "Dockerfile", e.g.
+FROM docker/whalesay:latest
+RUN apt-get -y update && apt-get install -y fortunes
+CMD /usr/games/fortune -a | cowsay
+
+Build the image
+$ docker build -t image .
+
+See your image
+$ docker images image
+
+Run <command> in your image
+$ docker run image <command>
+
+Make a repository on dockerhub and then tag it
+$ docker tag <image_id> <user>/<name>:<tag>
+
+Login to dockerhub
+$ docker login --username=<user> --email=<email>
+
+Push your image
+$ docker push <user>/<image>
+
+sl6cactus image
+===============
+
+This image is based on an SL6 image which can be found here:
+https://hub.docker.com/r/ringo/scientific/
+
+This is an image to specifically run cactus, which supports only Scientific
+Linux 5 and 6. I tried installing it on my Arch Linux machine, but the newer
+version of gcc ran into several issues. Having the default python interpreter
+set to python3 didn't help either.
+
+To pull the image, do
+$ docker pull basilschneider/sl6cactus
+
+To test if the image is running you can do
+$ docker run basilschneider/sl6cactus cat /etc/system-release
+
+To test cactus, you can do
+$ docker run basilschneider/sl6cactus python2 -c 'import uhal'
