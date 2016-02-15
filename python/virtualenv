@@ -5,7 +5,7 @@ software you want to run, try
 $ virtualenv venv
 
 This will use the python interpreter that was used to install virtualenv, in my
-case this is python3.5. To use a different python interpreter, do
+case this is python3.5. To use a different python interpreter, do e.g.
 
 $ virtualenv -p /uscms_data/d1/bschneid/pkg/bin/python2.7 venv
 
