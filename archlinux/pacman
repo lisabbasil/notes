@@ -37,5 +37,13 @@ Install old package:
 pacman -U /path/to/package
 but try `downgrade package` first
 
+To set pacman to a specific date, modify and uncomment lines at bottom in
+/etc/pacman.conf
+comment the other databases and run
+pacman -Syyuu
+
 Find out to which package ${file} belongs to
 pacman -Qo ${file}
+
+See update history
+/var/log/pacman.log
