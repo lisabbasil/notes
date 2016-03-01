@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# To split a git repository into two clone the repository, then from the
+# toplevel,
+$ git filter-branch \
+    --prune-empty \
+    --subdirectory-filter \
+    <directory_name> \
+    master
+
+# This should remove all other folders. Now remove remote with e.g.
+$ git remote rm origin
+
+# Add new remote
+$ git remote add origin <url>
+
+# Push it real good!
+$ git push
