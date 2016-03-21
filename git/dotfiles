@@ -12,7 +12,7 @@ $ git push
 
 4) On secondary machine
 $ ssh-keygen
-$ cat .ssh/id_rsa.pub   # Copy public key and add it to GitHub
+$ cat .ssh/id_rsa.pub   # Copy public key and add it to GitHub (only needed when you want to push)
 $ git clone $urlGitHub   # The project is copied to a subfolder
 
 5) Overwrite dotfiles
