@@ -145,6 +145,10 @@ git show <branch>           Show last commit on <branch>
 git branch \                Set checked out branch to track origin/master
     --set-upstream-to \
     origin/master
+git branch \                As above, but for older git versions
+    --set-upstream \
+    master \
+    origin/master
 
 
 +++ REBASE +++
