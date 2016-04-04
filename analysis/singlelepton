@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Set up: source script with -c flag
+. setupEnvironment_inc -c
+
+# To make n-tuples:
+cd "${CMSSW_BASE}"/src/CMGTools/SUSYAnalysis/cfg/
+heppy test01 run_susySingleLepton_v2_cfg.py -p 0 -N 100 -f
+
+# Define in run_susySingleLepton_v2_cfg.py if you want to run over MC
+# (background), data or signal
+
+# Define selectedComponents as the list of groups that you want to run over. The
+# groups are defined in the imported python file
+
+# In the imported python file, use ComponentCreator().makeMCComponent() to
+# create the samples. If you want to run over the samples that are in e.g. DESY,
+# you would use ComponentCreator().makeMCComponentFromDESY(), see
+# CMGTools/Production/python/dataset.py for a definition of these methods
+
+# Beware, CMGTools is trying to use cached information. If you change certain
+# things, you might run into problems. The cache is kept in ~/.cmgdataset.
+# Delete it to be sure
+
+# To make your private n-tuples, change the import satement in
+# run_susySingleLepton_v2_cfg.py and also the list called selectedComponents. In
+# you import statement you will import another python file. In this python file,
+# you use ComponentCreator().makeMCComponent(). The first argument is the name,
+# the second the path, the third is "CMS" for an official sample, and "LOCAL"
+# for a local sample
