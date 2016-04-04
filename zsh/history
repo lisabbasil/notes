@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+# History is loaded when starting zsh, to reload history, do
+fc -R
+
+# To write current history, do
+fc -W
