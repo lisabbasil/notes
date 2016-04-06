@@ -32,7 +32,8 @@ run_susySingleLepton_v2_cfg.py and also the list called selectedComponents. In
 you import statement you will import another python file. In this python file,
 you use ComponentCreator().makeMCComponent(). The first argument is the name,
 the second the path, the third is "CMS" for an official sample, and "LOCAL"
-for a local sample
+for a local sample. Use makeMCComponentFromLocal() if you have the sample
+locally
 
 The heppy options are:
 -N: Number of events
