@@ -59,6 +59,12 @@ git checkout -p -- <file>   Overwrite parts of local modifications of <file>
 git repack                  Repack git files
 git repack -d               Repack git files and remove
 git ls-files                Show all files that are controlled by git
+git update-index \          Ignore changes to this file, but still track it
+    --assume-unchanged \
+    <file>
+git update-index \          Stop ignoring changes to this file
+    --no-assume-unchanged \
+    <file>
 
 
 +++ REMOTES +++
