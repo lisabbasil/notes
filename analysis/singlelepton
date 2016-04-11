@@ -48,6 +48,8 @@ The heppy options are:
 -q: Do not print log messages
 -o: extra options
 
+The heppy script can be found under
+${CMSSW_BASE}/src/PhysicsTools/HeppyCore/scripts/heppy_loop.py
 
 CREATE FRIEND TREES FROM N-TUPLES
 =================================
