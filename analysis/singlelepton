@@ -102,3 +102,36 @@ then the cut can be applied on this new derived quantity.
 
 More information can be found in the CMG Twiki
 http://cern.ch/go/Hr7T
+
+
+MAKE PLOTS FROM N-TUPLES AND FRIEND TREES
+=========================================
+
+Making plots is similar to making the cutflow:
+$ cd ${CMSSW_BASE}/src/CMGTools/TTHAnalysis/python/plotter/susy-1lep/
+$ python ../mcPlots.py \
+    mca/mca-Spring15_1l_noPU.txt \
+    1l_basicCutsFullCutFlow.txt \
+    1l_CutFlowBasicPlots.txt \
+    -P ~/analysis/datasets/ntuples/ \
+    --FMC sf/t ~/analysis/datasets/run25_test-full-run/evVarFriend_{cname}.root \
+    --FD sf/t ~/analysis/datasets/run29_data-original/evVarFriend_{cname}.root \
+    -l 2.26 \
+    -j $(nproc) \
+    --s2v \
+    --tree treeProducerSusySingleLepton \
+    -G \
+    -f \
+    --extraLabel "baseline" \
+    --noStackSig \
+    --showIndivSigs
+
+As before, there is a wrapper script that can be modified and called
+$ ./make_plots
+
+The samples are defined in mca/mca-Spring15_1l_noPU.txt. Again, to change the
+list of samples to be plotted, modify this file.
+
+The cuts before plotting the quantities are defined in
+1l_basicCutsFullCutFlow.txt. The plots themselves are defined in
+1l_CutFlowBasicPlots.txt
