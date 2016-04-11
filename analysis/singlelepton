@@ -63,3 +63,42 @@ There's a wrapper script to do that:
 $ cd ~/analysis/datasets/
 $ ./produce_friends -h
 will give you an extended help
+
+
+MAKE CUTFLOW FROM N-TUPLES AND FRIEND TREES
+===========================================
+
+To make the cutflows, both n-tuples and friend trees are needed.
+$ cd ${CMSSW_BASE}/src/CMGTools/TTHAnalysis/python/plotter/susy-1lep/
+$ python ../mcAnalysis.py \
+    mca/mca-Spring15_1l_noPU.txt \
+    1l_basicCutsFullCutFlow.txt \
+    -P /tmp/HT350_1nLep_LT200_hadrFlav \
+    --FMC sf/t ~/analysis/datasets/run25_test-full-run/evVarFriend_{cname}.root \
+    -l 2.26 \
+    -j $(nproc) \
+    --s2v \
+    --tree treeProducerSusySingleLepton \
+    -G
+
+Instead of local path's, you should also be able to use e.g.
+-P root://eoscms.cern.ch//eos/cms/store/cmst3/group/susy/...
+
+There is a wrapper script that can be modified and called
+$ ./run_cutflow
+
+Note that the options are defined in mcAnalysis.py AND tree2yield.py
+
+The file mca-Spring15_1l_noPU.txt contains the samples and some options for each
+sample (like cross sections). Here you can also combine different samples. If
+the command above complains about not finding a certain sample, you have to make
+modifications in this file.
+
+The cutflow itself is defined in 1l_basicCutsFullCutFlow.txt. The first column
+in this file is for the name of the cut and the second is the cut logic. The
+cutflow logic can include some trivial logic to make cuts, but for complex cuts,
+the quantity to cut on must first be calculated and stored in the friend trees,
+then the cut can be applied on this new derived quantity.
+
+More information can be found in the CMG Twiki
+http://cern.ch/go/Hr7T
