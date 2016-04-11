@@ -4,8 +4,10 @@ GENERAL
 Set up: source script with -c flag
 $ . setupEnvironment_inc -c
 
+
 CREATE N-TUPLES FROM MINIAOD
 ============================
+
 To make n-tuples:
 $ cd "${CMSSW_BASE}"/src/CMGTools/SUSYAnalysis/cfg/
 $ heppy test01 run_susySingleLepton_v2_cfg.py -p 0 -N 100 -f
@@ -46,6 +48,7 @@ The heppy options are:
 -q: Do not print log messages
 -o: extra options
 
+
 CREATE FRIEND TREES FROM N-TUPLES
 =================================
 
@@ -55,3 +58,8 @@ $ python prepareEventVariablesFriendTree.py \
 e.g.
 $ python prepareEventVariablesFriendTree.py \
     $CMSSW_BASE/src/CMGTools/SUSYAnalysis/cfg/run01 run01
+
+There's a wrapper script to do that:
+$ cd ~/analysis/datasets/
+$ ./produce_friends -h
+will give you an extended help
