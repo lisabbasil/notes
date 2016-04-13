@@ -1,0 +1,16 @@
+TO CONNECT TO THE LASER VIA SERIAL PORT
+=======================================
+
+Plug in the laser via USB, use
+$ dmesg
+to find out what file it's connected to. Usually it's something like
+/dev/ttyUSB0. Then you need to make the connection via
+$ setserial -g /dev/ttyUSB0
+If you don't have the permission, add your user to the group dialout
+$ usermod -a -G dialout bschneid
+Then you can connect via
+$ screen /dev/ttyUSB0 19200
+where 19200 is the BAUD rate (from the manual)
+
+See here for more possibilities to connect via serial port:
+http://www.cyberciti.biz/hardware/5-linux-unix-commands-for-connecting-to-the-serial-console/
