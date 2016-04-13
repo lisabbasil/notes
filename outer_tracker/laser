@@ -14,3 +14,14 @@ where 19200 is the BAUD rate (from the manual)
 
 See here for more possibilities to connect via serial port:
 http://www.cyberciti.biz/hardware/5-linux-unix-commands-for-connecting-to-the-serial-console/
+
+
+COMMUNICATE WITH THE LASER
+==========================
+
+The easiest way to communicate the laser is having two terminals open, one for
+listening and one for sending. In the listening terminal, type
+$ cat -v < /dev/ttyUSB0
+In the sending terminal, type
+$ echo tune\? > /dev/ttyUSB0
+and you should see the output in the listening terminal.
