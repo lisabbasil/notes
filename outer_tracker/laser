@@ -13,7 +13,7 @@ $ screen /dev/ttyUSB0 19200
 where 19200 is the BAUD rate (from the manual)
 
 See here for more possibilities to connect via serial port:
-http://www.cyberciti.biz/hardware/5-linux-unix-commands-for-connecting-to-the-serial-console/
+http://cern.ch/go/bg8S
 
 
 COMMUNICATE WITH THE LASER
@@ -25,3 +25,6 @@ $ cat -v < /dev/ttyUSB0
 In the sending terminal, type
 $ echo tune\? > /dev/ttyUSB0
 and you should see the output in the listening terminal.
+
+See here for more information:
+http://unix.stackexchange.com/a/117064/58056
