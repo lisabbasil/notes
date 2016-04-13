@@ -1,0 +1,26 @@
+How to find what signal sample points are available:
+
+1) Go to DAS website:
+   https://cmsweb.cern.ch/das/
+   and make a query, e.g.
+   dataset=/SMS-T5qqqqWW_mGl-825to1000_mLSP*/*/MINIAODSIM
+
+   Since some signal points are lumped together, this does not give you a good
+   overview what samples are available.
+
+2) Check the Twiki:
+   https://twiki.cern.ch/twiki/bin/view/CMS/SUSYMCProduction13TeV
+
+   This might be not up to date, though.
+
+3) Go to McM by clicking a link on the Twiki, or by going to
+   https://cms-pdmv.cern.ch/mcm/
+   and search for the sample
+
+4) In McM, click on "Select View" and enable the "Mcdb id" column, then write
+   down the Mcdb id of the sample you are interested in. Now you can do
+   xrdfs root://eoscms.cern.ch/ ls /eos/cms/store/lhe/${mcdbid} (cmslpc)
+   or
+   eos ls /store/lhe/${mcdbid} (lxplus)
+   to get a list of all LHE files. You can read the LHE files themselves or
+   deduce from the filenames what signal points are available.
