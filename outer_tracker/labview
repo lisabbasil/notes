@@ -1,0 +1,7 @@
+In order for labview to see the Zaber motors, ni-visa and its drivers need to be
+installed. Several dependencies need to be met. This runs in 32 bit mode, only,
+so you have to install the i686 packages.
+
+Then run visaconf, to see your device. Unplug and replug, to understand which
+one is your device. Give the device a proper name. You can also double click to
+see what device binding it is using (e.g. /dev/ttyUSB0).
