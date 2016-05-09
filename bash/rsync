@@ -317,3 +317,5 @@ Name
 sent 406 bytes  received 15810211 bytes  2874657.64 bytes/sec
 total size is 45305958  speedup is 2.87
 
+To tunnel with rsync, use something like:
+rsync -pavz -e "ssh -A fnal ssh" rulinux06.dhcp.fnal.gov:MAPSA_Software/daqlogs .
