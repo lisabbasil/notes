@@ -1,0 +1,17 @@
+To calculate the lumi, K. Pedro used something like
+
+./brilcalc \
+    lumi \
+    -u /pb \
+    -i Cert_271036-273450_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt
+
+and
+
+./brilcalc \
+    lumi \
+    -u /pb \
+    -i Cert_271036-273450_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt \
+    --normtag /afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_DATACERT.json
+
+K. Pedro asks per email "Which lumi value should be considered correct?" At the
+time of writing, there was no answer to this question.
