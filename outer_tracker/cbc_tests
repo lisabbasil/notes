@@ -1,0 +1,75 @@
+ELOG
+====
+
+The elog can be found under
+https://cmstkph2-beamtest.web.cern.ch/cmstkph2-beamtest/elog/186-Lab+Operation/
+
+If it is not running or not responding, it needs to be (re)started:
+
+1) Login on a different machine
+   $ ssh xtaldaq@gauzinge.cern.ch
+   b1ackh0le
+2) If you want to make changes to the elog, like adding a new user, change the
+   config file under elog/elogd.cfg
+   If you make changes, restart the daemon
+3) See if the elog daemon is running
+   $ ps auxfw | grep [e]logd
+4) If it is running, kill it
+   $ killall elogd
+5) Start elog daemon
+   $ elogd -c elog/elogd.cfg -p 8082 -D
+   -p defines the port, -D stands for daemon
+
+
+Start triggers
+==============
+
+Triggered can be externally or internally, to trigger externally:
+
+1) $ ssh xtaldaq@cmsuptracker006
+   This machine is physically connected to the TLU (Trigger Logic Unit)
+2) Set up environment in tmux:
+   $ . ./setup_eudaq.sh
+   $ . ./setup_eudaq_ROOT6.sh
+3) Run
+   $ ./run_GLIB_test.sh
+
+
+Config files
+============
+
+The different firmwares have different config files. Right now, the config file
+for the Strasbourg firmware can be found under
+settings/HWDescription_2CBC.xml
+while the config file for the Imperial firmware can be found under
+settings/ICDescription.xml
+
+
+Taking data with miniDAQ
+========================
+
+Data can be taken with the GLIBSupervisor (for the Strasbourg firmware) or with
+miniDAQ, which is part of the middleware. For taking data with miniDAQ:
+
+1) $ miniDAQ -f ${configfile} -e 1000
+   -f is the config file, -e the number of events
+2) Make an elog entry
+
+
+Configure FPGA
+==============
+
+There are two slots where firmware can be stored. When starting up the CBC, it
+automatically takes the firmware from slot 1. To change the firmwares on the
+slotes:
+
+1) $ fpgaconfig -c ${configfile} -f ${firmware} -i ${slot}
+   See Config files for what ${configfile} to use, the Strasbourg firmware can
+   be found under
+   firmware/2CBC_beamtest_DIO5_stub_fixed.mcs
+   The Imperial firmware can be found under
+   firmware/IC_glib_top_DIO5_2CBConFMC1.mcs
+   Note that you always have to use the Strasbourg firmware to change the
+   firmware, since the Imperial firmware does not support firmware flashing (?)
+2) $ fpgaconfig -i ${slot}
+   If the -i flag is used without -f, the firmware from this slot is loaded
