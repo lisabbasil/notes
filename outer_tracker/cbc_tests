@@ -45,15 +45,34 @@ while the config file for the Imperial firmware can be found under
 settings/ICDescription.xml
 
 
-Taking data with miniDAQ
+Take data with miniDAQ
 ========================
 
-Data can be taken with the GLIBSupervisor (for the Strasbourg firmware) or with
-miniDAQ, which is part of the middleware. For taking data with miniDAQ:
+Data can be taken with the GLIBSupervisor (XDAQ) (for the Strasbourg firmware)
+or with miniDAQ, which is part of the middleware. For taking data with miniDAQ:
 
-1) $ miniDAQ -f ${configfile} -e 1000
+1) Go to ~/Ph2_ACF
+2) Update .runnumber.txt. This file holds the latest run number. It gets updated
+   automatically by miniDAQ, so there is no need to update it manually if data
+   was only taken with miniDAQ. If on the other hand XDAQ was used, this number
+   needs to be adjusted.
+3) Make sure triggers are running.
+4) $ miniDAQ -f ${configfile} -e 1000
    -f is the config file, -e the number of events
-2) Make an elog entry
+5) Make an elog entry
+
+
+Take data with XDAQ
+=====================
+
+Taking data with XDAQ circumvents the middleware and works only for particular
+firmwares, right now this is the Strasbourg firmware.
+
+1) Start the XDAQ server
+2) Adjust runnumber and number of events
+3) Click enable
+4) Click auto refresh to see data acquisition
+5) Make an elog entry
 
 
 Configure FPGA
