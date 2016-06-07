@@ -8,6 +8,20 @@ $ . setupEnvironment_inc -c
 CREATE N-TUPLES FROM MINIAOD
 ============================
 
+Use produce_trees. To fill samples_MC files, get the samples from CMG-Lite and
+then run a das query, to get the number of files. Something like this should do
+the trick:
+
+$ while read name sample; do
+    echo -n "$name "
+    echo -n "$sample "
+    das_client.py \
+      --query="summary dataset=${sample}" \
+      --key /tmp/x509up_u51163 \
+      --cert /tmp/x509up_u51163 \
+      | awk '/nfiles/ {print $3}'
+  done < samples_MC > samples_MC8
+
 To make n-tuples:
 $ cd "${CMSSW_BASE}"/src/CMGTools/SUSYAnalysis/cfg/
 $ heppy test01 run_susySingleLepton_v2_cfg.py -p 0 -N 100 -f
