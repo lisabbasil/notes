@@ -25,3 +25,9 @@ condor_q -submitter bschneid
 
 # Kill jobs
 condor_rm <job_id>
+
+# If a job is in "held" state, analyze what's wrong
+condor_q analyze
+
+# Check user priorities and running jobs
+condor_userprio
