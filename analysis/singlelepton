@@ -26,7 +26,7 @@ To make n-tuples:
 $ cd "${CMSSW_BASE}"/src/CMGTools/SUSYAnalysis/cfg/
 $ heppy test01 run_susySingleLepton_v2_cfg.py -p 0 -N 100 -f
 
-or use the ./run wrapper!
+or use the ./produce_trees wrapper!
 
 Define in run_susySingleLepton_v2_cfg.py if you want to run over MC
 (background), data or signal
@@ -64,6 +64,7 @@ The heppy options are:
 
 The heppy script can be found under
 ${CMSSW_BASE}/src/PhysicsTools/HeppyCore/scripts/heppy_loop.py
+
 
 CREATE FRIEND TREES FROM N-TUPLES
 =================================
