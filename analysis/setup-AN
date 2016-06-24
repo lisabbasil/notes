@@ -1,0 +1,10 @@
+To download a note on svn:
+
+svn co -N svn+ssh://svn.cern.ch/reps/tdr2 note
+cd note
+svn update utils
+svn update -N notes
+svn update notes/AN-14-288
+eval `notes/tdr runtime -sh`
+cd notes/AN-14-288/trunk/
+tdr --style=note b AN-14-288
