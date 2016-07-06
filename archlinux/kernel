@@ -1,0 +1,15 @@
+To change kernel, install it first (e.g. linux-lts). This should run
+$ mkinitcpio -p linux-lts
+automatically, otherwise run it by hand
+Then run
+$ sudo grub-mkconfig -o /boot/grub/grub.cfg
+Grub should find the new kernel automatically and create an entry in your
+grub.cfg
+Check the grub.cfg, what entry you would like to boot, then modify
+/etc/default/grub and run
+$ sudo grub-mkconfig -o /boot/grub/grub.cfg
+again. You can also set the timeout and reboot, to dynamically choose what
+kernel to boot. Just don't forget to always run
+$ sudo grub-mkconfig -o /boot/grub/grub.cfg
+after making changes to grub. To check what kernel you booted, try
+$ uname -r
