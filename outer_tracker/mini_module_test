@@ -1,0 +1,20 @@
+From Tomasz:
+
+here are the testing instructions for the mini-module:
+0. Interconnect the setup (you have sensor only on the TOP side)
+0. >source setup.sh in the Ph2_ACF directory
+1. power the hybrid  with LV, check the current consumption at 1.2V around 60mA for an inactive CBC2 (later on can be more than 70mA while datataking but I have never seen more than 80mA per chip)
+2. check other LV currents (below 50mA for 5 and -5V, below 200mA for 3.3V)
+3. run the registers test for CBC2 (>hybridtest -r)
+4. Cover the sensor from the light, and bias it step by step (0 10 50 100 200 300) set limit to 100uA
+if we are biasing the sensor in a forward direction we could immediately see "a big current" around 10uA at 10V
+in backward direction at 10V we should see less than 1uA (with well covered sensor) at 300V the current 2uA (assembly and sensor type specific)
+5. calibrate the hybrid with sensor bias to 300V and covered (>calibrate -f settings/Calibration2CBC.xml)
+ if necessary change number of events in the Calibration2CBC.xml (last section of the XML file <Setting name="Nevents">1000</Setting> )
+check the calibration plots
+6. put the calibration results path in the hybrid testing XML (settings/HybridTest2CBC.xml)
+<CBC_Files path="Results/Calibration_Hole_07-07-16_16:31:37/"/>
+7. run hybridtest for the Vcth value used in calibration (default 0x78 = 120)
+8. play with Vcth value (in hole mode lower Vcth => higher occupancy)
+9. If you want to check sensor strips connectivity (go with Vcth high enough to see 0% occupancy with covered sensor, then uncover
+it remembering about current limit or/and lower bias HV and chceck if the hits are coming to all the channels) - not a healthy method
