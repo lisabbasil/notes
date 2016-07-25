@@ -95,6 +95,7 @@ git push <prj> :<branch>    Delete <branch> on server for project <prj>
 git push origin HEAD:master Same as git push
 git push <remote> \         Push <refspec> to <remote> <branch>
     <refspec>:<branch>
+git read-tree -mu HEAD      Update tree when e.g. sparse-checkout has changed
 
 
 +++ TAGS +++
