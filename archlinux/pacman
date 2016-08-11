@@ -47,3 +47,12 @@ pacman -Qo ${file}
 
 See update history
 /var/log/pacman.log
+
+Download fresh package database from server
+pacman -Fy
+
+Find what package provides file (like yum whatprovides)
+pacman -Fs ${filename}
+
+Find what package provides file using regexes (like yum whatprovides)
+pacman -Fs ${regexfilename}
