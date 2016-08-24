@@ -49,7 +49,9 @@ you import statement you will import another python file. In this python file,
 you use ComponentCreator().makeMCComponent(). The first argument is the name,
 the second the path, the third is "CMS" for an official sample, and "LOCAL"
 for a local sample. Use makeMCComponentFromLocal() if you have the sample
-locally
+locally. Note that when using makeMCComponenetFromLocal(), the first argument is
+again the name of the sample, but the second is "LOCAL", the third the path to
+the file and the fourth the cross section.
 
 The heppy options are:
 -N: Number of events
