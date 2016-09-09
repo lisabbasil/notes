@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+netcat
+# HTTP requests are fundamentally really simple - they are just text. To see
+# that, let's make a request by hand:
+cat request.txt
+> GET / HTTP/1.1
+> Host: ask.metafilter.com
+> User-Agent: zine
+> 
+> 
+# Note the two empty lines at the end. Then we use netcat (nc):
+cat request.txt | nc metafilter.com 80
+# You will get a website with a bunch of HTML!
+
+
+netstat
+# Every network request gets sent to a port on a computer. To receive a request,
+# a program (a.k.a. server) needs to be listening on the port. Finding out which
+# programs are listening on which ports is really easy:
+netstat -tunapl
+
+
+ngrep
+# ngrep is a network spy tool. Try:
+ngrep -d any metafilter
+# Then go to http://metafilter.com in your browser. You should see matching
+# network packets in ngrep's output! You are a spy!
+
+
+tcpdump
+# tcpdump is very powerful, it can be used in e.g. the following situations:
+# - You send a request to a machine and you want to know if it's even getting
+#   there; e.g. this will print every packet on port 80:
+tcpdump port 80
+# - You have slow network connection and want to know whether to blame the
+#   client or server (will also need wireshark)
+# - Print out packets to investigate them:
+tcpdump -A
+
+
+wireshark
+# wireshark is a GUI tool for networking analysis. Run:
+tcpdump port 80 -w http.pcap
+# while that's running, open a website in your browser. Then stop tcpdump, you
+# should now have a .pcap (packet capture) file. This is the standard for saving
+# network traffic, everything understands pcap. Now you can run
+wireshark http.pcap
+# Explore the GUI. Questions you can answer with wireshark:
+# - What HTTP headers did your browser send?
+#   Search for frame contains "GET"
+# - How long did the longest request take?
+#   click Statistics/Conversations
+# - How many packets were exchanged with the server?
+#   Search ip.dst == $IP
