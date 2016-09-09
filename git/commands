@@ -205,13 +205,15 @@ git log --graph             Show ASCII graph of branch and merge history
 git log -- <file>           Show only commit messages for <file>
 git shortlog --no-merges \  Get summary of all commits grouped by author of
     <branch> --not <ver>    <branch> since version <ver>
-git reflog                  Show history of branch references
 git log <b1> --not <b2>     Show log of branch <b1> that are not in branch <b2>
 git log <b1>..<b2>          Show commits reachable by branch <b2> but not by
                             branch <b1> (same as git log <b2> --not <b1>)
 git log origin/master..     Show commits not yet pushed to origin
 git log <b1>...<b2>         Show commits reachable by branch <b1> or by branch
                             <b2> but not by both
+git reflog                  Show journal of HEAD
+git reflog <branch>         Show journal of branch <branch>
+git show <branch>@{n}       Show specific entry from reflog
 
 
 +++ STASH +++
