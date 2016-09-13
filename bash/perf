@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# perf is a sampling profiler
+
+# Try (and thenn press Ctrl+c):
+perf record python
+
+# This records, every few milliseconds, what the python process is doing and
+# stores its results in perf.data. To see the results, do:
+perfreport
+
+# Also try
+perf top
+# to understand what the CPU is doing
