@@ -36,6 +36,8 @@ git diff                    Show diff of working directory and staging area
 git diff --staged           Show diff of staging area and last snapshot (this is
                             what you commit)
 git diff <branch>           Get diff of checked out branch with <branch>
+git diff <branch> -- <file> Get diff of checked out branch with <branch> for
+                            <file>
 git diff <b1>...<b2>        Get diff of branch <b2> with common ancestor of
                             branches <b1> and <b2>
 git diff <h1> <h2>          Get diff of commit with hash <h1> and commit with
