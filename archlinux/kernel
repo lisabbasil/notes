@@ -1,6 +1,7 @@
 To change kernel, install it first (e.g. linux-lts). This should run
 $ mkinitcpio -p linux-lts
-automatically, otherwise run it by hand
+automatically, otherwise run it by hand. If firmware is missing, try to find it
+on AUR.
 Then run
 $ sudo grub-mkconfig -o /boot/grub/grub.cfg
 Grub should find the new kernel automatically and create an entry in your
