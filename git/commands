@@ -83,12 +83,15 @@ git remote -v               Show configured remote servers (projects) and their
                             paths
 git remote add <prj> <url>  Add address <url> to your project <prj>
 git remote show <prj>       Show more information about project <prj>
+git remote rename <r1> <r2> Rename remote <r1> to <r2>
 git fetch                   Fetch data from remote server (but does not merge)
 git fetch <prj>             Fetch data for project <prj>
 git pull                    Fetch data from tracking branch on remote server and
                             merge
 git pull <url>              Pull from <url> without adding it as a project
 git push                    Push tracking branch to remote server
+git push -u                 Push tracking branch to remote server and set
+                            upstream tracking branch
 git push <prj> <branch>     Push <branch> to server for project <prj>
 git push -f <prj> <branch>  Overwrite <branch> on server for project <prj>
 git push <prj> <tag>        Push <tag> to server for project <prj>
