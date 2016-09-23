@@ -8,9 +8,14 @@ $ . setupEnvironment_inc -c
 CREATE N-TUPLES FROM MINIAOD
 ============================
 
-Use produce_trees. To fill samples_MC files, get the samples from CMG-Lite and
-then run a das query, to get the number of files. Something like this should do
-the trick:
+Use produce_trees. To fill samples_MC files, get the samples from CMG-Lite.
+
+In vim, use
+:v/makeMCComponent/d
+:%s/^\(#*\).*makeMCComponent *( *" *\([^"]*\)" *, *"\([^"]*\).*/\1\2 \3
+
+and then run a das query, to get the number of files. Something like this should
+do the trick:
 
 $ while read name sample; do
     echo -n "$name "
@@ -20,7 +25,7 @@ $ while read name sample; do
       --key /tmp/x509up_u51163 \
       --cert /tmp/x509up_u51163 \
       | awk '/nfiles/ {print $3}'
-  done < samples_MC > samples_MC8
+  done < samples_MC 2>&1 | tee samples_MC8
 
 To make n-tuples:
 $ cd "${CMSSW_BASE}"/src/CMGTools/SUSYAnalysis/cfg/
