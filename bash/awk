@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-### awk executes a set of instructions for each line of input. It works similar to sed:
+# awk executes a set of instructions for each line of input. It works similar to sed:
 
 $ awk 'instructions' file
 $ awk script file
 
-### $0 represents the whole line, $1 the first word, $2 the second...
+# $0 represents the whole line, $1 the first word, $2 the second...
 
 $ cat list
 > First line
@@ -13,19 +13,19 @@ $ cat list
 > line line line
 > Fourth and last line
 
-$ awk '{ print $0 }' list   ### same as cat list
+$ awk '{ print $0 }' list   # same as cat list
 > First line
 > Second
 > line line line
 > Fourth and last line
 
-$ awk '{ print $1 }' list   ### same as cat list
+$ awk '{ print $1 }' list
 > First
 > Second
 > line
 > Fourth
 
-### To determine words, spaces and tabs are used, to change the delimiter, use -F
+# To determine words, spaces and tabs are used, to change the delimiter, use -F
 
 $ awk -F in '{ print $1 $2 }' list
 > First le
@@ -34,20 +34,20 @@ $ awk -F in '{ print $1 $2 }' list
 > Fourth and last le
 
 
-### If we define a pattern, only the lines are printed that match the pattern
+# If we define a pattern, only the lines are printed that match the pattern
 
 $ awk '/line/' list
 > First line
 > line line line
 > Fourth and last line
 
-### There's a BEGIN and and END statement for things to happen before any file is read or after all files are read
+# There's a BEGIN and and END statement for things to happen before any file is read or after all files are read
 
 $ awk 'BEGIN{ print "Hello" }; END{ print "World" }' list
 > Hello
 > World
 
-### awk can use loops or ifs, e.g. we can count words
+# awk can use loops or ifs, e.g. we can count words
 
 $ awk '{ for(i=0; i<NF; i++){ print $i } }' list | sort | uniq -c
 >      1 and
@@ -57,7 +57,7 @@ $ awk '{ for(i=0; i<NF; i++){ print $i } }' list | sort | uniq -c
 >      5 line
 >      1 Second
 
-### We can also do some simple math with it, like adding all numbers in one line
+# We can also do some simple math with it, like adding all numbers in one line
 
 $ cat numbers
 > 6 8 2 3 7
@@ -70,4 +70,12 @@ $ awk 'BEGIN{ print "Adding and averaging numbers" } { total=0; for (i=1; i<=NF;
 > 1 1 1 1 1 1 1 1 1 1 1 1 1 - 13 - 1
 > 34 77 - 111 - 55.5
 
+# Example of awk script that replaces GjN1 with GgN1, GjjN1 with GggN1, and so on
+{
+    for (i=1; i<=NF; ++i){
+        if ($i ~ /Gj*N1/){
+            gsub(/j/, "g", $i)
+        }
+    }
+}1
 
