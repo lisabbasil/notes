@@ -16,3 +16,7 @@ opensnoop -p "$PID"
 # Tells you what files are opened, it's the same as the strace command above,
 # but it doesn't slow down your program; opensnoop needs a relatively new kernel
 # feature called eBPF, hence it is not (yet) widely available on servers
+
+perf
+# perf is a very handy tool that can do various things. Type perf to get its
+# options. One example would be perf top
