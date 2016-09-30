@@ -19,4 +19,6 @@ opensnoop -p "$PID"
 
 perf
 # perf is a very handy tool that can do various things. Type perf to get its
-# options. One example would be perf top
+# options. One example would be perf top. Another one:
+perf record -g find /
+perf report
