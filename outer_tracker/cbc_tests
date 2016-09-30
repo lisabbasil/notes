@@ -92,3 +92,10 @@ slotes:
    firmware, since the Imperial firmware does not support firmware flashing (?)
 2) $ fpgaconfig -i ${slot}
    If the -i flag is used without -f, the firmware from this slot is loaded
+
+
+INFO
+====
+
+- "45C" written on FMC card is for 8CBC
+- "45B" written on FMC card is for 2CBC
