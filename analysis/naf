@@ -1,0 +1,6 @@
+qsub     submit a job for execution
+qstat    examine the status of a job (we have discussed what this status may be)
+qhold    put a job on hold
+qrls     release a job
+qsig     send a signal to a job
+qdel     delete a job
