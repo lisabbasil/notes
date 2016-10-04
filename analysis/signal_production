@@ -1,0 +1,229 @@
+How to produce privat signal points with MadGraph
+=================================================
+
+
+Outline
+-------
+
+This document describes how to privately produce signal points from an existing
+SLHA file. To produce a Simplified Model, an easier process can be followed,
+which is mostly outlined here:
+https://github.com/CMS-SUS-XPAG/GenLHEfiles/tree/master/Run2Mechanism
+
+In any case, the link above is an invaluable source of information and should be
+read before going through this document anyway.
+
+The working directory is in
+$CMSSW_BASE/prod/GenLHEfiles/Run2Mechanism
+which is set up in the README above. All links are relative to this one.
+
+The workflow is to use MadGraph to get all matrix elements and Pythia for the
+event generation, decay and hadronization.
+
+
+Producing cards
+---------------
+
+MadGraph needs three cards:
+- A parameter card: describes all parameters, this is equivalent to an SLHA file
+- A process card: describes production processes considered, excluded particles
+                  and some additional MadGraph options
+- A run card: describes collision specific quantities
+
+We need all these three cards in the cards directory. Name them
+<project>_param_card.dat
+<project>_proc_card.dat
+<project>_run_card.dat
+where <project> is a name of your choice. Here's how you get these cards:
+
+- Parameter card: This is simply the SLHA file. MadGraph recognizes SLHAv1 and
+  SLHAv2 files, either can be used as an input. To convert an SLHA file from
+  SLHAv1 to SLHAv2, see below.
+- Process card: An example process card is given here. From this card, other
+  cards can be derived.
+
+      import model mssm
+
+      define p = p b b~
+      define j = j b b~
+
+      define ewkinos = x1+ x2+ x1- x2- n1 n2 n3 n4
+      define firstgen = ul ul~ ur ur~ dl dl~ dr dr~
+      define secondgen = sl sl~ sr sr~ cl cl~ cr cr~
+      define thirdgen = t1 t1~ t2 t2~ b1 b1~ b2 b2~
+      define sleptons = sve sve~ svm svm~ svt svt~ el- el+ er- er+ mul- mul+ mur-
+      mur+ ta1- ta1+ ta2- ta2+
+      define higgses h1 h2 h3 h- h+
+      define excl = firstgen secondgen thirdgen go sleptons higgses
+
+      #generate p p > go go $ excl @0
+      #add process p p > go go j $ excl @1
+      #add process p p > go go j j $ excl @2
+
+      generate p p > ewkinos ewkinos / excl
+      generate p p > ewkinos ewkinos j / excl
+      generate p p > ewkinos ewkinos j j / excl
+
+      output higgsino
+      #output higgsino -nojpeg
+
+  Note: Both p (protons) and j (jets) are defined as multiparticles including
+  g u c d s u~ c~ d~ s~
+  internally in MadGraph. By defining p = p b b~ and similar for j, we include b
+  and anti-b in the multiparticle definitions.
+
+  See also: http://madgraph.physics.illinois.edu/EXAMPLES/example_mg5.html
+- Run card: The run card is specific for the collision. The default one given in
+  the git repository can be reused:
+  https://github.com/CMS-SUS-XPAG/GenLHEfiles/blob/master/Run2Mechanism/cards/gluino_run_card.dat
+
+
+How to convert SLHAv1 to SLHAv2
+---------------------------------
+
+MadGraph can read both SLHAv1 and SLHAv2, hence a conversion is not necessary.
+However, sometimes it might be useful to convert SLHAv1 to SLHAv2. To do that,
+go to
+$CMSSW_BASE/prod/Generators/MG5_aMC_v2_2_1
+and fire up python. In python, type
+>>> import models.check_param_card as converter
+>>> converter.convert_to_mg5card(input_file, output_file)
+
+The conversion might complain about "XSECTION" paragraphs in the input SLHA file
+that it doesn't recognize. Just delete them by hand.
+
+See also: https://answers.launchpad.net/mg5amcnlo/+question/226751
+
+
+How to produce undecayed LHE files
+----------------------------------
+
+Assuming all necessary cards are under cards/<project>_... Now the undecayed LHE
+file can be produced by
+$ python run_scan.py --name <project> --protocol condor -o <output>
+Other protocols are supported. This is for condor under cmslpc.
+
+This will take a few minutes. After that the output can be found in the <output>
+directory. As output directory, also an xrootd path can be given.
+
+
+How to get Feynman diagrams
+---------------------------
+
+MadGraph can produce the Feynman diagrams for all processes that are generated.
+This will slow down production, but it can be helpful to understand the
+processes that are involved. To get those diagrams, make sure that you didn't
+specify the "-nojpeg" flag in your run card. Then you have to modify
+SUSY_generation.sh by adding the following two lines, just below the xrdcp
+command:
+tar czf SubProcesses.tar.gz SubProcesses/
+xrdcp -f SubProcesses.tar.gz ${OUTDIR}/
+Now make sure to use an xrootd path when running run_scan.py. This will copy the
+whole folder SubProcesses to your output directory. In this folder, you can find
+the Feynman diagrams.
+
+
+How to produce the MiniAOD
+--------------------------
+
+These are the instructions for the Summer '16 campaign:
+
+$ . /cvmfs/cms.cern.ch/cmsset_default.sh
+$ SCRAM_ARCH=slc6_amd64_gcc481
+$ cmsrel CMSSW_7_1_20_patch3
+$ cd CMSSW_7_1_20_patch3/src
+$ cmsenv
+$ mkdir -p Configuration/GenProduction
+$ git clone git@github.com:cms-sw/genproductions.git Configuration/GenProduction
+$ git cms-checkdeps -a
+$ scram b
+
+$ cmsDriver.py Configuration/GenProduction/python/ThirteenTeV/Hadronizer_TuneCUETP8M1_13TeV_generic_LHE_pythia8_cff.py \
+    --filein file:evts_1gen.lhe \
+    --fileout file:evts_3sim.root \
+    --mc \
+    --eventcontent RAWSIM \
+    --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1 \
+    --datatier GEN-SIM \
+    --conditions MCRUN2_71_V1::All \
+    --beamspot Realistic50ns13TeVCollision \
+    --step GEN,SIM \
+    --magField 38T_PostLS1 \
+    --python_filename hadronizer_cfg.py \
+    --number=-1 \
+    --no_exec
+$ cmsRun hadronizer_cfg.py
+
+$ cmsDriver.py step1 \
+    --filein file:evts_3sim.root \
+    --fileout file:evts_5raw.root \
+    --pileup_input dbs:/MinBias_TuneCUETP8M1_13TeV-pythia8/RunIISummer15GS-MCRUN2_71_V1-v2/GEN-SIM \
+    --mc \
+    --eventcontent RAWSIM \
+    --pileup 2016_25ns_SpringMC_PUScenarioV1_PoissonOOTPU
+    --datatier GEN-SIM-RAW \
+    --conditions 80X_mcRun2_asymptotic_2016_v3 \
+    --customise_commands "process.simHcalDigis.markAndPass = cms.bool(True)" \
+    --step DIGI,L1,DIGI2RAW,HLT:@frozen25ns \
+    --era Run2_25ns \
+    --python_filename digitization_cfg.py \
+    --number=-1 \
+    --no_exec
+$ cmsRun digitization_cfg.py
+
+$ . /cvmfs/cms.cern.ch/cmsset_default.sh
+$ SCRAM_ARCH=slc6_amd64_gcc493
+$ cmsrel CMSSW_8_0_3_patch2
+$ cd CMSSW_8_0_3_patch2/src
+$ cmsenv
+$ scram b
+
+$ cmsDriver.py step2 \
+    --filein file:evts_5raw.root \
+    --fileout file:evts_6rec.root \
+    --mc \
+    --eventcontent RAWAODSIM \
+    --runUnscheduled \
+    --datatier RAWAODSIM \
+    --conditions 80X_mcRun2_asymptotic_2016_v3 \
+    --step RAW2DIGI,L1Reco,RECO,EI \
+    --era Run2_25ns
+    --python_filename reconstruction_cfg.py \
+    --number=-1 \
+    --no_exec
+$ cmsRun reconstruction_cfg.py
+
+$ cmsDriver.py step1 \
+    --filein file:evts_6rec.root \
+    --fileout file:evts_7hlt.root \
+    --mc \
+    --eventcontent AODSIM \
+    --datatier AODSIM \
+    --processName HLT2 \
+    --inputCommands "keep *,drop *_TriggerResults_*_HLT,drop *_hltTriggerSummaryAOD_*_HLT,drop *_hltGtStage2ObjectMap_*_HLT,drop *_l1extraParticles_*_RECO,drop L1GlobalTriggerReadoutRecord_gtDigis_*_RECO,drop *_cscSegments_*_RECO,drop *_dt4DSegments_*_RECO,drop *_rpcRecHits_*_RECO" \
+    --conditions 80X_mcRun2_asymptotic_v14 \
+    --customise_commands "process.AODSIMoutput.outputCommands.append('drop L1GlobalTriggerReadoutRecord_gtDigis_*_HLT2')" \
+    --step L1REPACK:FullMC,HLT:25ns10e33_v2,RAW2DIGI:L1TRawToDigi \
+    --era Run2_2016
+    --python_filename hltresim_cfg.py \
+    --number=-1 \
+    --no_exec
+$ cmsRun hltresim_cfg.py
+
+$ cmsDriver.py step1 \
+    --filein file:evts_7hlt.root \
+    --fileout file:evts_8aod.root \
+    --mc \
+    --eventcontent MINIAODSIM \
+    --runUnscheduled \
+    --datatier MINIAODSIM \
+    --conditions 80X_mcRun2_asymptotic_v14 \
+    --customise_commands "process.patTrigger.processName = cms.string('HLT2')" \
+    --step PAT \
+    --era Run2_2016 \
+    --python_filename miniaod_cfg.py \
+    --number=-1 \
+    --no_exec
+$ cmsRun miniaod_cfg.py
+
+See also: https://twiki.cern.ch/twiki/bin/viewauth/CMS/VbfSignalGen
