@@ -14,3 +14,5 @@ kernel to boot. Just don't forget to always run
 $ sudo grub-mkconfig -o /boot/grub/grub.cfg
 after making changes to grub. To check what kernel you booted, try
 $ uname -r
+
+NB: Picking the kernel in GRUB does not seem to work.
