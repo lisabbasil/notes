@@ -159,3 +159,14 @@ list of samples to be plotted, modify this file.
 The cuts before plotting the quantities are defined in
 1l_basicCutsFullCutFlow.txt. The plots themselves are defined in
 1l_CutFlowBasicPlots.txt
+
+
+NAF at DESY
+===========
+
+Running on the NAF at DESY is much more convenient, since all scripts are
+readily available. Simply try
+$ export X509_USER_PROXY=$HOME/k5-ca-proxy.pem
+$ nafbatch.py run_susySingleLepton_cfg.py \
+      -o OUTPUTDIR \
+      -b 'qsub -t -N NAME < batchScript.sh'
