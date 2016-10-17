@@ -100,7 +100,14 @@ How to produce undecayed LHE files
 
 Assuming all necessary cards are under cards/<project>_... Now the undecayed LHE
 file can be produced by
-$ python run_scan.py --name <project> --protocol condor -o <output>
+$ python run_scan.py \
+    --name <project> \
+    --protocol condor \
+    -o <output> \
+    -n <n> \
+    --nruns <N>
+where <n> are the number of events and <N> the number of runs, i.e. this
+produces <N> lhe files with each <n> events, hence a total of <N>*<n> events.
 Other protocols are supported. This is for condor under cmslpc.
 
 This will take a few minutes. After that the output can be found in the <output>
