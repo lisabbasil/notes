@@ -98,6 +98,10 @@ See also: https://answers.launchpad.net/mg5amcnlo/+question/226751
 How to produce undecayed LHE files
 ----------------------------------
 
+First, you should increase the memory the jobs will allocate for themselves.
+Default is 199, which might be enough for Simplified Models, but not necessarily
+for our usecase. Modify this in jobExecCondor.jdl. A good number is e.g. 1000.
+
 Assuming all necessary cards are under cards/<project>_... Now the undecayed LHE
 file can be produced by
 $ python run_scan.py \
