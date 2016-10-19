@@ -102,6 +102,10 @@ First, you should increase the memory the jobs will allocate for themselves.
 Default is 199, which might be enough for Simplified Models, but not necessarily
 for our usecase. Modify this in jobExecCondor.jdl. A good number is e.g. 1000.
 
+You should also make sure that you don't have any NaN's in your SLHA file. They
+might let the jobs crash with an error message that's not immediately telling
+what the problem is.
+
 Assuming all necessary cards are under cards/<project>_... Now the undecayed LHE
 file can be produced by
 $ python run_scan.py \
