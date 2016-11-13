@@ -31,3 +31,9 @@ condor_q analyze
 
 # Check user priorities and running jobs
 condor_userprio
+
+# Check output of job
+condor_tail jobnumber -maxbytes 999999999
+
+# SSH to job (not working for some reason)
+condor_ssh_to_job jobnumber
