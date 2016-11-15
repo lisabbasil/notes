@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Find information about running processes.
+# All environment variables are stored in
+/proc/"${pid}"/environ
+
+# Information about file descriptors
+/proc/"${pid}"/fd
+
+# Command that was used to run the process
+/proc/"${pid}"/cmdline
