@@ -22,6 +22,9 @@ git init                    Initialize a new repository
 git init --bare --shared    Sets up the read and write permissions of a git
                             project, according to the user and group permissions
 git status                  Show status of your repository
+git status -s               Show only short status of your repository
+git status -suno            Show only short status of your repository and don't
+                            show untracked files
 git add                     Add an untracked file to repository; stage modified
                             file; mark conflict file from merge as resolved
 git add -i                  Enter interactive mode to have more options what
