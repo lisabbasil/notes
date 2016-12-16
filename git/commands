@@ -116,6 +116,8 @@ git archive <branch> --prefix="<prj>/" | gzip > $(git describe <branch>).tar.gz
 git tag                     Show tags
 git tag -n                  Show tags including message
 git show <tag>              Show information about a specific tag
+git show <hash>             Show commit with hash <hash>
+git show <hash> --stat      Show commit with hash <hash> without diff
 git tag -a <tag> -m <msg>   Create (annotated) tag <tag> with message <msg>
 git tag -a <tag> <hash>     Create tag <tag> of previous snapshot with <hash>
 git describe <branch>       Print human readable version number of <branch>
