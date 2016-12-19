@@ -1,0 +1,10 @@
+From Artur:
+
+1) Make plots of the Lp distributions for anti-selected electrons in LT bins for
+   Nj = 3,4 and Nb = 0. the cut-file must be in susy-1lep/data/qcd**** the plot
+   file is somewhere in susy-1lep/qcd-est/txtconfigs/Lp_LTbins...
+2) Do the Lp template fits using the makeQCDfits macro in the qcd-est folder you
+   can check the fullQCDfit.sh (or sth like that) file in the same folder for
+   the required options
+3) Use the fRatios from the text file in the following steps of the bin yields
+   (appendRcsKappa)
