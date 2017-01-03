@@ -11,6 +11,9 @@ eos root://cmseos.fnal.gov ls /eos/uscms/store/user/bschneid/
 
 Check http://cern.ch/go/z9Lp for more quota
 
+Servers:
+CERN: root://eoscms.cern.ch/
+FNAL: root://cmseos.fnal.gov/
 For a list of commands:
 https://twiki.cern.ch/twiki/bin/view/Sandbox/WilliamLockmanSandbox
 
