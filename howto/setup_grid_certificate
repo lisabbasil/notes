@@ -1,3 +1,6 @@
+NEW: Try this:
+http://hep-t3.physics.umd.edu/HowToForUsers.html#CertAndProxy
+
 From: https://twiki.cern.ch/twiki/bin/viewauth/Atlas/FullGangaAtlasTutorial
 
 To run on the grid, you must have a valid grid certificate. Hopefully, you will have this already! However, it may currently be still loaded in your browser and so you need to go through a few steps to export it to your userarea:
