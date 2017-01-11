@@ -1,0 +1,67 @@
+Testing the Full Module
+=======================
+
+- Login on PC in 14-2-006:
+  cmsuptkh//TRKhyb16
+- Use sublime as editor, it will automatically open all documents
+- Use grounding bracelet, especially when it's cold
+- 1 GLIB can read out 1 hybrid; the other FMC connector is used for triggers;
+  you need to take measurements, then switch to other hybrid, then take
+  measurements again; to read out both hybrids, need 2 GLIB's and different FW,
+  while the different FW might not be working (see Tomasz's/Nicolas' email)
+- To power up, you need 4 different voltages:
+  voltage - current limit - current at power up - current while running
+       5V          100 mA                 12 mA                   14 mA
+      -5V          100 mA                 12 mA                   14 mA
+     3.3V          300 mA                259 mA                  260 mA
+     1.2V          700 mA                453 mA                  568 mA
+  typically, < 80 mA per CBC at 1.2V are used
+  cables go into power distribution box according to labels
+- The power distribution box has two output cables:
+  - Rainbow cable is for 8CBC
+  - Yellow/white cable is for 2CBC
+- Make sure your GLIB is cooled
+- You can run the Middleware:
+  fpgaconfig -f firmware/8CBC_DIO5_glib_be.mcs
+  (always use this firmware, even when you do not use external triggers)
+  hybridtest -r -f settings/HWDescription_8CBC.xml
+  (runs register tests: writes 1010 and then 0101 to each register and reads
+  back the values, always the first test to be done)
+  hybridtest --short
+  (to check for shorts)
+  integratedtester
+  (developed by Sarah Storey, not tested on 8CBC's)
+  calibrate
+  (make sure to use the result of the calibration in the XML file)
+  hybridtest
+  (should give a normal distribution after calibration)
+
+
+Testing the Mini Module
+=======================
+
+ 1. Interconnect the setup (you have sensor only on the TOP side)
+ 2. >source setup.sh in the Ph2_ACF directory
+ 3. power the hybrid  with LV, check the current consumption at 1.2V around 60mA
+    for an inactive CBC2 (later on can be more than 70mA while datataking but I
+    have never seen more than 80mA per chip)
+ 4. check other LV currents (below 50mA for 5 and -5V, below 200mA for 3.3V)
+ 5. run the registers test for CBC2 (>hybridtest -r)
+ 6. Cover the sensor from the light, and bias it step by step (0 10 50 100 200
+    300) set limit to 100uA if we are biasing the sensor in a forward direction
+    we could immediately see "a big current" around 10uA at 10V in backward
+    direction at 10V we should see less than 1uA (with well covered sensor) at
+    300V the current 2uA (assembly and sensor type specific)
+ 7. calibrate the hybrid with sensor bias to 300V and covered (>calibrate -f
+    settings/Calibration2CBC.xml) if necessary change number of events in the
+    Calibration2CBC.xml (last section of the XML file <Setting
+    name="Nevents">1000</Setting> ) check the calibration plots
+ 8. put the calibration results path in the hybrid testing XML
+    (settings/HybridTest2CBC.xml) <CBC_Files
+    path="Results/Calibration_Hole_07-07-16_16:31:37/"/>
+ 9. run hybridtest for the Vcth value used in calibration (default 0x78 = 120)
+10. play with Vcth value (in hole mode lower Vcth => higher occupancy)
+11. If you want to check sensor strips connectivity (go with Vcth high enough to
+    see 0% occupancy with covered sensor, then uncover it remembering about
+    current limit or/and lower bias HV and chceck if the hits are coming to all
+    the channels) - not a healthy method
