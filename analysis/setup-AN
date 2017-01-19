@@ -1,4 +1,7 @@
-To download a note on svn:
+To edit a note on svn:
+
+
+For notes:
 
 svn co -N svn+ssh://svn.cern.ch/reps/tdr2 note
 cd note
@@ -8,3 +11,15 @@ svn update notes/AN-14-288
 eval `notes/tdr runtime -sh`
 cd notes/AN-14-288/trunk/
 tdr --style=note b AN-14-288
+
+
+For papers:
+
+svn co -N svn+ssh://svn.cern.ch/reps/tdr2 note
+cd note
+svn update utils
+svn update -N papers
+svn update papers/SUS-16-048
+eval `papers/tdr runtime -sh`
+cd papers/SUS-16-048/trunk/
+tdr --draft --style=paper b SUS-16-048
