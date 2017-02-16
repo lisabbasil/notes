@@ -60,3 +60,6 @@ pacman -Fs ${filename}
 
 Find what package provides file using regexes (like yum whatprovides)
 pacman -Fs ${regexfilename}
+
+See dependency tree of a package
+pactree ${package}
