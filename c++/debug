@@ -1,55 +1,73 @@
 GDB
 
-### You have to set a debug flag in your makefile, e.g.
+# You have to set a debug flag in your makefile, e.g.
 PACKAGE_CXXFLAGS = -g3
 
-### Start GDB
+# Start GDB
 gdb --args ./prog arg1 arg2
 
-### Get some info about the stack and try to find out where it crashed
+# Get some info about the stack and try to find out where it crashed
 stack
 
-### Inspect the file which causes the crash and set a breakpoint just befor the crash
-### Note that <source-file> is only the name of the file, no path needed
+# Inspect the file which causes the crash and set a breakpoint just befor the crash
+# Note that <source-file> is only the name of the file, no path needed
 list <source-file>:<line-number>
 break <source-file>:<line-number>
 
-### Run the program up to the breakpoint
+# Run the program up to the breakpoint
 run
 
-### Set watchpoint to see when a variable is changed
+# Set watchpoint to see when a variable is changed
 watch var
-### or watch hardware address
+# or watch hardware address
 print &var
 watch *0xabcdef
 
-### Go to next line
+# Go to next line
 next
 # also look up step
 
-### to continue the run
+# to continue the run
 continue
 
-### After the crash, get a backtrace
+# After the crash, get a backtrace
 backtrace
-### read from the bottom, the last source (!) file is where the bug is
-### Use
+# read from the bottom, the last source (!) file is where the bug is
+# Use
 up [n]
-### to move inside the stackframe (enter repeats the last command)
+# to move inside the stackframe (enter repeats the last command)
 list
-### to get the code around the crashing instruction, use
+# to get the code around the crashing instruction, use
 l [+/-]
-### to get more code
+# to get more code
 
-### Get information about the variables
+# Get information about the variables
 print variable 
 ptype variable 
 
-### Run also
+# Run also
 valgrind ./prog
 
 set print pretty on 
 
+# See also: https://www.youtube.com/watch?v=PorfLSr3DDI
+# To get some context, try
+<C-x>a
+
+# To repaint screen
+<C-l>
+
+# To get assembly code, registers, ..., cycle through with
+<C-x>2
+
+# To get to next line in source code
+<C-n>
+
+# To get to previous line in source code
+<C-p>
+
+# See also: https://www.youtube.com/watch?v=PorfLSr3DDI to see how to set
+# commands on breakpoints
 
 
 
