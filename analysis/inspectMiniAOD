@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# How to inspect a miniAOD
+
+# Set up a CMSSW version, use git cms-init
+export SCRAM_ARCH=slc6_amd64_gcc530
+cmsrel CMSSW_8_0_1
+cd CMSSW_8_0_1/src
+cmsenv
+git cms-init
+
+# You don't need to check out anything, the edm helper scripts are available
+# like this. See also
+# https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideCMSDataAnalysisSchoolPreExerciseFirstSet#Exercise_5_EDM_Event_Data_Model
+# for examples
+
+# Now you need to get a root file with the events that are of interest to you.
+# Use edmPickEvents.py for that. E.g.
+edmPickEvents.py \
+    /SingleElectron/Run2016B-PromptReco-v2/MINIAOD 275370:345:505176792 \
+    --runInteractive
+
+# See here for more info:
+# https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookPickEvents
+
+# Now you need a script that reads out the specific value that you want. For
+# this you can use the following script
+# https://github.com/cms-met/WorkBookMet/blob/cmsdas_2015_jan_bari/printMet_MiniAOD.py
+# It is made for MET, but should work with other quantities as well (not
+# tested).
