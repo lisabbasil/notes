@@ -23,6 +23,9 @@ edmPickEvents.py \
 # See here for more info:
 # https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookPickEvents
 
+# If you want to see the branches of the MiniAOD, try
+edmDumpEventContent "${file}"
+
 # Now you need a script that reads out the specific value that you want. For
 # this you can use the following script
 # https://github.com/cms-met/WorkBookMet/blob/cmsdas_2015_jan_bari/printMet_MiniAOD.py
