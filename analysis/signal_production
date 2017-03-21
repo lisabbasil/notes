@@ -61,8 +61,8 @@ where <project> is a name of your choice. Here's how you get these cards:
       #add process p p > go go j j $ excl @2
 
       generate p p > ewkinos ewkinos / excl
-      generate p p > ewkinos ewkinos j / excl
-      generate p p > ewkinos ewkinos j j / excl
+      add process p p > ewkinos ewkinos j / excl
+      add process p p > ewkinos ewkinos j j / excl
 
       output higgsino
       #output higgsino -nojpeg
