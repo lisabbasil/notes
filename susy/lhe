@@ -1,0 +1,31 @@
+https://arxiv.org/pdf/hep-ph/0609017.pdf
+
+Events are embedded in <event> </event> tags. The first line contains
+information about the event and the second line contains information about each
+particle.
+
+The event information:
+- Number of particles (NUP)
+- ? (IDPRUP)
+- event weight (XWGTUP)
+- scale (SCALUP)
+- alpha_em used (AQEDUP)
+- alpha_s used (AQCDUP)
+
+The particle information:
+- PDG number of particle (IDUP(I))
+- status of particle (ISTUP(I))
+- 1st mother of particle, event indexing is used* (MOTHUP(1, I))
+- 2nd mother of particle, event indexing is used*, for a decay, this is 0 (MOTHUP(2, I))
+- color of 1st particle (ICOLUP(1, I))
+- color of 2nd particle (ICOLUP(2, I))
+- energy of particle (PUP(1, I))
+- momentum of particle in x-direction (PUP(2, I))
+- momentum of particle in y-direction (PUP(3, I))
+- momentum of particle in z-direction (PUP(4, I))
+- mass of particle (PUP(5, I))
+- proper lifetime of particle (VTIMUP(I))
+- spin of particle (SPINUP(I))
+
+* event indexing means that n refers to the nth line (particle) in the same
+event, no PDG numbers are used!
