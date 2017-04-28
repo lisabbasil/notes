@@ -1,0 +1,8 @@
+Produce n-tuples
+================
+
+# For a local test:
+heppy Multi run_susyMultilepton_cfg.py -N 1000 -o test=1 -o analysis=SOS
+
+# For the full production (on cmsco01):
+heppy_batch.py -r /store/cmst3/user/botta/HeppyProduction/trees_SOS_nopresel_010616 -o SOS_nopresel_010616 run_susyMultilepton_cfg.py --option analysis=SOS -b 'bsub -q 1nd -u botta -o std_output.txt -J mc_prod_sos  < batchScript.sh’
