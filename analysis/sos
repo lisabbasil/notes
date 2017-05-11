@@ -7,7 +7,6 @@ heppy Multi run_susyMultilepton_cfg.py -N 1000 -o test=1 -o analysis=SOS -o runS
 # For the full production (on cmsco01):
 heppy_batch.py -r /store/user/bschneid/pMSSM -o run01 run_susyMultilepton_cfg.py --option analysis=SOS --option runSMS=True -b 'bsub -q 1nd -u bschneid -o std_output.txt -J mc_prod_sos  < batchScript.sh'
 
-# To merge output
-- copy the production directory (SOS_nopresel_010616) to a local fast disk (which can be /data1/botta/ but I don’t think you can write there)
--  go in it and run « downloadTreesFromEOS.py -t treeProducerSusyMultilepton . »
--  run « haddChunks.py -c --max-size=7 . »
+# To merge output, go into run01 (defined above)
+downloadTreesFromEOS.py -t treeProducerSusyMultilepton .
+haddChunks.py -c --max-size=7 .
