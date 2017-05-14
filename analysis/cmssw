@@ -2,9 +2,10 @@
 
 # See list of available releases
 scram list
+scram list CMSSW
 
 # Set up specific release
-cmsrel 6_2_12
+cmsrel CMSSW_8_0_25
 
 # To set up environment, go to release/src folder and
 cmsenv
