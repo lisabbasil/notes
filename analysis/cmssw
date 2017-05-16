@@ -3,6 +3,7 @@
 # See list of available releases
 scram list
 scram list CMSSW
+scram list CMSSW_8_0
 
 # Set up specific release
 cmsrel CMSSW_8_0_25
