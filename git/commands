@@ -14,48 +14,48 @@ modified or staged.
 
 git help <command>          Show man page for <command>
 git clone <url>             Clone the project under the address <url> into the
-                            working directory and checks out master
+                                working directory and checks out master
 git clone --bare \          Clone the project <prj> into <prj>.git without
-    <prj> <prj>.git         checking out any working directory; useful for
-                            setting up a server with a git repository
+    <prj> <prj>.git             checking out any working directory; useful for
+                                setting up a server with a git repository
 git init                    Initialize a new repository
 git init --bare --shared    Sets up the read and write permissions of a git
-                            project, according to the user and group permissions
+                                project, according to user and group permissions
 git status                  Show status of your repository
 git status -s               Show only short status of your repository
 git status -suno            Show only short status of your repository and don't
-                            show untracked files
+                                show untracked files
 git add                     Add an untracked file to repository; stage modified
-                            file; mark conflict file from merge as resolved
+                                file; mark conflict file from merge as resolved
 git add -i                  Enter interactive mode to have more options what
-                            files (or parts thereof) to stage
+                                files (or parts thereof) to stage
 git add -p                  Partially stage a file
 git commit                  Make snapshot of staged files
 git commit -m <msg>         Add commit message
 git commit -a               Make snapshot of all modified files
 git commit --amend          Add staged files to last commit; can also be used
-                            to change commit message
+                                to change commit message
 git diff                    Show diff of working directory and staging area
 git diff --staged           Show diff of staging area and last snapshot (this is
-                            what you commit)
+                                what you commit)
 git diff <branch>           Get diff of checked out branch with <branch>
 git diff <branch> -- <file> Get diff of checked out branch with <branch> for
-                            <file>
+                                <file>
 git diff <b1>...<b2>        Get diff of branch <b2> with common ancestor of
-                            branches <b1> and <b2>
+                                branches <b1> and <b2>
 git diff <h1> <h2>          Get diff of commit with hash <h1> and commit with
-                            hash <h2>
+                                hash <h2>
 git diff <h1> <h2> -- <f>   Get diff of commit with hash <h1> and commit with
-                            hash <h2> for file <f>
+                                hash <h2> for file <f>
 git rm <file>               Remove <file>
 git rm <file> --cached      Remove <file> but keep local copy
 git mv <file1> <file2>      Move <file1> to <file2>
 git reset --soft HEAD~<n>   Undo the last <n> commits; --soft keeps the index
-                            just as it was before the commit
+                                just as it was before the commit
 git reset --hard HEAD~<n>   Undo the last <n> commits; --hard means to throw
-                            away all changes
+                                away all changes
 git reset --mixed HEAD~<n>  Undo the last <n> commits; --mixed will keep the
-                            changes but unstages all your files
+                                changes but unstages all your files
 git reset <branch>          Unstage everything in <branch>
 git reset <branch> <file>   Unstage <file> in <branch>
 git reset -p                Partially unstage a file
@@ -83,18 +83,18 @@ ssh, git and http.
 
 git remote                  Show configured remote servers (projects)
 git remote -v               Show configured remote servers (projects) and their
-                            paths
+                                paths
 git remote add <prj> <url>  Add address <url> to your project <prj>
 git remote show <prj>       Show more information about project <prj>
 git remote rename <r1> <r2> Rename remote <r1> to <r2>
 git fetch                   Fetch data from remote server (but does not merge)
 git fetch <prj>             Fetch data for project <prj>
 git pull                    Fetch data from tracking branch on remote server and
-                            merge
+                                merge
 git pull <url>              Pull from <url> without adding it as a project
 git push                    Push tracking branch to remote server
 git push -u                 Push tracking branch to remote server and set
-                            upstream tracking branch
+                                upstream tracking branch
 git push <prj> <branch>     Push <branch> to server for project <prj>
 git push -f <prj> <branch>  Overwrite <branch> on server for project <prj>
 git push <prj> <tag>        Push <tag> to server for project <prj>
@@ -137,7 +137,7 @@ origin/master is the name of a remote branch, it cannot be moved locally.
 git branch                  Show local branches and what branch HEAD points to
 git branch -v               Show local branches and their last commit
 git branch -vv              Show local branches, their last commit and what they
-                            track
+                                track
 git branch -r               Show remote branches
 git branch -a               Show all branches
 git branch <branch>         Create new <branch> without switching to it
@@ -145,17 +145,17 @@ git branch -d <branch>      Delete <branch>
 git branch -rd <branch>     Delete remote <branch>
 git branch -m <b1> <b2>     Rename branch <b1> to <b2>
 git branch --merged         Show all branches that are merged into HEAD (these
-                            are safe to delete)
+                                are safe to delete)
 git branch --no-merged      Show all branches that are not merged (these are NOT
-                            safe to delete)
+                                safe to delete)
 git checkout <branch>       Switch to <branch>
 git checkout -b <branch>    Create and switch to <branch>
 git checkout -b <b1> <b2>   Create and switch to branch <b1> starting from
-                            remote branch <b2>
+                                remote branch <b2>
 git checkout <hash> -b <b>  Create and switch to branch <b> at revision <hash>
 git merge <branch>          Merge <branch> into HEAD (this is not symmetric!);
-                            can be fast forward if the HEAD is directly
-                            upstream, otherwise it's a three-way merge
+                                can be fast forward if the HEAD is directly
+                                upstream, otherwise it's a three-way merge
 git mergetool               Start difftool to solve merge conflicts
 git merge-base <b1> <b2>    Show common ancestor of branches <b1> and <b2>
 git show <branch>           Show last commit on <branch>
@@ -180,13 +180,13 @@ introduced. Do not rebase commits that you have pushed to a public repository!
 
 git rebase <prj>/<branch>   Rebase checked out branch onto remote <branch>
 git rebase <branch>         Rebase HEAD onto <branch>; this is typically
-                            followed by a fast forward merge
+                                followed by a fast forward merge
 git rebase <b1> <b2>        Rebase branch <b2> onto branch <b1>
 git rebase -i HEAD~<n>      Enter interactive mode to rewrite history of last
-                            <n> commits that are not pushed to server; change
-                            "pick" to desired value given in editor; you can
-                            also change order of commits or delete them
-                            altogether
+                                <n> commits that are not pushed to server;
+                                change "pick" to desired value given in editor;
+                                you can also change order of commits or delete
+                                them altogether
 
 
 +++ SUBMODULES +++
@@ -194,10 +194,10 @@ git rebase -i HEAD~<n>      Enter interactive mode to rewrite history of last
 Submodules are used for nested git projects.
 
 git submodule add <url> <f> Add submodule of git project at <url> in working
-                            directory folder <f>
+                                directory folder <f>
 git submodule init          Initialize submodule for existing project
-git submodule update        Updates the submofule in existing project; to be
-                            called whenever there are changes in the submodule
+git submodule update        Updates submofule in existing project; to be called
+                                whenever there are changes in the submodule
 
 
 +++ LOGFILES +++
@@ -206,24 +206,28 @@ git log                     Show commit messages
 git log -<n>                Show last <n> commit messages
 git log -p                  Show commit messages and diff's
 git log --stat              Show commit messages and show what files have
-                            changed
+                                changed
 git log --pretty=<option>   Change log output format; <option> can be oneline,
-                            short, full, fuller or format; for format options
-                            see below
+                                short, full, fuller or format; for format
+                                options see below
 git log --oneline           Log output in one line
 git log --graph             Show ASCII graph of branch and merge history
 git log -- <file>           Show only commit messages for <file>
 git shortlog --no-merges \  Get summary of all commits grouped by author of
-    <branch> --not <ver>    <branch> since version <ver>
+    <branch> --not <ver>        <branch> since version <ver>
 git log <b1> --not <b2>     Show log of branch <b1> that are not in branch <b2>
 git log <b1>..<b2>          Show commits reachable by branch <b2> but not by
-                            branch <b1> (same as git log <b2> --not <b1>)
+                                branch <b1> (same as git log <b2> --not <b1>)
 git log origin/master..     Show commits not yet pushed to origin
 git log <b1>...<b2>         Show commits reachable by branch <b1> or by branch
-                            <b2> but not by both
+                                <b2> but not by both
 git reflog                  Show journal of HEAD
 git reflog <branch>         Show journal of branch <branch>
 git show <branch>@{n}       Show specific entry from reflog
+git shortlog -sn            Show who has made the most commits
+git shortlog -sn \          Show who has made the most commits
+    --since='10 weeks' \        in a given timespan
+    --until='2 weeks'
 
 
 +++ STASH +++
@@ -236,7 +240,7 @@ this is omitted, stash@{1} is assumed.
 git stash                   Save working directory and uncommited changes
 git stash list              Get list of stashes
 git stash apply stash@{<n>} Restore stash <n> to working directory but don't
-                            restage
+                                restage
 git stash apply --index     Restore stash to working directory including restage
 git stash drop stash@{<n>}  Remove stash <n> from stack
 git stash pop stash@{<n>}   Apply stash <n> and drop it
@@ -252,12 +256,12 @@ script, this can be automated in a very powerful way.
 
 git blame <file>            Show all commits that changed <file>
 git blame -L <m>,<n> <file> Show all commits that changed <file> between lines
-                            <m> and <n>
+                                <m> and <n>
 git blame -C <file>         Show all commits that changed <file>, also search
-                            for lines of code that come from different files
-                            (e.g. renaming, copying)
+                                for lines of code that come from different files
+                                (e.g. renaming, copying)
 git bisect start            Start bisect method; with this method one can find
-                            out which commit introduced e.g. a bug
+                                out which commit introduced e.g. a bug
 git bisect good             Mark this version as good (i.e. non-buggy)
 git bisect bad              Mark this version as bad (i.e. buggy)
 git bisect reset            End bisect method
@@ -273,30 +277,30 @@ using git with an svn server, try to keep your history linear, i.e. rebase
 before commiting. Also, don't use a git server in parallel.
 
 git svn init <url>          Initialize a local git repository with a svn server
-                            located at <url>
+                                located at <url>
 git svn fetch <url>         Fetch data from svn server at <url>
 git svn clone <url>         Initialize local git repository and fetch data from
-                            svn server at <url>
+                                svn server at <url>
 git svn clone <url> -s      Use svn standard layout for trunk/tags/branches
 git svn clone <url> \       Only fetch the svn commits from revision <rev> to
-        -r<rev>:HEAD        speed up process
+        -r<rev>:HEAD            speed up process
 git svn dcommit             Take all git commits and push them (one by one) to
-                            the svn server
+                                the svn server
 git svn fetch               Fetch changes from svn server without merging but
-                            pulls tags/branches
+                                pulls tags/branches
 git svn rebase              Pull changes from svn server and rebase your changes
-                            on top of it but does not pull tags/branches
+                                on top of it but does not pull tags/branches
 git svn log                 Analog to svn log; don't show local changes
 git svn blame <file>        Analog to svn annotate; don't show local changes
 git svn info                Analog to svn info; don't show local changes
 git svn create-ignore       Create .gitignore file from svn:ignore
 git svn show-ignore         Show ignored files by svn:ignore; redirect to
-                            .git/info/exclude
+                                .git/info/exclude
 git svn tag <tag>           Create new svn tag <tag>
 git svn branch <branch>     Create new svn branch <branch>
 git svn find-rev <hash>     Find svn revision number for <hash>
 git svn find-rev <rev>      Find git hash for svn revision number <rev>; <rev>
-                            has format r<revNo>
+                                has format r<revNo>
 
 
 +++ PLUMBING +++
@@ -314,7 +318,7 @@ git cat-file -p <hash>      Show content of <hash>, deduce type automatically
 git cat-file -t <hash>      Show type of <hash> (blob, tree, commit or tag)
 git rev-parse <branch>      Show SHA-1 to which <branch> points to
 git rev-parse \             Show top level git directory
-        --show-toplevel
+    --show-toplevel
 
 
 +++ FORMAT OPTIONS +++
