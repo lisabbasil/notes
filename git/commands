@@ -36,9 +36,11 @@ git commit -a               Make snapshot of all modified files
 git commit --amend          Add staged files to last commit; can also be used
                                 to change commit message
 git diff                    Show diff of working directory and staging area
+git diff -w                 Show diff but ignore trivial whitespace changes
+git diff --word-diff        Show diff for words instead of lines
 git diff --staged           Show diff of staging area and last snapshot (this is
                                 what you commit)
-git diff <branch>           Get diff of checked out branch with <branch>
+git diff <branch>           Get tiff of checked out branch with <branch>
 git diff <branch> -- <file> Get diff of checked out branch with <branch> for
                                 <file>
 git diff <b1>...<b2>        Get diff of branch <b2> with common ancestor of
