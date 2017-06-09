@@ -1,0 +1,11 @@
+When calculating the cross sections, the output to the console means the
+following:
+
+ii = -1    born consistent with non-degenerate squarks
+ii = 0,1   born consistent[0] , nlo-type[1]
+ii = 2     virtual correction
+ii = 3     real gluon emission
+ii = 4     subtraction term, crossed channels...
+ii = 20    complete nlo (only sum of 1...9)
+ii = 21    summed born term for non-degenerate squarks
+ii = 22    summed born term multipled with squark-degenerate K factor
