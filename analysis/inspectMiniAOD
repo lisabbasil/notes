@@ -31,3 +31,20 @@ edmDumpEventContent "${file}"
 # https://github.com/cms-met/WorkBookMet/blob/cmsdas_2015_jan_bari/printMet_MiniAOD.py
 # It is made for MET, but should work with other quantities as well (not
 # tested).
+
+# You can also use interactive root to get very basic distributions:
+
+# To make this work, set up CMSSW, and do:
+gSystem->Load("libFWCoreFWLite")
+FWLiteEnabler::enable()
+
+# To get the name of the branches:
+Events->GetListOfBranches()->Print()
+
+# or even better, get the aliases:
+Events->GetListOfAliases()->Print()
+
+# then you see that e.g. slimmedElectrons is an alias for
+# patElectrons_slimmedElectrons__PAT.obj. Then you can try something like
+Events->Scan("slimmedElectrons.gsfTrack_.pt()")
+Events->Draw("slimmedElectrons.gsfTrack_.pt()")
