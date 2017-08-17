@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ktutil
+
+add_entry -password -p bschneid@CERN.CH -k 1 -e arcfour-hmac-md5
+add_entry -password -p bschneid@CERN.CH -k 1 -e aes256-cts
+wkt cern.keytab
+
+# See https://lhcb.github.io/analysis-essentials/shell/persistent-screen.html
