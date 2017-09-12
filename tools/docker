@@ -42,6 +42,9 @@ $ man docker-build
 $ systemctl status docker.service
 $ sudo systemctl start docker.service
 
+# Enable and start docker service
+$ sudo systemctl enable --now docker
+
 # Naming convention:
 # An image is what you download
 # A container is what you create with the run command from an image.
