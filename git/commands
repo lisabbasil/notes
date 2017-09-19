@@ -86,9 +86,10 @@ ssh, git and http.
 git remote                  Show configured remote servers (projects)
 git remote -v               Show configured remote servers (projects) and their
                                 paths
-git remote add <prj> <url>  Add address <url> to your project <prj>
-git remote show <prj>       Show more information about project <prj>
+git remote add <rmt> <url>  Add address <url> to your remote <rmt>
+git remote show <remote>    Show more information for <remote>
 git remote rename <r1> <r2> Rename remote <r1> to <r2>
+git remote remove <remote>  Remove <remote>
 git fetch                   Fetch data from remote server (but does not merge)
 git fetch <prj>             Fetch data for project <prj>
 git pull                    Fetch data from tracking branch on remote server and
