@@ -122,6 +122,8 @@ git show <hash>             Show commit with hash <hash>
 git show <hash> --stat      Show commit with hash <hash> without diff
 git tag -a <tag> -m <msg>   Create (annotated) tag <tag> with message <msg>
 git tag -a <tag> <hash>     Create tag <tag> of previous snapshot with <hash>
+git push --tags <remote>    Push all tags to <remote>
+git push <remote> <tag>     Push <tag> to <remote>
 git describe <branch>       Print human readable version number of <branch>
 git archive <branch>        Make archive of <branch> (see also above)
 
