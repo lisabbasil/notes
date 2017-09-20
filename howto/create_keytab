@@ -1,0 +1,5 @@
+add_entry -password -p USERNAME@CERN.CH -k 1 -e arcfour-hmac-md5
+add_entry -password -p USERNAME@CERN.CH -k 1 -e aes256-cts
+wkt USERNAME.keytab
+
+https://lhcb.github.io/analysis-essentials/shell/persistent-screen.html
