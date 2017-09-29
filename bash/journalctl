@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# journalctl is used to query log files from journald. It has a special file
+# format optimized for log messages
+
+# logs by sshd
+journalctl _COMM=sshd
+# logs by sshd in JSON
+journalctl _COMM=sshd -o json-pretty
+# filter by time
+journalctl --since "2015-01-10" --until "2015-01-11 03:00"
+journalctl --since 09:00 --until "1 hour ago"
+journalctl --since yesterday
+# since boot
+journalctl -b logs
+# to follow logs
+journalctl -f
+journalctl --disk-usage
+journalctl --vacuum-size=1G
