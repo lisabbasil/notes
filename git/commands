@@ -203,6 +203,7 @@ git submodule add <url> <f> Add submodule of git project at <url> in working
 git submodule init          Initialize submodule for existing project
 git submodule update        Updates submofule in existing project; to be called
                                 whenever there are changes in the submodule
+git clone --recursive       Clone repository including submodules
 
 
 +++ LOGFILES +++
