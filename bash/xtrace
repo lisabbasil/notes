@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# To get the output from set -x to a file, you can do:
+exec 77>test.log
+
+BASH_XTRACEFD=77
+
+main(){
+    set -x
+    echo "Hello World!"
+    set +x
+}
+
+main
