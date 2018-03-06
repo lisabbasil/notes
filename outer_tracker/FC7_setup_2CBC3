@@ -1,0 +1,145 @@
+FC7 DAQ for CMSupTKph2 (for 2CBC3)
+
+---Crate setup: -------------------------------------------------------------------------
+
+Necessary items:
+- uTCA crate
+- MCH module
+- power module
+- microSD card
+- microSD card reader (if not present in the PC)
+- PC with an additional ethernet card (to have internet access and communication with the crate) 
+- cables: power cord, ethernet cable, micro USB
+
+Items for 2CBC3 read-out:
+- 4 channel power supply
+- Universal Interface Board
+- FMC L12
+- 2CBC3 hybrid
+- cables: 5 power cables for UIB, VHDCI (best <1 meter), jumper cable (2CBC3 <-> UIB)
+
+
+---MCH IP setup: -------------------------------------------------------------------------
+
+FC7 has to be configured for the crate operation, the jumpers need to be set in the following way: The desktop/crate jumper need to be set to crate. The CPLD Config jumpers need to be set (from A to H) down/up/up/up/down/up/up/up, where down points towards the center of the board and up points towards the edge of the board. Details of the crate operation mode in: https://gitlab.cern.ch/cms_tk_ph2/d19c-firmware/blob/master/doc/fc7_user_manual.pdf
+
+MCH needs to be put in te MCH1 slot in the crate. Put power module in PM1 slot to avoid warning comments send by MCH. 
+To setup the IP of the MCH a micro USB cable is needed and a procedure to be followed:
+https://cdcvs.fnal.gov/redmine/projects/gm2trackerdaq/wiki/UTCA
+
+MCH appears in:
+/dev/ttyACM0
+
+IP Configuration Setup example:
+-----------------------
+IP Address           : 192.168.0.41
+IP Net Mask          : 255.255.255.0
+IP Broadcast Addr    : 192.168.0.255
+IP Gateway Addr   : 0.0.0.0
+-----------------------
+
+Setup the static IP of the ethernet card in your PC for to the same subnet, for example 192.168.0.66 
+On SLC6 you may use setup->network configuration->device configuration->"your ethenet card":
+
+    setup
+
+reboot the uTCA crate
+
+try to reach the MCH:
+    ping 192.168.0.41
+
+---Golden image setup: -------------------------------------------------------------------------
+
+Install imgtool:
+
+    svn co https://svn.cern.ch/reps/cactus/tags/ic_mmc/ic_mmc_v1_6_1
+    cd ic_mmc_v1_6_1/imperial_mmc/tools/imgtool
+    make Board=FC7_0
+
+    Try if it worked:
+
+    cd bin
+    ./imgtool --help
+
+    You should see the help menu of the imgtool. Before inserting the SD card:
+
+    ls -l /dev/sd*
+
+    then plug in the SD card and do again
+
+    ls -l /dev/sd*
+
+    A new device should appear, like /dev/sdb, I will call this /dev/sdX. 
+
+Download the golden image: 
+	https://dfsweb.web.cern.ch/dfsweb/Services/DFS/DFSBrowser.aspx/Users/v/vichoudi/Public/sd_fc7_gold_5_0_01.bin
+or alternatively:
+	http://bschneid.web.cern.ch/bschneid/sd_fc7_gold_5_0_01.bin 
+
+copy the image to ic_mmc_v1_6_1/imperial_mmc/tools/imgtool/bin
+
+Format the SD card and copy the image onto the SD card:
+
+    sudo ./imgtool /dev/sdX format Firmware
+    sudo ./imgtool /dev/sdX add GoldenImage.bin sd_fc7_gold_5_0_01.bin
+
+The FC7 golden firmware must be called GoldenImage.bin 
+Verify if the GoldenImage.bin image was loaded on the SD card:
+
+    sudo ./imgtool /dev/sdX list
+
+
+---FC7 IP setup: -------------------------------------------------------------------------
+
+Either follow this tutorial: https://gitlab.cern.ch/cms_tk_ph2/d19c-firmware/blob/master/doc/IPAddress_Tutorial.md
+or the instructions below for the FC7 IP setup, assign an IP from the same subnet as your ethernet card (for example 192.168.0.7)
+
+Rarp package for SLC6 (download link):
+dl.fedoraproject.org/pub/epel/6/x86_64/Packages/r/rarpd-ss981107-42.el6.x86_64.rpm
+
+install the package:
+    rpm -Uvh package_full_name.rpm
+
+Install the Wireshark to monitor ethernet communication:
+
+    sudo yum install wireshark-gnome
+
+with root privilege open Wireshark and setup listener on the ethernet card (for example eth1):
+    wireshark
+
+FC7 should broadcast its MAC address:
+16	81.739357034	NetworkR_00:22:51	Broadcast	RARP	60	Who is 08:00:30:00:22:51?  Tell 08:00:30:00:22:51
+
+Then assign a local subnet IP to the MAC address of your FC7
+    sudo nano /etc/ethers
+add a line in the file (modify the MAC address and exemplary IP)
+    
+    08:00:30:00:22:51 192.168.0.7 -> fc7 board 1
+
+save changes and close
+reload the rarp:
+    sudo /usr/sbin/rarpd -a
+
+check if the device is reachable:
+   ping 192.168.0.7
+
+---Load 2CBC3 firmware image into the FC7: -------------------------------------------------------------------------
+
+First install the middleware. Follow the instructions listed below the files:
+https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF/
+
+Download the firmware image and put it into the Ph2_ACF/firmware/ directory
+https://cernbox.cern.ch/index.php/s/Hr9leb9f2rhp4uT
+
+Set the FC7 board address (the one you put in /etc/ethers) in the Ph2_ACF/settings/D19CDescription.xml file.
+From the Ph2_ACF directory you can:
+   gedit settings/D19CDescription.xml 
+
+for example: <connection id="board" uri="chtcp-2.0://localhost:10203?target=192.168.0.7:50001" address_table="file://settings/address_tables/d19c_address_table.xml" />
+
+Now from the Ph2_ACF directory you can:
+   source setup.sh  
+   fpgaconfig -c settings/D19CDescription.xml -f firmware/d19c_firmware_L12-2xCBC3_L8-NONE.bin -i fc7_top_2CBC2.bin
+
+
+
