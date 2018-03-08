@@ -1,0 +1,82 @@
+To produce n-tuples:
+heppy_batch.py \
+    -o ${workspace}/sos/T2tt_350_330_noSkim_run09/ \
+    run_susyMultilepton_cfg.py \
+    --option analysis=SOS \
+    --option runSMS=True \
+    -b 'bsub -q 1nd -u bschneid -o stdout.txt -e stderr.txt -J mc_prod_sos  < batchScript.sh'
+
+To produce friend trees:
+
+1)
+python prepareEventVariablesFriendTree.py --tra2 --tree treeProducerSusyMultilepton -I CMGTools.TTHAnalysis.tools.susySosReCleaner -m both3dloose
+ -m ipjets -N 1000000 /data1/botta/trees_SOS_010217/  /data1/botta/trees_SOS_010217/0_test -d TTJets_DiLepton
+
+(da adattare per cambiare sip)
+
+2)
+python prepareEventVariablesFriendTree.py --tra2 --tree treeProducerSusyMultilepton -I CMGTools.TTHAnalysis.tools.susySosReCleaner -m bTagEventWeightFullSim -N 1000000 -F sf/t /data1/botta/trees_SOS_010217/0_both3dlooseClean_v2/evVarFriend_{cname}.root /data1/botta/trees_SOS_010217/  /data1/botta/trees_SOS_010217/0_eventBTagWeight_v2/
+
+
+
+
+Mail to Rogan:
+
+here some technical informations about our framework and how we have implemented the analysis using it.
+The framework is called CMGTools. It has been developed by CERN people, and now it used by several groups (SUSY and HIG)
+which shares a lot of common tools. Giovanni Petrucciani is the manager of the framework.
+The CMGTools is based on PhysicsTools/Heppy  for the object definitions and several other physics tools
+(Giovanni and Marco are developers of Heppy)
+
+Here you have the central cmg-cmssw repository, which points to the Heppy 80X branch
+https://github.com/CERN-PH-CMG/cmg-cmssw
+and here the cmgtools-lite repository, which points to the 80X branch
+https://github.com/CERN-PH-CMG/cmgtools-lite/
+
+The instruction to get the code are here:
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/CMGToolsReleasesExperimental
+in particular those used for the analysis of the 2016 data and 80X MC:
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/CMGToolsReleasesExperimental#CMGTools_lite_release_for_Morion
+
+For the SOS analysis for the latest paper results (2016 data)
+we have been using a dedicate branch from my repository (based on central 80X branches)
+for which you can find the details in the twiki: https://twiki.cern.ch/twiki/bin/view/CMS/SusySoftOS#CMGTools_branch_for_Moriond17_fi
+
+The main core of the analysis code can be found in
+https://github.com/cbotta/cmgtools-lite/tree/80X_25_Local/TTHAnalysis
+(the directory is historically called TTHAnalysis, cause this framework was firstly used by Giovanni and myself in 2013 for the TTHMultilepton analysis)
+
+The workflow proceed with the following steps:
+
+—> The main tree tree production, with a default skim of MET>50 GeV, and two soft leptons with minimum ID and pt requirements (what defined the ‘LepGood’ in the trees)
+is performed with the following configuration file: https://github.com/cbotta/cmgtools-lite/blob/80X_25_Local/TTHAnalysis/cfg/run_susyMultilepton_cfg.py
+using the analysis option ‘SOS’.
+In particular, using the Heppy tools for the tree production you can referred to these example commands:
+- local tree production: heppy OutputDir run_susyMultilepton_cfg.py -N 1000 -o test=2 (options to run on 1000 events, testing each of the MC sample file you put in the list of the ’selected components’) -o analysis=SOS ( to run on data -o runData)
+- batch tree production: heppy_batch.py -o OutputDir run_susyMultilepton_cfg.py --option analysis=SOS -b 'bsub -q 1nd -u botta -o std_output.txt -J mc_prod_sos  < batchScript.sh’
+
+—> On top of these trees we want clean the jet collection with the leptons that passes the ID requirements that correspond to the denominator of the fake-rate definition ('LepSel' in the following).
+In our analysis framework we ofter rely on the production of a set of ROOT ‘friend trees’ to be then used in combination with the original set of trees (as additional branches)
+So for the recleaning step we proceed as follow: we store in a friend tree the indexes of the leptons that passes the LepSel criteria and those of the jets that survive the recleaning, and some lepton/jet related variables recomputed with the available jets and LepSel.
+These variables are computed by the ‘Recleaner’ which you can find here:
+https://github.com/cbotta/cmgtools-lite/blob/80X_25_Local/TTHAnalysis/python/tools/susySosReCleaner.py
+The general script we use to produce friend trees can be found here:
+https://github.com/cbotta/cmgtools-lite/blob/80X_25_Local/TTHAnalysis/macros/prepareEventVariablesFriendTree.py
+In particular from this /TTHAnalysis/python/macros directory you can run this command for the production of the friend trees with the variables computed by the ‘Recleaner'
+python prepareEventVariablesFriendTree.py --tra2 --tree treeProducerSusyMultilepton -I CMGTools.TTHAnalysis.tools.susySosReCleaner -m both3dloose
+ -m ipjets -N 1000000 OriginalTreeDirectory  OriginalTreeDirectory/FriendTree_Recleaner_Directory
+This command will apply as lepton selection the one described here: https://github.com/cbotta/cmgtools-lite/blob/80X_25_Local/TTHAnalysis/python/tools/susySosReCleaner.py#L217
+
+—> Event selection
+We have dedicated python tools to compute yields, apply all the corrections and scale factors, the event selection and so on.
+I won’t describe them there cause you might want to use your own stuff, but I just point you to the 'cut files' which contains the event selection for reference
+- please note that those lines with 'Disable=True’ at the end corresponds to selections that are not used in the baseline one, but are tested for particular signal regions, or control regions, or validation plots)
+- also please note that this cut flow is run in combination with some ‘string replacements’ that are defined here
+https://github.com/cbotta/cmgtools-lite/blob/80X_25_Local/TTHAnalysis/python/plotter/susy-sos/lepchoice-recleaner.txt
+and are used to replace lepton indexes, and lepton or jet related variables with those computed with the objects that pass the ‘recleaner’ selection.
+
+In parallel we have dedicated production of single lepton trees on data and QCD/WJets/TTbar samples
+for fake-rate estimation and validation. But we maybe want to discuss the data-driven bkg estimate in a second step.
+
+I hope this helps, and of course contact us if you need further information.
+
