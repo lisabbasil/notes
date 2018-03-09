@@ -26,6 +26,18 @@ heppy_hadd.py .
 mkdir chunks
 mv *Chunk* chunks/
 
+# To split signal samples into points
+# You will have to adapt branch1 and branch2
+cd "${CMSSW_BASE}"/src/CMGTools/TTHAnalysis/python/plotter/
+python \
+    splitSMSTrees.py \
+    "${outputdir}" \
+    "${inputdir}" \
+    --tree treeProducerSusyMultilepton \
+    --hist \
+    --branch1 GenSusyMStop \
+    --branch2 GenSusyMNeutralino
+
 
 To produce friend trees
 =======================
