@@ -44,6 +44,11 @@ To produce friend trees
 
 cd "${CMSSW_BASE}"/src/CMGTools/TTHAnalysis/macros/
 
+ntuples="${workspace}"/sos/ntuples
+friendsLepCleaner="${workspace}"/sos/friends/0_both3dlooseClean_v2/
+friendsBTagWeightAnalyzerFullSim="${workspace}"/sos/friends/0_eventBTagWeight_v2/
+friendsBTagWeightAnalyzerFastSim="${workspace}"/sos/friends/0_eventBTagWeightFS_v1/
+
 # To produce the nominal friend tree
 python \
     prepareEventVariablesFriendTree.py \
@@ -53,11 +58,11 @@ python \
     -m both3dloose \
     -m ipjets \
     -N 1000000 \
-    /data1/botta/trees_SOS_010217/ \
-    /data1/botta/trees_SOS_010217/0_test \
-    -d TTJets_DiLepton
+    "${ntuples}" \
+    "${friendsLepCleaner}" \
+    #-d TTJets_DiLepton
 
-# To produce the b-jet reweighting friend tree (?)
+# To produce the b-jet reweighting friend tree (FullSim)
 python \
     prepareEventVariablesFriendTree.py \
     --tra2 \
@@ -65,9 +70,21 @@ python \
     -I CMGTools.TTHAnalysis.tools.susySosReCleaner \
     -m bTagEventWeightFullSim \
     -N 1000000 \
-    -F sf/t /data1/botta/trees_SOS_010217/0_both3dlooseClean_v2/evVarFriend_{cname}.root \
-    /data1/botta/trees_SOS_010217/ \
-    /data1/botta/trees_SOS_010217/0_eventBTagWeight_v2/
+    -F sf/t "${friendsLepCleaner}"/evVarFriend_{cname}.root \
+    "${ntuples}" \
+    "${friendsBTagWeightAnalyzerFullSim}"
+
+# To produce the b-jet reweighting friend tree (FastSim)
+python \
+    prepareEventVariablesFriendTree.py \
+    --tra2 \
+    --tree treeProducerSusyMultilepton \
+    -I CMGTools.TTHAnalysis.tools.susySosReCleaner \
+    -m bTagEventWeightFastSim \
+    -N 1000000 \
+    -F sf/t "${friendsLepCleaner}"/evVarFriend_{cname}.root \
+    "${ntuples}" \
+    "${friendsBTagWeightAnalyzerFastSim}"
 
 
 
