@@ -42,14 +42,33 @@ python \
 To produce friend trees
 =======================
 
-1)
-python prepareEventVariablesFriendTree.py --tra2 --tree treeProducerSusyMultilepton -I CMGTools.TTHAnalysis.tools.susySosReCleaner -m both3dloose
- -m ipjets -N 1000000 /data1/botta/trees_SOS_010217/  /data1/botta/trees_SOS_010217/0_test -d TTJets_DiLepton
+cd "${CMSSW_BASE}"/src/CMGTools/TTHAnalysis/macros/
 
-(da adattare per cambiare sip)
+# To produce the nominal friend tree
+python \
+    prepareEventVariablesFriendTree.py \
+    --tra2 \
+    --tree treeProducerSusyMultilepton \
+    -I CMGTools.TTHAnalysis.tools.susySosReCleaner \
+    -m both3dloose \
+    -m ipjets \
+    -N 1000000 \
+    /data1/botta/trees_SOS_010217/ \
+    /data1/botta/trees_SOS_010217/0_test \
+    -d TTJets_DiLepton
 
-2)
-python prepareEventVariablesFriendTree.py --tra2 --tree treeProducerSusyMultilepton -I CMGTools.TTHAnalysis.tools.susySosReCleaner -m bTagEventWeightFullSim -N 1000000 -F sf/t /data1/botta/trees_SOS_010217/0_both3dlooseClean_v2/evVarFriend_{cname}.root /data1/botta/trees_SOS_010217/  /data1/botta/trees_SOS_010217/0_eventBTagWeight_v2/
+# To produce the b-jet reweighting friend tree (?)
+python \
+    prepareEventVariablesFriendTree.py \
+    --tra2 \
+    --tree treeProducerSusyMultilepton \
+    -I CMGTools.TTHAnalysis.tools.susySosReCleaner \
+    -m bTagEventWeightFullSim \
+    -N 1000000 \
+    -F sf/t /data1/botta/trees_SOS_010217/0_both3dlooseClean_v2/evVarFriend_{cname}.root \
+    /data1/botta/trees_SOS_010217/ \
+    /data1/botta/trees_SOS_010217/0_eventBTagWeight_v2/
+
 
 
 
