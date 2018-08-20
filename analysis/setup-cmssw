@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# To set up a basic CMSSW release:
+cmssw
+cmsrel CMSSW_8_0_25
+cd CMSSW_8_0_25/src
+cmsenv
+git cms-init
