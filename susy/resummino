@@ -1,0 +1,30 @@
+Installation:
+- Install LHAPDF and Resummino with the same gcc version. gcc 6.3.0 worked for
+  me.
+- Maybe LHAPDF and/or Resummino is on /cvmfs? I haven't checked.
+
+PDF sets:
+- For the pdf sets, LHAPDF is needed.
+- The pdf sets are taken from cvmfs:
+  /cvmfs/cms.cern.ch/slc6_amd64_gcc630/external/lhapdf/6.2.1-cms/share/LHAPDF/
+- Recommendation is to use NNPDF31_lo_as_0118_1000 and NNPDF31_nlo_as_0118_1000,
+  but as of now, this has not been confirmed by a higher authority. It would
+  make sense to ask the CMS PDF WG (Katerina Lipka et al.)
+- pdf_lo and pdf_nlo are the pdf sets, pdfset_lo and pdfset_nlo are the subsets,
+  0 is usually the central value (best fit).
+
+PDF4LHC recommendations:
+- There are 3 global fitting PDF working groups (i.e. they use data from
+  different experiments): CTEQ, MSTW and NNPDF.
+- In 2010, the recommendation at NLO was to use an envelope of CTEQ6.6, MSTW2008
+  and NNPDF2.0. At NNLO only MSTW2008 was available, therefore it was suggested
+  to use MSTW2008, but the uncertainties from NLO.
+- In 2013, it was suggested to use the updated PDF sets of CT10, MSTW2008, and
+  NNPDF2.3. They all agreed to fix the strong coupling alpha_s(m_Z^2) at 0.118
+  +/- 0.0012, which was taken from PDG.
+- For Run-2 (2015), the envelope procedure is no longer necessary, a purely
+  statistical combination is sufficient.
+- It is recommended to use CT14, MMHT2014 and NNPDF3.0, all are available at NLO
+  and NNLO at alpha_s = 0.118. These are combined in the PDF4LHC15 sets.
+
+  Which set to use? The MC one, as suggested for high TeV searches?
