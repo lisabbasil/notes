@@ -24,3 +24,10 @@ How to find what signal sample points are available:
    eos ls /store/lhe/${mcdbid} (lxplus)
    to get a list of all LHE files. You can read the LHE files themselves or
    deduce from the filenames what signal points are available.
+
+5) In DAS (see step 1), after you have done the query, click on "Sources: dbs3
+   show", then search for prep_id. Copy the prep_id, and you can find the same
+   sample (or campaign, or ...?) by copying the prep_id into this link:
+   https://cms-pdmv.cern.ch/mcm/requests?prepid=
+   Then you can do the same here:
+   https://dmytro.web.cern.ch/dmytro/cmsprodmon/workflows.php?prep_id=
