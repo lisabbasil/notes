@@ -22,10 +22,13 @@ time echo {1..10} | xargs -n1 -P$(nproc) \
 # xargs can also be used like this:
 for i in *something*; do
     echo "$i"
-  done | xargs -n 1 -P $(nproc) -I % ./command % &>/dev/null
+  done | xargs -L 1 -P $(nproc) -I % ./command % &>/dev/null
 
 # -I % defines the placeholder for the argument from stdin, if it is not set,
-# stdin will simply be appended in the end
+# stdin will simply be appended in the end (note that -I implies -L 1)
+# !!! Also note that -I, -L and -n are mutually exclusive, never use more than
+# one argument in one command (like above), since the outcome will depend on the
+# implementation
 
 # To use GNU parallel (see also
 # https://www.gnu.org/software/parallel/parallel_tutorial.html)
