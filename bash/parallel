@@ -30,6 +30,11 @@ for i in *something*; do
 # one argument in one command (like above), since the outcome will depend on the
 # implementation
 
+# If you want to something a bit more complicated with xargs, e.g. pipe output
+# to a file with name depending on the input, you can use positional arguments
+echo 'one two three
+    four five six' | xargs -L 1 bash -c 'echo "yeah ${0} yeah ${1}" > yeah_${2}'
+
 # To use GNU parallel (see also
 # https://www.gnu.org/software/parallel/parallel_tutorial.html)
 
