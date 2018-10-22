@@ -6,3 +6,9 @@ cmsrel CMSSW_8_0_25
 cd CMSSW_8_0_25/src
 cmsenv
 git cms-init
+
+# To get a list of available CMSSWs for a given archtitecture:
+scram list CMSSW
+
+# To set the architecture, you can do e.g.
+export SCRAM_ARCH=slc6_amd64_gcc630
