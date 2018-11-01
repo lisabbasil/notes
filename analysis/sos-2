@@ -1,0 +1,100 @@
+Produce n-tuples
+================
+
+# For a local test:
+heppy Multi run_susyMultilepton_cfg.py -N 1000 -o test=1 -o analysis=SOS -o runSMS=True
+
+# For the full production (on lxplus):
+heppy_batch.py \
+    -r /store/user/bschneid/pMSSM \
+    -o run01 run_susyMultilepton_cfg.py \
+    --option analysis=SOS \
+    --option runSMS=True \
+    -b 'bsub -q 1nd -u bschneid -o stdout.txt -J mc_prod_sos < batchScript.sh'
+
+heppy_batch.py \
+    -o ${workspace}/sos/T2tt_350_330_noSkim_run09/ \
+    run_susyMultilepton_cfg.py \
+    --option analysis=SOS \
+    --option runSMS=True \
+    -b 'bsub -q 1nd -u bschneid -o stdout.txt -e stderr.txt -J mc_prod_sos < batchScript.sh'
+
+# To merge output, go into run01 (defined above)
+#downloadTreesFromEOS.py -t treeProducerSusyMultilepton .
+#haddChunks.py -c --max-size=7 .
+heppy_hadd.py .
+mkdir chunks
+mv *Chunk* chunks/
+
+# To split signal samples into points
+# You will have to adapt branch1 and branch2
+cd "${CMSSW_BASE}"/src/CMGTools/TTHAnalysis/python/plotter/
+python \
+    splitSMSTrees.py \
+    "${outputdir}" \
+    "${inputdir}" \
+    --tree treeProducerSusyMultilepton \
+    --hist \
+    --branch1 GenSusyMStop \
+    --branch2 GenSusyMNeutralino
+
+
+To produce friend trees
+=======================
+
+cd "${CMSSW_BASE}"/src/CMGTools/TTHAnalysis/macros/
+
+ntuples="${workspace}"/sos/ntuples
+friendsLepCleaner="${workspace}"/sos/friends/0_both3dlooseClean_v2/
+friendsBTagWeightAnalyzerFullSim="${workspace}"/sos/friends/0_eventBTagWeight_v2/
+friendsBTagWeightAnalyzerFastSim="${workspace}"/sos/friends/0_eventBTagWeightFS_v1/
+
+# To produce the nominal friend tree
+python \
+    prepareEventVariablesFriendTree.py \
+    --tra2 \
+    --tree treeProducerSusyMultilepton \
+    -I CMGTools.TTHAnalysis.tools.susySosReCleaner \
+    -m both3dloose \
+    -m ipjets \
+    -N 1000000 \
+    "${ntuples}" \
+    "${friendsLepCleaner}" \
+    #-d TTJets_DiLepton
+
+# To produce the b-jet reweighting friend tree (FullSim)
+python \
+    prepareEventVariablesFriendTree.py \
+    --tra2 \
+    --tree treeProducerSusyMultilepton \
+    -I CMGTools.TTHAnalysis.tools.susySosReCleaner \
+    -m bTagEventWeightFullSim \
+    -N 1000000 \
+    -F sf/t "${friendsLepCleaner}"/evVarFriend_{cname}.root \
+    "${ntuples}" \
+    "${friendsBTagWeightAnalyzerFullSim}"
+
+# To produce the b-jet reweighting friend tree (FastSim)
+python \
+    prepareEventVariablesFriendTree.py \
+    --tra2 \
+    --tree treeProducerSusyMultilepton \
+    -I CMGTools.TTHAnalysis.tools.susySosReCleaner \
+    -m bTagEventWeightFastSim \
+    -N 1000000 \
+    -F sf/t "${friendsLepCleaner}"/evVarFriend_{cname}.root \
+    "${ntuples}" \
+    "${friendsBTagWeightAnalyzerFastSim}"
+
+
+
+
+
+
+n-tuples 2016: /data1/cheidegg/trees_SOS_010217_skimmed
+n-tuples 2017: /data1/peruzzi/trees_SOS_030518
+path CMSSW_8_0_25: ~/analysis/sos/theBigMess/SUSY_Interface/CMSSW_8_0_25
+path CMSSW_9_4_10: ~/analysis/sos/theBigMess/Friend_Trees/CMSSW_9_4_10/
+
+Currently, all is done in CMSSW_8_0_25, except for 2017 friend tree production,
+which runs in CMSSW_9_4_10. The path to CMSSW_8_0
