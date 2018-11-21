@@ -1,0 +1,22 @@
+How to import an Anki deck to Flashcards Deluxe
+===============================================
+
+ 1) Clean up Anki first, to not import unnecessary files. Delete
+    ~/.local/share/Anki*/ (assuming you don't need Anki)
+ 2) Import the deck in Anki. If you have an *.apkg file, you can use Anki 2.1.
+    If you have a deck with files like shared.anki, then you need to open it in
+    Anki 2.0, and telling Anki that it is an Anki 1.2 deck. Note how many cards
+    you import.
+ 3) Export the deck in Anki. Select "Notes in Plain Text" or "Cards in Plain
+    Text" and select "Include tags". Call the deck example.txt. Make sure you
+    export the same number of cards as you have imported.
+ 4) Copy the media to the same place where example.txt is stored, and rename the
+    folder to "example Media". For Anki 1.2 decks, you can copy the folder
+    called shared.media. For *.apkg deck, you can find it under
+    ~/.local/share/Anki2/User\ 1/collection.media (or similar)
+ 5) Copy the text files including the media to Dropbox and sync it.
+ 6) Import it in Flashcards Deluxe
+
+
+# See also:
+# http://www.flashcardsdeluxe.com/forum/viewtopic.php?t=9
