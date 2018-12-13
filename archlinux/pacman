@@ -1,32 +1,34 @@
-pacman/yaourt:
+pacman/yay:
 
-Use pacman for the official repository, use yaourt for AUR (Arch User Repository)
+Use pacman for the official repository, use yay for AUR (Arch User Repository)
 
 System update:
 pacman -Syu
-yaourt -Syua (can be slow, needs to build packages)
+yay -Syua (can be slow, needs to build packages)
 
 Search:
 pacman -Ss
-yaourt -Ss
+yay -Ss
 
 Search offline:
 pacman -Qs
-yaourt -Qs
+yay -Qs
 
 Install:
 pacman -S
-yaourt -S
+yay -S
 
 Remove:
 pacman -R
-yaourt -R
+yay -R
 
 List:
 pacman -Ql
+yay -Ql
 
 List installed packages:
-yaourt -Qm
+pacman -Qm
+yay -Qm
 
 List orphans:
 pacman -Qtdq
