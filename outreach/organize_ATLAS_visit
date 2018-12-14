@@ -1,14 +1,8 @@
 https://espace.cern.ch/Administration-ATLAS-Secretariat/Visits/SitePages/Underground-Visits.aspx
 
 - Open questions:
-  - Did you get the slides from the tutor?
   - How do you get visitor badges?
   - Once you have visitor badges, what can you do with them?
-
-- Preparation for every group:
-  - You need to have a list with all names and birth dates
-  - You need to create an iMPACT
-  - You need to have a complete iMPACT
 
 Access:
 - As a guide, you will need access to:
@@ -26,18 +20,27 @@ Access:
   - Helmet
   - Headlamp
   - Closed shoes
-  - Dosimeter
+  - Personal dosimeter
+  - Cellphone (you can get one from SLIMOS)
 - And the following trainings need to be fulfilled:
-  - First-Aider
-  - Extinguisher
+  - First-Aider (required)
+  - Fire Extinguisher (recommended)
 - You can check your Access situation here:
   https://apex-sso.cern.ch/pls/htmldb_edmsdb/f?p=404:4500:12314776309481::NO:::
 
 Organize an underground visit:
+- Make a request to the secretariat:
+  - Check the calendar if date and time is still free
+    https://publicoutreach.cern.ch/outreach/panel#agenda/today
+  - Make a Private Visit Request
+    https://publicoutreach.cern.ch/outreach/request-private-visit
+  - The secretariat will handle the request
 - For every underground access, you will need an iMPACT:
-  - To fill the iMPACT, you can clone an existing one (Which one? What needs to
-    be changed?)
-  - You will need birth dates from all visitors
+  - Go to https://impact.cern.ch/impact/secure/?place=searchActivity
+  - Search for iMPACT with number 123256 and clone it, note down the new iMPACT
+    number
+  - Change responsible person, date and time
+  - You will need names and birth dates from all visitors
   - The iMPACT need to be printed twice (why?), signed (once) by every visitor
     and be handed to SLIMOS
   - There are laminated versions of the part of the iMPACT that the visitors
