@@ -1,0 +1,43 @@
+ 0) These instructions describe how to format an external USB drive with the
+    NTFS file system. The generic command to mount a USB drive is
+    $ sudo mount /dev/sdb1 "${dir}"
+ 1) Figure out what device file the disk corresponds to
+    This can be done in a number of ways, e.g. using dmesg. I found an easy way
+    to figure this out to simply do
+    $ ll /dev/sd*
+    and then do it again after having plugged in the USB drive. The new device
+    file is the one we are looking for. It is referred to from here on as
+    "${device}" ("${device}" does not have a number in the end, that would then
+    be a partition). Using /dev/sd* assumes that you have a SCSI controlled
+    disk, otherwise it would be /dev/hd*.
+ 2) Partition the disk
+    Run
+    $ sudo fdisk "${device}"
+    Use "m" to see the menu. Delete all partitions with "d". Then print the
+    partition table with "p". It should be empty. Create a new partition with n,
+    and use all the default values. These values are chosen by fdisk and depend
+    among other things on the type of disk you have (MBR or GPT). If fdisk asks
+    you to remove e.g. a "ntfs signature", you can do so, since this is a
+    Windows thing. Invoke
+    $ ll /dev/sd*
+    again, and note down the partition, which has a number in the end. It will
+    be referred to "${partition}" from here on.
+ 3) Format the disk
+    Run
+    $ sudo mkfs.ntfs "${partition}"
+    to format it with NTFS. NTFS is a useful file system for external hard
+    drives, since it can be read by Linux, macOS and Windows. If ntfs-3g is
+    installed on Linux, it will also be able to read to NTFS. There might exist
+    better filesystems, though. This operation will take a while. For a disk
+    with 4 TB = 3.7 TiB, it took a bit over 10 hours, last time I tried.
+ 4) Label the disk
+    It is useful to give the disk a unique label, to simplify the mounting
+    process later on. For NTFS, to check if the disk already has a label, run
+    $ sudo ntfslabel "${partition}"
+    The ntfslabel utility comes with the ntfs-3g package.
+    To change the label, run
+    $ sudo ntfslable "${partition}" "${label}"
+ 5) Mount disk
+    You can now mount the disk with your utility by invoking
+    $ mountUSBDrive "${label}"
+    where "${label}" needs to be the same as defined in step 4).
