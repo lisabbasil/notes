@@ -1,0 +1,22 @@
+# Split horizontally
+1) :split
+2) <C-w>s
+
+# Split vertically
+1) :vsplit
+2) <C-w>v
+
+# If you want to jump to the new window when it is created, use
+1) :set splitbelow
+2) :set splitright
+
+# If you don't want to jump to the new window, use
+1) :set nosplitbelow
+2) :set nosplitright
+
+# To scroll in two windows simultaneously (like e.g. in vimdiff)
+1) :set scrollbind
+2) :set scb
+
+# You can toggle scrollbind on/off with
+1) :set scb!
