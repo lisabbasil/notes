@@ -1,0 +1,38 @@
+" vim: set ft=vim
+" Setting filetype to vim works only when modeline is enabled, which it
+" typically isn't, due to vulnerabilities, e.g. I have
+set nomodeline
+" in my .vimrc. Here you can set ft to vim by hand, to show some fancy colors.
+
+" See also:
+" http://learnvimscriptthehardway.stevelosh.com/chapters/24.html
+
+" Super simple function:
+:function DisplayName(name)
+:  echom "Hello! My name is:"
+:  echom a:name
+:endfunction
+
+" Of course, if you put this into your .vimrc, you remove all the colons at the
+" beginning.
+
+" a: is used to tell vim the scope of the variable. To make a long story short,
+" you always need to prefix arguments with a: when you use them to tell Vim that
+" they're in the argument scope.
+
+" To call the function, you do
+:call DisplayName("MyName")
+" (:call calls a function, :exe executes a command.)
+
+" To possibly overwrite an existing function, you can use !
+:function! DisplayName(name)
+
+" Here's an example of a fancy function
+function! SearchList(pattern)
+    exe ":g/".a:pattern."/z#.1"
+endfunction
+
+" It simply packs the execution of some command into a function. You can also
+" pack this into a command, e.g.:
+
+:command! -nargs=1 SL g/<args>/z#.1
