@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+# xrootd @ ATLAS
+
 with the usual cvmfs-based setup, can use the following:
 
 
