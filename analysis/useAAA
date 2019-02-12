@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# AAA means Any Data, Anytime, Anywhere
+# A fancy way of saying that you can access all data at all time from all
+# places. AAA is CMS' implementation of a generic xrootd service. To access a
+# particular file with AAA, you only need its Logical File Name (LFN). The LFN
+# uniquely identifies any file that is somewhere within the /store directory
+# tree.
+
+# Besides the LFN, you will also need a redirector that queries potential
+# locations for you, and point your application to a valid location without any
+# intervention from you. It's good practice to choose a redirector that's
+# geographically close to you. To minimize the distance over which the data must
+# travel, regional redirectors will try file locations in your region first
+# before trying to go overseas.
+
+# If you are working in the US, it is best to use cmsxrootd.fnal.gov, while in
+# Europe and Asia, it is best to use xrootd-cms.infn.it. There is also a "global
+# redirector" at cms-xrd-global.cern.ch which will query all locations.
+
+# Once you have a valid proxy, you can open a file within root with
+TFile *f = TFile::Open("root://cms-xrd-global.cern.ch//store/mc/RunIIAutumn18NanoAOD/SMS-TChiWZ_ZToLL_mZMin-0p1_TuneCP2_13TeV-madgraphMLM-pythia8/NANOAODSIM/GridpackScan_102X_upgrade2018_realistic_v15-v1/90000/FD1B529A-5B76-5048-9E1A-984C28882412.root")
+
+# Note that adding files as positional parameters to root will not work with
+# xrootd (or I don't know how).
+
+# See also:
+# https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookXrootdService
+# https://twiki.cern.ch/twiki/bin/view/Main/CmsXrootdArchitecture
