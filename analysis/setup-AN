@@ -1,8 +1,40 @@
-To edit a note on svn:
+#!/usr/bin/env bash
 
+# Since early 2019, all CMS documents are stored on GitLab, the svn support is
+# slowly phasing out. To obtain a directory on git, you should contact George
+# Alverson.
 
-For notes:
+# Currently I have a few open questions:
+# - Is it advised to set up a CMSSW environment, to get a recent git version? I
+#   think not, because the git version I get at login seems to be good enough.
+# - Do I need the following config line, to authenticate with kerberos? I
+#   currently use ssh, so it's not really important, but I've seen https
+#   authentication errors with git before, and that might be the cure for it.
+#   git config --global http.emptyAuth true
+# - It seems that the utils directory gets downloaded with every document. On
+#   svn, there was one central directory, for all the documents, now it seems
+#   there is no central directory, but a specific one for each document, albeit
+#   they are all the same. This does not make any sense, does it?
 
+# More information:
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/Internal/TdrProcessing
+
+# To access the document, you can authenticate in two ways, either with ssh:
+ssh://git@gitlab.cern.ch:7999/tdr/[papers|notes]/[tag].git
+
+# or with https/kerberos:
+https://:@gitlab.cern.ch:8443/tdr/[papers|notes]/[tag].git
+
+# To check out a new note/paper:
+git clone --recursive ssh://git@gitlab.cern.ch:7999/tdr/[papers|notes]/[tag].git
+
+################################################################################
+
+# Old instructions:
+
+#To edit a note on svn:
+
+#For notes:
 svn co -N svn+ssh://svn.cern.ch/reps/tdr2 note
 cd note
 svn update utils
@@ -12,9 +44,7 @@ eval `notes/tdr runtime -sh`
 cd notes/AN-14-288/trunk/
 tdr --style=note b AN-14-288
 
-
-For papers:
-
+#For papers:
 svn co -N svn+ssh://svn.cern.ch/reps/tdr2 note
 cd note
 svn update utils
