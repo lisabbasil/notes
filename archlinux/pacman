@@ -30,6 +30,9 @@ List installed packages:
 pacman -Qm
 yay -Qm
 
+Clear the yay cache of packages you won't need anymore:
+yay -Sc
+
 List orphans:
 pacman -Qtdq
 
