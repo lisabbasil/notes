@@ -17,4 +17,10 @@
     a database for drupal, follow:
     https://www.drupal.org/docs/7/install/step-2-create-the-database#mysql_commands
     The username is simply "root".
- 7) You can now install drupal.
+ 7) You can now install drupal. The root directory will be
+    /var/lib/drupal/
+ 8) If you get the error message "The website encountered an unexpected error.
+    Please try again later.", add the following line to
+    /sites/default/settings.php:
+    $config['system.logging']['error_level'] = 'verbose';
+    (See https://drupal.stackexchange.com/a/270745/92523)
