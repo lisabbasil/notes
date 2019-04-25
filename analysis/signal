@@ -31,3 +31,11 @@ How to find what signal sample points are available:
    https://cms-pdmv.cern.ch/mcm/requests?prepid=
    Then you can do the same here:
    https://dmytro.web.cern.ch/dmytro/cmsprodmon/workflows.php?prep_id=
+
+6) one can always look at the fragment, in this case in this request:
+   https://cms-pdmv.cern.ch/mcm/edit?db_name=requests&prepid=SUS-RunIISpring16FSPremix-00058&page=0
+   but they are sometimes  not easy to "read". When preparing the
+   fragment, the grid is tested by a simple script that you can run
+   locally avd produce a plot with the mass points. In your case should
+   be:
+   https://github.com/CMS-SUS-XPAG/GenLHEfiles/blob/master/GridpackWorkflow/production/models/TChipmWW/TChipmWW_grid.py
