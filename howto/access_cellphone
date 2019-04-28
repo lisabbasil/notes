@@ -1,6 +1,26 @@
 Samsung Galaxy S6
 =================
 
+# Forget what's written below, use SSHelper
+1) Install SSHelper app
+2) Check configuration in app to get host IP
+3) Connect:
+   ssh -p 2222 admin@"${ip}"
+   Password is admin, too.
+4) rsync \
+       -e 'ssh -p 2222' \
+       -avzz \
+       --no-perms \
+       --no-times \
+       --size-only \
+       admin@"${ip}":/path .
+5) Interesting path's on your device might be:
+   /storage/emulated/0/DCIM/
+   /storage/emulated/0/Pictures/
+   /storage/emulated/0/WhatsApp/
+   /storage/emulated/0/CamScanner/
+   /storage/emulated/0/Download/
+
 # With jmtpfs, very slow lately
 1) Connect via USB, unlock device, click "Allow"
 2) cd ~/mnt; mkdir samsung; jmtpfs samsung
@@ -18,7 +38,6 @@ Samsung Galaxy S6
 1) Make sure that both phone and computer are connected to same network
 2) Open AirDroid app on phone
 3) Note IP address on app, go to address with browser on computer
-
 
 # Since all options are very slow and tedious, the best way I found is to get a
 # list of files that you want to move and then always reconnect after each file:
