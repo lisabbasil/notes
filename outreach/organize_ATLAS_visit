@@ -1,4 +1,5 @@
-https://espace.cern.ch/Administration-ATLAS-Secretariat/Visits/SitePages/Underground-Visits.aspx
+General Information:
+- https://espace.cern.ch/Administration-ATLAS-Secretariat/Visits/SitePages/Underground-Visits.aspx
 
 - Open questions:
   - How do you get visitor badges?
@@ -35,12 +36,16 @@ Organize an underground visit:
   - Make a Private Visit Request
     https://publicoutreach.cern.ch/outreach/request-private-visit
   - The secretariat will handle the request
+  - You can manage all your requests here:
+    https://myvisits.cern.ch/myvisits/secure/my-visits
 - For every underground access, you will need an iMPACT:
   - Go to https://impact.cern.ch/impact/secure/?place=searchActivity
   - Search for iMPACT with number 123256 and clone it, note down the new iMPACT
     number
   - Change responsible person, date and time
-  - You will need names and birth dates from all visitors
+  - For all visitors, fill in their name and date of birth
+  - Once done, save and submit it. Make sure it really gets submitted, maybe you
+    have to "fix" some errors first.
   - The iMPACT need to be printed twice (why?), signed (once) by every visitor
     and be handed to SLIMOS
   - There are laminated versions of the part of the iMPACT that the visitors
@@ -51,15 +56,23 @@ Organize an underground visit:
   - Visits always start at a full hour and last 1 hour. You can stay 15 minutes
     on the platform
 
-- Visitors:
-  - Groups need to have 4 to 6 people
-  - Visitors need to be:
-    - at least 16 years old
-    - not pregnant
-    - not having reduced mobility
-    - not having vertigo
-    - not being claustrophobic
-    (- pacemakers seem to be fine, but check again if the case comes up)
-  - Backpacks cannot be taken down to the cavern, except when they have a volume
-    of 10 l or less; they can be deposited upstairs, but no liability is taken
-    by CERN
+Visitors:
+- Groups need to have 4 to 6 people
+- Visitors need to be:
+  - at least 16 years old
+  - not pregnant
+  - not having reduced mobility
+  - not having vertigo
+  - not being claustrophobic
+  (- pacemakers seem to be fine, but check again if the case comes up)
+- The guide will need the following information from all visitors:
+  - Name
+  - Date of Birth
+  - Place of Birth
+  - Country of Birth
+  - Nationality
+- Backpacks cannot be taken down to the cavern, except when they have a volume
+  of 10 l or less; they can be deposited upstairs, but no liability is taken
+  by CERN
+- Visitors get visitor badges that are printed on the morning of the visit,
+  provided all forms are correctly filled
