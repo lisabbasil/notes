@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Create a new library
+cargo new foolib
+
+# Create a new executable
+cargo new --bin foo
+
+# Create a new executable without git version control
+cargo new --bin foo --vcs none
+
+# Compile and run (inside the project directory)
+cargo run
+# The executable can be found in the ./target/debug directory
+
+# Clean up
+cargo clean
