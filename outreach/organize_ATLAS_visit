@@ -1,10 +1,6 @@
 General Information:
 - https://espace.cern.ch/Administration-ATLAS-Secretariat/Visits/SitePages/Underground-Visits.aspx
 
-- Open questions:
-  - How do you get visitor badges?
-  - Once you have visitor badges, what can you do with them?
-
 Access:
 - As a guide, you will need access to:
   - GLOBE-GUI
@@ -36,9 +32,9 @@ Organize an underground visit:
   - Make a Private Visit Request
     https://publicoutreach.cern.ch/outreach/request-private-visit
   - The secretariat will handle the request
-  - You can manage all your requests here:
+  - You can manage all your requests here (ANC02):
     https://myvisits.cern.ch/myvisits/secure/my-visits
-- For every underground access, you will need an iMPACT:
+- For every underground access, you will need an iMPACT (ANC03):
   - Go to https://impact.cern.ch/impact/secure/?place=searchActivity
   - Search for iMPACT with number 123256 and clone it, note down the new iMPACT
     number
@@ -65,8 +61,9 @@ Visitors:
   - not having vertigo
   - not being claustrophobic
   (- pacemakers seem to be fine, but check again if the case comes up)
-- The guide will need the following information from all visitors:
-  - Name
+- The guide will need the following information from all visitors (ANC01):
+  - First Name
+  - Last Name
   - Date of Birth
   - Place of Birth
   - Country of Birth
@@ -76,3 +73,14 @@ Visitors:
   by CERN
 - Visitors get visitor badges that are printed on the morning of the visit,
   provided all forms are correctly filled
+
+Usual procedure to organize a visit:
+- Gather all information needed (see ANC01)
+- Fill all forms under myvisits (see ANC02) until it says "Form completed"
+- Create IMPACT (see ANC03)
+- Tell the ATLAS Secretariat the number of your IMPACT
+- Put together an itinerary for your group
+- Confirm the visit to your group by email, tell them the preliminary
+  itinerary, communicate meeting point and time and send them
+  Visits_Info_Visitor-SafetyRules-ATLASUnderground_DE.pdf, explaining that they
+  will need to sign it to visit ATLAS
