@@ -20,6 +20,10 @@ Samsung Galaxy S6
    /storage/emulated/0/WhatsApp/
    /storage/emulated/0/CamScanner/
    /storage/emulated/0/Download/
+6) Check if your metadata got deleted as well. Recently, a file called
+   DCIM/.metadata/HighLight.meta
+   would use up all your space. Apps like thumbnail deletor might help. Or check
+   Google Photos, and delete photos from there.
 
 # With jmtpfs, very slow lately
 1) Connect via USB, unlock device, click "Allow"
