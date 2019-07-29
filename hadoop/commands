@@ -1,0 +1,35 @@
+### General
+# List directory
+hadoop fs -ls
+
+# Create directory
+hadoop fs -mkdir foo
+
+# Copy from local file system to HDFS
+hadoop fs -copyFromLocal foo bar
+
+# Copy from HDFS to local file system
+hadoop fs -copyToLocal bar foo
+
+# Copy file
+hadoop fs -cp foo bar
+
+# Move file
+hadoop fs -mv foo bar
+
+
+### Replication factor
+# Check replication factor
+hadoop fs -ls foo
+# will output something like:
+# -rw-r--r--   3   user group 3326129 2019-02-19 09:03 foo
+# "3" is the replication factor (3 is default)
+
+# Change replication factor
+hadoop fs -Ddfs.replication=2 -cp foo bar
+
+
+### Permissions
+# Ask for information about a specific file (this is a command on the local file
+# system, not HDFS!)
+sudo -u hdfs hdfs fsck foo -file -blocks -locations
