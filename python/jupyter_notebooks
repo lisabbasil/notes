@@ -1,0 +1,34 @@
+ 1) You can use markdown directly in cells.
+ 2) To run bash commands use e.g. !ls.
+ 3) Magic commands use % or %% as prefix, % are linemagics, %% are cellmagics.
+    It means that either the line, or the whole cell are interpreted as magic
+    attributes. You can use e.g.
+    %ls
+    or
+    %%html
+    <h1>Hello World!</h1>
+ 4) Use %lsmagic to get a list of all magic commands
+ 5) To include matplotlib pictures inline in the notebook, run
+    %matplotlib inline
+    first, and then a matplotlib plot, e.g.
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    N = 50
+    x = np.random.rand(N)
+    y = np.random.rand(N)
+    colors = np.random.rand(N)
+    area = np.pi * (15 * np.random.rand(N))**2
+
+    plt.scatter(x, y, s=area, c=colors, alpha=0.5)
+    plt.show()
+
+ 6) To implement youtube videos, you can do it with HTML
+    %%html
+    <iframe width="560" height="315" src="https://www.youtube.com/watch?v=HW29067qVWk" frameborder="0" allowfullscreen></iframe>
+
+ 7) If you want to know how much time it takes to execute a cell,
+
+    %%timeit
+    l = [n*n for n in range(1000)]
