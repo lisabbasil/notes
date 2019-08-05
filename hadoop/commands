@@ -33,3 +33,43 @@ hadoop fs -Ddfs.replication=2 -cp foo bar
 # Ask for information about a specific file (this is a command on the local file
 # system, not HDFS!)
 sudo -u hdfs hdfs fsck foo -file -blocks -locations
+
+
+# A list of all commands
+-appendToFile
+-cat
+-checksum
+-chgrp
+-chmod
+-chown
+-copyFromLocal
+-copyToLocal
+-count
+-cp
+-createSnapshot
+-deleteSnapshot
+-df
+-du
+-expunge
+-get
+-getfacl
+-getfattr
+-getmerge
+-help
+-ls
+-mkdir
+-moveFromLocal
+-moveToLocal
+-mv
+-put
+-renameSnapshot
+-rm
+-rmdir
+-setfacl
+-setfattr
+-setrep
+-stat
+-tail
+-test
+-text
+-touchz
