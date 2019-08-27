@@ -30,8 +30,8 @@ hadoop fs -Ddfs.replication=2 -cp foo bar
 
 
 ### Permissions
-# Ask for information about a specific file (this is a command on the local file
-# system, not HDFS!)
+# Ask for information about a specific file; this is a command on the local file
+# system, not HDFS; it will also give you information such as block locations
 sudo -u hdfs hdfs fsck foo -file -blocks -locations
 
 
