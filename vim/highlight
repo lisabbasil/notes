@@ -1,0 +1,3 @@
+# For some reason you keep forgetting them. To highlight the row/column:
+:set cursorline
+:set cursorcolumn
