@@ -15,7 +15,7 @@ done
 # To use xargs:
 
 # -n1 start the following process for one argument only
-# nproc gives you the number of threds (multithreaded cores)
+# nproc gives you the number of threads (multithreaded cores)
 time echo {1..10} | xargs -n1 -P$(nproc) \
     bash -c 'bzip2 -c < /dev/urandom | dd bs=1M count=1000 of=/dev/null'
 
