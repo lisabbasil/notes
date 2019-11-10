@@ -63,6 +63,8 @@ git reset <branch> <file>   Unstage <file> in <branch>
 git reset -p                Partially unstage a file
 git checkout -- <file>      Overwrite local modifications of <file>
 git checkout -p -- <file>   Overwrite parts of local modifications of <file>
+git checkout <hash> \       Overwrite <file> with version of commit <hash>
+    -- <file>
 git repack                  Repack git files
 git repack -d               Repack git files and remove
 git ls-files                Show all files that are controlled by git
