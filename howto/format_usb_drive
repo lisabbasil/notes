@@ -36,7 +36,7 @@
     $ sudo ntfslabel "${partition}"
     The ntfslabel utility comes with the ntfs-3g package.
     To change the label, run
-    $ sudo ntfslable "${partition}" "${label}"
+    $ sudo ntfslabel "${partition}" "${label}"
  5) Mount disk
     You can now mount the disk with your utility by invoking
     $ mountUSBDrive "${label}"
