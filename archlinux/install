@@ -44,7 +44,7 @@ move your mirror to the top
 
 6) configure the system
 
-pacstrap /mnt base
+pacstrap /mnt base linux linux-firmware
 
 genfstab -p /mnt >> /mnt/etc/fstab
 
