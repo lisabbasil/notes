@@ -23,6 +23,6 @@ $ rm -rf dotfiles
 $ git add $file
 $ git commit -m "I changed everything"
 $ git push
-and on remote server
+# and on remote server
 $ git pull
-Use tig to monitor changes
+# Use tig to monitor changes
