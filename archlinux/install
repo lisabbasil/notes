@@ -23,7 +23,7 @@ EFI: mkfs.fat -s1 -F32 <partition>
 3) mount the partitions
 
 root to /mnt
-boot to /mnt/boot
+boot to /mnt/boot (maybe leave this one out next time)
 efi  to /mnt/boot/efi
 home to /mnt/home
 
