@@ -18,6 +18,17 @@ Install:
 pacman -S
 yay -S
 
+Download only:
+pacman -Sw
+yay -Sw
+
+Download old packages you can here:
+https://archive.archlinux.org/packages/
+
+Info about package:
+pacman -Si
+yay -Si
+
 Remove:
 pacman -R
 yay -R
@@ -42,7 +53,7 @@ pacman -Rs $(pacman -Qtdq)
 Clean:
 pacman -Sc
 
-Install old package:
+Install old or offline package:
 pacman -U /path/to/package
 but try `downgrade package` first
 
