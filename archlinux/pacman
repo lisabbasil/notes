@@ -61,12 +61,7 @@ Download fresh package database from server
 pacman -Fy
 
 Find what package provides file (like yum whatprovides)
-pacman -Fs ${filename}
-pacman -Fo ${pathname}
-
-Find what package provides file using regexes (like yum whatprovides)
-pacman -Fs ${regexfilename}
-pacman -Fo ${regexpathname}
+pacman -F ${pathname}
 
 See dependency tree of a package
 pactree ${package}
