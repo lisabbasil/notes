@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# 1) Split PDF into separate pages, e.g.
+splitPdfPages "${inputPDF}"
+
+# 2) Convert all of them to images, e.g.
+for file in *.pdf; do
+    convert -density 600 "${file}" "${file%.pdf}".tiff
+done
+
+# 3) Open images in GIMP and remove parts you don't need, e.g.
+gimp *.tiff
+
+# 4) OCR the images, e.g.
+for file in *.tiff; do
+    tesseract "${x}" "${x}" -l eng
+done
+cat *.txt > output.txt
