@@ -5,14 +5,14 @@ splitPdfPages "${inputPDF}"
 
 # 2) Convert all of them to images, e.g.
 for file in *.pdf; do
-    convert -density 600 "${file}" "${file%.pdf}".tiff
+    convert -density 600 "${file}" "${file%.pdf}".png
 done
 
 # 3) Open images in GIMP and remove parts you don't need, e.g.
-gimp *.tiff
+gimp *.png
 
 # 4) OCR the images, e.g.
-for file in *.tiff; do
+for file in *.png; do
     tesseract "${x}" "${x}" -l eng
 done
 cat *.txt > output.txt
