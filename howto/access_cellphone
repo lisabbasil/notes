@@ -3,7 +3,8 @@ Samsung Galaxy S6
 
 # Forget what's written below, use SSHelper
 1) Install SSHelper app
-2) Check configuration in app to get host IP
+2) Check configuration in app to get host IP (or use nmap to get IP when on same
+   network)
 3) Connect:
    ssh -p 2222 admin@"${ip}"
    Password is admin, too.
