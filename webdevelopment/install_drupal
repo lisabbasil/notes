@@ -1,5 +1,5 @@
  0) For general information, see
-    https://www.drupal.org/docs/7/install
+    https://www.drupal.org/docs/8/install
  1) For website development with e.g. drupal, you will need a stack, like LAMP
     (Linux, Apache, MySQL, PHP), install the packages drupal, apache,
     php-apache, mariadb; mariadb is community-developed fork of MySQL
@@ -15,7 +15,7 @@
     https://wiki.archlinux.org/index.php/MariaDB
  6) Once you have the MariaDB service running and configured, you need to create
     a database for drupal, follow:
-    https://www.drupal.org/docs/7/install/step-2-create-the-database#mysql_commands
+    https://www.drupal.org/docs/8/install/step-3-create-a-database
     The username is simply "root".
  7) You can now install drupal. The root directory will be
     /var/lib/drupal/
