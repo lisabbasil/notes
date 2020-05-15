@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# How to create a Drupal site managed by Composer
+# How to create a Drupal 8 site managed by Composer
 
 # See also:
 # https://www.lullabot.com/articles/drupal-8-composer-best-practices
@@ -10,41 +10,62 @@
 # Create project "example"
 cd ~/websites
 project=example
-COMPOSER_MEMORY_LIMIT=-1 \
-    composer create-project drupal/recommended-project my-project "${project}"
+#COMPOSER_MEMORY_LIMIT=-1 \
+    composer create-project drupal/recommended-project "${project}"
 cd "${project}"
 git init
 cp web/example.gitignore .gitignore
 rm .editorconfig
 git add .gitignore .gitattributes composer.{lock,json}
 git commit -m "Initial commit"
+cd ..
 
 # The composer.lock file is important, to get exactly the same versions of all
 # packages if you set up your website somewhere else. If you would commit only
 # composer.json, composer would download the newest package, making the two
 # websites possibly out of sync.
 
-# To update your packages
-composer update
+# Set permissions. See also:
+# https://serverfault.com/a/357109/574834
+# https://drupal.stackexchange.com/a/16994/92523
+# https://www.drupal.org/node/244924
+mkdir "${project}"/web/sites/default/files
+cp stata/web/sites/default/{default.,}settings.php
+chmod 774 "${project}"/web/sites/default/settings.php
+sudo chgrp -R http "${project}"/web
+sudo chown -R http:"${USER}" "${project}"/web/sites/default/files
 
-# To set up website somewhere else
-git clone "${gitDir}"
-composer install
-
-# Now make the web folder visible from outside
+# Link the website to Apache's DocumentRoot (optional, but handy in order to
+# have them all listed on your index site)
 cd ~http
-sudo ln -s ~/websites/example/web/ "${project}"
+sudo ln -s ~/websites/"${project}"/web/ "${project}"
 
-# Make sure that Apache has the permissions to write in your directory. This has
-# the side effect that you don't have permissions to write in the directory
-# anymore. Not sure if this is a problem in the future. See also:
-# https://serverfault.com/questions/357108/what-permissions-should-my-website-files-folders-have-on-a-linux-webserver
-sudo chown -R http:http "${project}"
+# Set up a virtual host for the website
+# Check that "httpd-vhosts.conf" is included in /etc/httpd/conf/httpd.conf
+# Add an entry to /etc/httpd/conf/extra/httpd-vhosts.conf
+
+# Now we configure the site, e.g. to allow clean URLs (i.e. "project/user/login"
+# instead of "project/?q=user/login"
+# First include your projects configuration
+sudo bash -c "printf \
+    \"\n%s\n%s\n\" \
+    \"# ${project} configuration\" \
+    \"Include conf/extra/${project}.conf\" >> /etc/httpd/conf/httpd.conf"
+
+# Now create that configuration at "/etc/httpd/conf/extra/${project}.conf", look
+# at other configurations in this directory for inspiration
+
+# Check your configuration
+httpd -t   # Equivalent to apachectl configtest
+httpd -S   # Equivalent to apachectl -S
+
+# Restart Apache
+sudo systemctl restart httpd.service
 
 # Create new database. Following:
 # https://www.drupal.org/docs/8/install/step-3-create-a-database#create-a-database-from-the-command-line
 mysql -u root -p \
-    -e 'CREATE DATABASE db_project CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
+    -e 'CREATE DATABASE db_project CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
 
 # Optionally create a new user, or use an existing one
 mysql -u root -p \
@@ -56,8 +77,20 @@ mysql -u root -p \
     -e 'GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON `db\_project`.* TO "user"@"localhost" IDENTIFIED BY "password";'
 
 # Flush the privileges to make sure the user has active privileges
-mysql -u root -p -e "FLUSH PRIVILEGES;"
+mysql -u root -p -e 'FLUSH PRIVILEGES;'
 
 # Go to the website
-# http://localhost/${project}/
+# http://192.168.1.99/${project}/
 # and click through the installer from Drupal
+
+# Set permissions after installation
+cd ~/websites
+chmod 444 "${project}"/web/sites/default/settings.php
+
+# To update your packages
+cd ~/websites/"${project}"
+composer update
+
+# To set up website somewhere else
+git clone "${gitDir}"
+composer install
