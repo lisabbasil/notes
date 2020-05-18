@@ -30,7 +30,7 @@ cd ..
 # https://drupal.stackexchange.com/a/16994/92523
 # https://www.drupal.org/node/244924
 mkdir "${project}"/web/sites/default/files
-cp stata/web/sites/default/{default.,}settings.php
+cp "${project}"/web/sites/default/{default.,}settings.php
 chmod 774 "${project}"/web/sites/default/settings.php
 sudo chgrp -R http "${project}"/web
 sudo chown -R http:"${USER}" "${project}"/web/sites/default/files
@@ -44,6 +44,9 @@ sudo ln -s ~/websites/"${project}"/web/ "${project}"
 # Check that "httpd-vhosts.conf" is included in /etc/httpd/conf/httpd.conf
 # Add an entry to /etc/httpd/conf/extra/httpd-vhosts.conf
 
+# Now create that configuration at "/etc/httpd/conf/extra/${project}.conf", look
+# at other configurations in this directory for inspiration
+
 # Now we configure the site, e.g. to allow clean URLs (i.e. "project/user/login"
 # instead of "project/?q=user/login"
 # First include your projects configuration
@@ -51,9 +54,6 @@ sudo bash -c "printf \
     \"\n%s\n%s\n\" \
     \"# ${project} configuration\" \
     \"Include conf/extra/${project}.conf\" >> /etc/httpd/conf/httpd.conf"
-
-# Now create that configuration at "/etc/httpd/conf/extra/${project}.conf", look
-# at other configurations in this directory for inspiration
 
 # Check your configuration
 httpd -t   # Equivalent to apachectl configtest
