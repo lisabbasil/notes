@@ -5,20 +5,46 @@
 dstat
 # Prints out how much network and disk your computer uses each second
 
+# The strace utility prints all system calls that a process makes. A system call
+# ist a privileged operation that a user-space process asks the kernel to
+# perform, such as opening and reading data from a file.
 strace ./myprog
-# Prints every system call your program used; good to get an overall picture of
-# what your program is doing, for example, if you want to know what files are
-# opened, use
-strace -e open -p "$PID"
-# Strace slows down the execution of your program by as much as a factor of 50!
 
-opensnoop -p "$PID"
+# For example, if you want to know what files are opened, use
+strace -e open -p "${PID}"
+
+# strace slows down the execution of your program by as much as a factor of 50!
+# For library calls (instead of system calls), you can use ltrace
+
+# See open files
+lsof
+lsof /home
+lsof -p "${PID}"
+
 # Tells you what files are opened, it's the same as the strace command above,
 # but it doesn't slow down your program; opensnoop needs a relatively new kernel
 # feature called eBPF, hence it is not (yet) widely available on servers
+opensnoop -p "${PID}"
 
-perf
 # perf is a very handy tool that can do various things. Type perf to get its
 # options. One example would be perf top. Another one:
+perf
 perf record -g find /
 perf report
+
+# To monitor CPU and memory performance
+vmstat
+vmstat 2 # refreshes all 2 seconds
+
+# To monitor input/output
+vmstat -d
+iostat
+iotop
+
+# To monitor a specific process
+pidstat -p "${PID}"
+pidstat -p "${PID}" 2 # refreshes every 2 seconds
+
+# More tools for system monitoring
+sar
+acct
