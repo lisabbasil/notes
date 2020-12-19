@@ -31,9 +31,11 @@ cd ..
 # https://www.drupal.org/node/244924
 mkdir "${project}"/web/sites/default/files
 cp "${project}"/web/sites/default/{default.,}settings.php
-chmod 774 "${project}"/web/sites/default/settings.php
+
+# Following permissions are only temporary
+chmod 777 "${project}"/web/sites/default/settings.php
 sudo chgrp -R http "${project}"/web
-sudo chown -R http:"${USER}" "${project}"/web/sites/default/files
+sudo chown -R "${USER}":http "${project}"/web/sites/default/files
 
 # Link the website to Apache's DocumentRoot (optional, but handy in order to
 # have them all listed on your index site)
@@ -42,6 +44,7 @@ sudo ln -s ~/websites/"${project}"/web/ "${project}"
 
 # Set up a virtual host for the website
 # Check that "httpd-vhosts.conf" is included in /etc/httpd/conf/httpd.conf
+
 # Add an entry to /etc/httpd/conf/extra/httpd-vhosts.conf
 
 # Now create that configuration at "/etc/httpd/conf/extra/${project}.conf", look
@@ -90,6 +93,10 @@ chmod 444 "${project}"/web/sites/default/settings.php
 # To update your packages
 cd ~/websites/"${project}"
 composer update
+
+# Make commit in git
+git add web
+git ci -am "Install Drupal and dependencies"
 
 # To set up website somewhere else
 git clone "${gitDir}"
