@@ -44,6 +44,9 @@ yay -Qm
 Clear the yay cache of packages you won't need anymore:
 yay -Sc
 
+Clear cache only for AUR packages
+yay -Sc --aur
+
 List orphans:
 pacman -Qtdq
 
