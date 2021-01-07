@@ -16,6 +16,7 @@ Samsung Galaxy S6
        --size-only \
        admin@"${ip}":/path .
 5) Interesting path's on your device might be:
+   /storage/emulated/0/mystuff/ (= SDCard/mystuff/)
    /storage/emulated/0/DCIM/
    /storage/emulated/0/Pictures/
    /storage/emulated/0/WhatsApp/
