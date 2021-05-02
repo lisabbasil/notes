@@ -1,0 +1,6 @@
+# Once you found a suitable Drupal theme, install it
+composer search "${theme}"
+composer require drupal/"${theme}"
+
+# If you run into problems with memory, try
+COMPOSER_MEMORY_LIMIT=-1 composer require drupal/"${theme}"
